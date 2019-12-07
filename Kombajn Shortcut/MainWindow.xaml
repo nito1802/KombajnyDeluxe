@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Kombajn"
         Icon="Gear.ico"
         mc:Ignorable="d"
-        Title="Kombajn" Height="347" Width="980" Background="#FF121417">
+        Title="Kombajn" Height="355" Width="980" Background="#FF121417">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -82,14 +82,14 @@
                 <DataGridTemplateColumn Header="Modif" IsReadOnly="True" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox SelectedIndex="0" Width="60" ItemsSource="{Binding CollectionModificator}" SelectedItem="{Binding SelectedModificator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <ComboBox SelectedIndex="0" Width="60" ItemsSource="{Binding Modificators}" SelectedItem="{Binding SelectedModificator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn  Header="Alt Modif" IsReadOnly="True" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox SelectedIndex="0" Width="60" ItemsSource="{Binding CollectionModificator}" SelectedItem="{Binding AlternateSelectedModificator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <ComboBox SelectedIndex="0" Width="60" ItemsSource="{Binding Modificators}" SelectedItem="{Binding AlternateSelectedModificator, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -125,6 +125,6 @@
             <Button Name="btnQuit" Content="X" FontSize="30" FontWeight="Bold" Width="40" Margin="5 0 0 0" ToolTip="Exit to tray" Height="40" Click="btnQuit_Click" />
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Text="2019 - Jarosław Szczupak" Foreground="#FFEFEBEC" HorizontalAlignment="Center" FontWeight="UltraLight" />
+        <TextBlock Margin="0 0 0 2" Grid.Row="2" Text="2019 - Jarosław Szczupak" Foreground="#FFEFEBEC" HorizontalAlignment="Center" FontWeight="UltraLight" />
     </Grid>
 </Window>
