@@ -42,7 +42,8 @@ namespace Kombajn
                     KeyCode = "1",
                     actionOnClick = () =>
                     {
-                        string kombajnDoPracyPath = @"C:\Users\dante\Desktop\KombajnyWypas\KombajnDoPracy — robocza\KombajnDoPracy\bin\Release\KombajnDoPracy.exe";
+                        //string kombajnDoPracyPath = @"C:\Users\dante\Desktop\KombajnyWypas\KombajnDoPracy — robocza\KombajnDoPracy\bin\Release\KombajnDoPracy.exe";
+                        string kombajnDoPracyPath = "KombajnDoPracy.exe";
                         Process.Start(kombajnDoPracyPath);
                     }
                 },
