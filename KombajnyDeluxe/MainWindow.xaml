@@ -74,7 +74,7 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                                     </Grid>
                                 </Button.Content>
                                 
@@ -104,7 +104,7 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                                     </Grid>
                                 </Button.Content>
                             </Button>
