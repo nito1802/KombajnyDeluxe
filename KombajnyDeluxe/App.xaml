@@ -1,0 +1,10 @@
+﻿<Application x:Class="KombajnDoPracy.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Startup="Application_Startup"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"
+             xmlns:local="clr-namespace:KombajnDoPracy">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

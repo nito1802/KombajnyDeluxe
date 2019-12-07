@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KombajnDoPracy", "KombajnyDeluxe\KombajnDoPracy.csproj", "{AB7612B1-35D4-4D55-B81B-DBAD875A0706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kombajn Shortcut", "Kombajn Shortcut\Kombajn Shortcut.csproj", "{3DA2228A-852A-423F-9422-A765C02C6836}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB7612B1-35D4-4D55-B81B-DBAD875A0706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7612B1-35D4-4D55-B81B-DBAD875A0706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7612B1-35D4-4D55-B81B-DBAD875A0706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7612B1-35D4-4D55-B81B-DBAD875A0706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DA2228A-852A-423F-9422-A765C02C6836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DA2228A-852A-423F-9422-A765C02C6836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DA2228A-852A-423F-9422-A765C02C6836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DA2228A-852A-423F-9422-A765C02C6836}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41ABDFEC-96B4-4BDD-894A-5EBAA0B052C9}
+	EndGlobalSection
+EndGlobal
