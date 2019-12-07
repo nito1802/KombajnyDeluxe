@@ -67,14 +67,14 @@
                         <StackPanel>
                             <Button Margin="5" Padding="10" Style="{StaticResource GreenButton}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}" BorderBrush="#FF1C6339" Foreground="#FFCBCBCB" FontWeight="Normal">
                                 <Button.Content>
-                                    <Grid Margin="0 8 0 0">
+                                    <Grid Margin="0 6 0 0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="26"/>
+                                            <RowDefinition Height="28"/>
                                             <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="10" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                                     </Grid>
                                 </Button.Content>
                                 
@@ -97,14 +97,14 @@
                             <Button Margin="5" Padding="10"  Style="{StaticResource BlueButton}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}" Foreground="#FFD8D8D8" BorderBrush="#FF10327C">
 
                                 <Button.Content>
-                                    <Grid Margin="0 8 0 0">
+                                    <Grid Margin="0 6 0 0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="26"/>
+                                            <RowDefinition Height="28"/>
                                             <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="10" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                                     </Grid>
                                 </Button.Content>
                             </Button>
@@ -124,14 +124,14 @@
                         <StackPanel>
                             <Button Margin="5" Padding="10" Style="{StaticResource DarkButton}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}">
                                 <Button.Content>
-                                    <Grid Margin="0 8 0 0">
+                                    <Grid Margin="0 6 0 0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="26"/>
+                                            <RowDefinition Height="28"/>
                                             <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="10" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                        <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap" />
                                     </Grid>
                                 </Button.Content>
                             </Button>
