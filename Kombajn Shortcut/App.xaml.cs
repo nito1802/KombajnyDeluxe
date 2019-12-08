@@ -42,8 +42,8 @@ namespace Kombajn
                     KeyCode = "1",
                     actionOnClick = () =>
                     {
-                        string kombajnDoPracyPath = @"C:\Users\dante\Source\VisualStudio2019 Repos\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
-                        //string kombajnDoPracyPath = "KombajnDoPracy.exe";
+                        //string kombajnDoPracyPath = @"C:\Users\dante\Source\VisualStudio2019 Repos\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
+                        string kombajnDoPracyPath = "KombajnDoPracy.exe";
                         Process.Start(kombajnDoPracyPath);
                     }
                 },
