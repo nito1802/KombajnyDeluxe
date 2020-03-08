@@ -131,6 +131,21 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
+                    Name = "Process Killer",
+                    Describes = "Zabija proces po nazwie",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "3",
+                    actionOnClick = () =>
+                    {
+                        string processKiller = @"C:\Users\dante\Source\Repos\Process Killer\Process Killer\bin\Release\Process Killer.exe";
+                        Process.Start(processKiller);
+                    }
+                },
+
+                new ShortcutModel()
+                {
                     Name = "Quit PC",
                     Describes = "Wyłącza PC",
                     AllModifs = true,
