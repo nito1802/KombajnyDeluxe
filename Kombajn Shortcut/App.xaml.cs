@@ -43,7 +43,7 @@ namespace Kombajn
                     actionOnClick = () =>
                     {
                         string kombajnDoPracyPath = "KombajnDoPracy.exe";
-                        Process.Start(kombajnDoPracyPath);
+                         Process.Start(kombajnDoPracyPath);
                     }
                 },
 
@@ -69,65 +69,65 @@ namespace Kombajn
                     }
                 },
 
-                new ShortcutModel()
-                {
-                    Name = "Narzędzie wycinania",
-                    Describes = "Wycina określony obszar",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "E",
-                    actionOnClick = () =>
-                    {
-                        string snippingToolProcess = string.Empty;
+                //new ShortcutModel()
+                //{
+                //    Name = "Narzędzie wycinania",
+                //    Describes = "Wycina określony obszar",
+                //    AllModifs = false,
+                //    SelectedModificator = ModificatorNumeration.Ctrl,
+                //    AlternateSelectedModificator = ModificatorNumeration.None,
+                //    KeyCode = "E",
+                //    actionOnClick = () =>
+                //    {
+                //        string snippingToolProcess = string.Empty;
 
-                        if (!Environment.Is64BitProcess)
-                            snippingToolProcess = @"C:\Windows\sysnative\SnippingTool.exe";
-                        else
-                            snippingToolProcess = @"C:\WINDOWS\system32\SnippingTool.exe";
+                //        if (!Environment.Is64BitProcess)
+                //            snippingToolProcess = @"C:\Windows\sysnative\SnippingTool.exe";
+                //        else
+                //            snippingToolProcess = @"C:\WINDOWS\system32\SnippingTool.exe";
 
-                        Process process = new Process();
-                        process.StartInfo.FileName = snippingToolProcess;
-                        process.Start();
-                        IntPtr handle = process.Handle;
-                        WinApiHelper.SetForegroundWindow(handle);
-                    }
-                },
+                //        Process process = new Process();
+                //        process.StartInfo.FileName = snippingToolProcess;
+                //        process.Start();
+                //        IntPtr handle = process.Handle;
+                //        WinApiHelper.SetForegroundWindow(handle);
+                //    }
+                //},
 
-                new ShortcutModel()
-                {
-                    Name = "Linijka",
-                    Describes = "Miarka pikselów na ekranie",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "L",
-                    actionOnClick = () =>
-                    {
-                        string rulerProcessPath = @"C:\Program Files (x86)\Best Apps Ever\Linijka\Linijka.exe";
+                //new ShortcutModel()
+                //{
+                //    Name = "Linijka",
+                //    Describes = "Miarka pikselów na ekranie",
+                //    AllModifs = false,
+                //    SelectedModificator = ModificatorNumeration.Ctrl,
+                //    AlternateSelectedModificator = ModificatorNumeration.None,
+                //    KeyCode = "L",
+                //    actionOnClick = () =>
+                //    {
+                //        string rulerProcessPath = @"C:\Program Files (x86)\Best Apps Ever\Linijka\Linijka.exe";
 
-                        Process process = new Process();
-                        process.StartInfo.FileName = rulerProcessPath;
-                        process.Start();
-                        IntPtr handle = process.Handle;
-                        WinApiHelper.SetForegroundWindow(handle);
-                    }
-                },
+                //        Process process = new Process();
+                //        process.StartInfo.FileName = rulerProcessPath;
+                //        process.Start();
+                //        IntPtr handle = process.Handle;
+                //        WinApiHelper.SetForegroundWindow(handle);
+                //    }
+                //},
 
-                new ShortcutModel()
-                {
-                    Name = "Color Picker",
-                    Describes = "Pokazuje kolor z hexa",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "T",
-                    actionOnClick = () =>
-                    {
-                        string snippingCzasowyWylacznik = @"C:\Users\dante\Source\Repos\GetColor2\GetColor\bin\Release\GetColor.exe";
-                        Process.Start(snippingCzasowyWylacznik);
-                    }
-                },
+                //new ShortcutModel()
+                //{
+                //    Name = "Color Picker",
+                //    Describes = "Pokazuje kolor z hexa",
+                //    AllModifs = false,
+                //    SelectedModificator = ModificatorNumeration.Ctrl,
+                //    AlternateSelectedModificator = ModificatorNumeration.None,
+                //    KeyCode = "T",
+                //    actionOnClick = () =>
+                //    {
+                //        string snippingCzasowyWylacznik = @"C:\Users\dante\Source\Repos\GetColor2\GetColor\bin\Release\GetColor.exe";
+                //        Process.Start(snippingCzasowyWylacznik);
+                //    }
+                //},
 
                 new ShortcutModel()
                 {
