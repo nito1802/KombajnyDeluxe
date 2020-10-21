@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace Kombajn
 {
@@ -15,9 +16,11 @@ namespace Kombajn
         {
             double screenLeft = SystemParameters.VirtualScreenLeft;
             double screenTop = SystemParameters.VirtualScreenTop;
-            double screenWidth = SystemParameters.VirtualScreenWidth;
-            double screenHeight = SystemParameters.VirtualScreenHeight;
-            
+            //double screenWidth = SystemParameters.VirtualScreenWidth;
+            //double screenHeight = SystemParameters.VirtualScreenHeight;
+            double screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            double screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
             string screenerPath = GetScreenerPath();
             var files = Directory.GetFiles(screenerPath);
 

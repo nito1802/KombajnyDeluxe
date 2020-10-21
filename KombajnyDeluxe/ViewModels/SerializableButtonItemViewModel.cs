@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KombajnDoPracy.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,22 @@ namespace KombajnDoPracy.ViewModels
 {
     public class SerializableButtonItemViewModel
     {
+        private static List<LinkUrlModel> InitLinkButton()
+        {
+            var res = new List<LinkUrlModel>()
+            {
+                new LinkUrlModel("Gmail", "https://www.gmail.com/"),
+                new LinkUrlModel("Youtube", "https://www.youtube.com"),
+                new LinkUrlModel("Wykop", "https://www.wykop.pl/"),
+                new LinkUrlModel("Gry Online", "https://www.gry-online.pl/"),
+                new LinkUrlModel("CD-Action", "https://www.cdaction.pl/"),
+                new LinkUrlModel("PPE", "https://www.ppe.pl/"),
+                new LinkUrlModel("Pluralsight", "https://app.pluralsight.com/library/"),
+                new LinkUrlModel("Udemy", "https://www.udemy.com/"),
+            };
+            return res;
+        }
+
         [JsonIgnore]
         public static List<ButtonFacade> AlwaysThereButtons { get; set; }
         public static string SerializedButtonsStatePath { get; } = "SerializedButtonsState.json";
@@ -21,6 +38,7 @@ namespace KombajnDoPracy.ViewModels
         public List<ButtonFacade> LeftButtons { get; set; }
         public List<ButtonFacade> MiddleButtons { get; set; }
         public List<ButtonFacade> RightButtons { get; set; }
+        public List<LinkUrlModel> LinkButtons { get; set; }
 
         public string LeftGroupName { get; set; }
         public string MiddleGroupName { get; set; }
@@ -140,6 +158,8 @@ namespace KombajnDoPracy.ViewModels
             res.LeftButtons = ValidateGroupedButtonList(res.LeftButtons, 1);
             res.MiddleButtons = ValidateGroupedButtonList(res.MiddleButtons, 2);
             res.RightButtons = ValidateGroupedButtonList(res.RightButtons, 3);
+
+            res.LinkButtons = InitLinkButton();
 
             return res;
         }

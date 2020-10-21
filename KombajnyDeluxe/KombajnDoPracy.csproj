@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\LinkUrlModel.cs" />
     <Compile Include="ViewModels\EditButtonViewModel.cs" />
     <Compile Include="ViewModels\HistoryWindowViewModel.cs" />
     <Compile Include="ViewModels\SerializableButtonItemViewModel.cs" />

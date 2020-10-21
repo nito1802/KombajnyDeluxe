@@ -42,7 +42,7 @@ namespace Kombajn
                     KeyCode = "1",
                     actionOnClick = () =>
                     {
-                        string kombajnDoPracyPath = @"C:\Users\dante\Source\VisualStudio2019 Repos\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
+                        string kombajnDoPracyPath = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
                          Process.Start(kombajnDoPracyPath);
                     }
                 },
@@ -71,7 +71,6 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
-                    Name = "Narzędzie wycinania",
                     Describes = "Wycina określony obszar",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
@@ -104,7 +103,7 @@ namespace Kombajn
                     KeyCode = "L",
                     actionOnClick = () =>
                     {
-                        string rulerProcessPath = @"C:\Program Files (x86)\Best Apps Ever\Linijka\Linijka.exe";
+                        string rulerProcessPath = @"C:\Users\dante\source\Repos 2020\Linijka\MojaLinijka\bin\Debug\Linijka.exe";
 
                         Process process = new Process();
                         process.StartInfo.FileName = rulerProcessPath;
@@ -124,7 +123,7 @@ namespace Kombajn
                     KeyCode = "T",
                     actionOnClick = () =>
                     {
-                        string snippingCzasowyWylacznik = @"C:\Users\dante\Source\Repos\GetColor2\GetColor\bin\Release\GetColor.exe";
+                        string snippingCzasowyWylacznik = @"C:\Users\dante\source\Repos 2020\GetColor\GetColor\bin\Debug\GetColor.exe";
                         Process.Start(snippingCzasowyWylacznik);
                     }
                 },
@@ -139,7 +138,7 @@ namespace Kombajn
                     KeyCode = "3",
                     actionOnClick = () =>
                     {
-                        string processKiller = @"C:\Users\dante\Source\Repos\Process Killer\Process Killer\bin\Release\Process Killer.exe";
+                        string processKiller = @"C:\Users\dante\source\Repos 2020\Process Killer\Process Killer\bin\Debug\Process Killer.exe";
                         Process.Start(processKiller);
                     }
                 },

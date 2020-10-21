@@ -91,6 +91,8 @@
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
+
+                <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
@@ -158,6 +160,8 @@
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
+
+                <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
@@ -224,6 +228,62 @@
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
+
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFAB1B3D" Offset="0"/>
+                            <GradientStop Color="#FF7A0722" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#FF787878" />
+
+                <Setter Property="Background" Value="#FF464646" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="LinkButton">
+        <Setter Property="Background" Value="#FF232323"/>
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Height" Value="70" />
+        <Setter Property="FontSize" Value="20" />
+
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Foreground" Value="#FFF1F1F1" />
+
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Opacity" Value="1" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Padding="10 5" Background="{TemplateBinding Background}" BorderBrush="#FF8B8B8B" CornerRadius="5" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD10E4F" Offset="0"/>
+                            <GradientStop Color="#FF960B3A" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Cursor" Value="Hand"/>
+
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background">
