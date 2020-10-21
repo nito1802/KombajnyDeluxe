@@ -17,6 +17,8 @@ namespace KombajnDoPracy.Models
         private string name;
         private string url;
 
+        public static Action CloseApplication { get; set; }
+
         public LinkUrlModel(string name, string url)
         {
             Name = name;
@@ -53,6 +55,7 @@ namespace KombajnDoPracy.Models
                     clickUrl = new RelayCommand(param =>
                     {
                         Process.Start(Url);
+                        CloseApplication();
                     }
                      , param => true);
                 }

@@ -21,8 +21,16 @@ namespace KombajnDoPracy.ViewModels
                 new LinkUrlModel("Gry Online", "https://www.gry-online.pl/"),
                 new LinkUrlModel("CD-Action", "https://www.cdaction.pl/"),
                 new LinkUrlModel("PPE", "https://www.ppe.pl/"),
+                new LinkUrlModel("Evenant", "https://evenant.com/courses/"),
                 new LinkUrlModel("Pluralsight", "https://app.pluralsight.com/library/"),
                 new LinkUrlModel("Udemy", "https://www.udemy.com/"),
+                new LinkUrlModel("Netflix", "https://www.netflix.com/browse"),
+                //new LinkUrlModel("HBO GO", "https://hbogo.pl/"),
+                new LinkUrlModel("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481"),
+                new LinkUrlModel("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos"),
+                new LinkUrlModel("Athlean X", "https://www.youtube.com/c/athleanx/videos"),
+                new LinkUrlModel("Precision Striking", "https://hbogo.pl/"),
+                new LinkUrlModel("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos"),
             };
             return res;
         }
