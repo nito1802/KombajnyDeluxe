@@ -29,7 +29,7 @@ namespace KombajnDoPracy.ViewModels
                 new LinkUrlModel("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481"),
                 new LinkUrlModel("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos"),
                 new LinkUrlModel("Athlean X", "https://www.youtube.com/c/athleanx/videos"),
-                new LinkUrlModel("Precision Striking", "https://hbogo.pl/"),
+                new LinkUrlModel("Precision Striking", "https://www.youtube.com/c/PrecisionBoxing/videos"),
                 new LinkUrlModel("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos"),
             };
             return res;
