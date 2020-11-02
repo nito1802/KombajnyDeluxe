@@ -86,6 +86,7 @@ namespace KombajnDoPracy
                         param =>
                         {
                             Process.Start(Path);
+                            ClickCounter++;
                             CloseApplication();
                         },
                         null
