@@ -130,12 +130,40 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
+                    Name = "Get my Gmail",
+                    Describes = "Kopiuje do schowka",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "3",
+                    actionOnClick = () =>
+                    {
+                        Clipboard.SetText("jszczupak15@gmail.com");
+                    }
+                },
+
+                new ShortcutModel()
+                {
+                    Name = "clip",
+                    Describes = "Kopiuje do schowka",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "4",
+                    actionOnClick = () =>
+                    {
+                        Clipboard.SetText("Jestmoc2010");
+                    }
+                },
+
+                new ShortcutModel()
+                {
                     Name = "Process Killer",
                     Describes = "Zabija proces po nazwie",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "3",
+                    KeyCode = "5",
                     actionOnClick = () =>
                     {
                         string processKiller = @"C:\Users\dante\source\Repos 2020\Process Killer\Process Killer\bin\Debug\Process Killer.exe";

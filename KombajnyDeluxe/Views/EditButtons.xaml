@@ -88,6 +88,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="320"/>
@@ -204,6 +205,46 @@
                                             <TextBox Margin="0 2 0 0" Width="50" Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" IsEnabled="{Binding CanDelete}"/>
                                             <TextBox Margin="0 2 0 0" Width="50" Text="{Binding Path=Description,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" IsEnabled="{Binding CanDelete}"/>
                                             <TextBox Margin="0 2 0 0" Width="40" Text="{Binding Path=Path,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" IsEnabled="{Binding CanDelete}"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0 2 0 0" Orientation="Horizontal">
+                                            <Button Content="Insert" Width="95" ToolTip="Wstaw tu kolejny Item" Command="{Binding InsertButton}" IsEnabled="{Binding CanDelete}"/>
+                                            <Button Content="Delete" Width="45" ToolTip="Usuń Item" Command="{Binding DeleteButton}" IsEnabled="{Binding CanDelete}"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0 2 0 0" Orientation="Horizontal">
+                                            <Button Content="++" Width="35" ToolTip="Zmiana miejsc z następnym" Command="{Binding IdxButtonUp}" IsEnabled="{Binding CanDelete}"/>
+                                            <Button Content="--" Width="35" ToolTip="Zmiana miejsc z poprzednim" Command="{Binding IdxButtonDown}" IsEnabled="{Binding CanDelete}"/>
+                                            <TextBlock Margin="2 0 0 0" Text="{Binding ClickCounter, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}x}" ToolTip="Ilość kliknięć" Foreground="#FFECECEC" FontWeight="Bold" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+
+                <ItemsControl Name="icUrlButtons" ItemsSource="{Binding RightButtons, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Border Margin="5" Padding="5" Width="150" Height="74" Opacity="0.">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+                                            <GradientStop Color="#FFC29312" Offset="0"/>
+                                            <GradientStop Color="#FFD59F09" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Margin="0 2 0 0" Width="70" Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" IsEnabled="{Binding CanDelete}"/>
+                                            <TextBox Margin="0 2 0 0" Width="70" Text="{Binding Path=Path,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" IsEnabled="{Binding CanDelete}"/>
                                         </StackPanel>
                                         <StackPanel Margin="0 2 0 0" Orientation="Horizontal">
                                             <Button Content="Insert" Width="95" ToolTip="Wstaw tu kolejny Item" Command="{Binding InsertButton}" IsEnabled="{Binding CanDelete}"/>

@@ -38,6 +38,17 @@ namespace KombajnDoPracy
             this.TagName = tagName;
         }
 
+        public ButtonFacade(string name, string path,  string description, int groupId, bool canDelete, long clickCounter, string tagName, int ii)
+        {
+            this.Path = path;
+            this.Name = name;
+            this.Description = description;
+            this.GroupId = groupId;
+            this.CanDelete = canDelete;
+            this.ClickCounter = clickCounter;
+            this.TagName = tagName;
+        }
+
         private ICommand openOrRestoreWindowCommand;
 
         [JsonIgnore]
@@ -59,6 +70,28 @@ namespace KombajnDoPracy
                     );
                 }
                 return openOrRestoreWindowCommand;
+            }
+        }
+
+        private ICommand openUrlCommand;
+
+        [JsonIgnore]
+        public ICommand OpenUrlCommand
+        {
+            get
+            {
+                if (openUrlCommand == null)
+                {
+                    openUrlCommand = new RelayCommand(
+                        param =>
+                        {
+                            Process.Start(Path);
+                            CloseApplication();
+                        },
+                        null
+                    );
+                }
+                return openUrlCommand;
             }
         }
 

@@ -16,7 +16,7 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
-        Topmost="True">
+        Topmost="False">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -177,10 +177,10 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Button Style="{StaticResource LinkButton}" Command="{Binding Path=ClickUrlCommand}" Width="250" Margin="5 0 0 5" Padding="5">
+                            <Button Style="{StaticResource LinkButton}" Command="{Binding Path=OpenUrlCommand}" Width="250" Margin="5 0 0 5" Padding="5">
                                 <StackPanel Width="230">
                                     <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Foreground="#FFCBCBCB" FontWeight="Bold" FontSize="15"/>
-                                    <TextBlock TextTrimming="CharacterEllipsis" Height="50" FontSize="10" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" TextDecorations="Underline" TextWrapping="WrapWithOverflow" Foreground="#FFC29C0F"/>
+                                    <TextBlock TextTrimming="CharacterEllipsis" Height="50" FontSize="10" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" TextDecorations="Underline" TextWrapping="WrapWithOverflow" Foreground="#FFC29C0F"/>
                                 </StackPanel>
                             </Button>
                         </Grid>

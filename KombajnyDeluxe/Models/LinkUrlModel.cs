@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace KombajnDoPracy.Models
 {
-    public class LinkUrlModel : INotifyPropertyChanged
+    public class LinkUrlModel : ButtonFacade, INotifyPropertyChanged
     {
         private RelayCommand clickUrl;
 

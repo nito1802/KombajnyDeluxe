@@ -22,6 +22,7 @@ namespace KombajnDoPracy.ViewModels
         public ObservableCollection<EditButtonModel> LeftButtons { get; set; } = new ObservableCollection<EditButtonModel>();
         public ObservableCollection<EditButtonModel> MiddleButtons { get; set; } = new ObservableCollection<EditButtonModel>();
         public ObservableCollection<EditButtonModel> RightButtons { get; set; } = new ObservableCollection<EditButtonModel>();
+        public ObservableCollection<EditButtonModel> UrlButtons { get; set; } = new ObservableCollection<EditButtonModel>();
         public long WholeClickCount { get; set; }
 
         public string LeftGroupName
@@ -66,6 +67,10 @@ namespace KombajnDoPracy.ViewModels
             else if (groupId == 3)
             {
                 res = RightButtons;
+            }
+            else if (groupId == 4)
+            {
+                res = UrlButtons;
             }
 
             return res;
@@ -141,11 +146,13 @@ namespace KombajnDoPracy.ViewModels
             serializableVm.LeftButtons.ForEach(b => res.LeftButtons.Add(new EditButtonModel(b.Path, b.Name, b.Description, b.GroupId, b.CanDelete, b.ClickCounter, b.TagName)));
             serializableVm.MiddleButtons.ForEach(b => res.MiddleButtons.Add(new EditButtonModel(b.Path, b.Name, b.Description, b.GroupId, b.CanDelete, b.ClickCounter, b.TagName)));
             serializableVm.RightButtons.ForEach(b => res.RightButtons.Add(new EditButtonModel(b.Path, b.Name, b.Description, b.GroupId, b.CanDelete, b.ClickCounter, b.TagName)));
+            serializableVm.LinkButtons.ForEach(b => res.UrlButtons.Add(new EditButtonModel(b.Path, b.Name, b.Description, b.GroupId, b.CanDelete, b.ClickCounter, b.TagName)));
 
             //jesli brak buttonow w grupie, wtedy dajemy jeden placeholder
             if (!res.LeftButtons.Any(a => a.CanDelete)) res.LeftButtons.Add(new EditButtonModel(1));
             if (!res.MiddleButtons.Any(a => a.CanDelete)) res.MiddleButtons.Add(new EditButtonModel(2));
             if (!res.RightButtons.Any(a => a.CanDelete)) res.RightButtons.Add(new EditButtonModel(3));
+            if (!res.UrlButtons.Any(a => a.CanDelete)) res.UrlButtons.Add(new EditButtonModel(4));
 
             return res;
         }
