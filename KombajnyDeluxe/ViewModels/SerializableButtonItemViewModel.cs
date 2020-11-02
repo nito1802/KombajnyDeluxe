@@ -15,22 +15,22 @@ namespace KombajnDoPracy.ViewModels
         {
             var res = new List<ButtonFacade>()
             {
-                new ButtonFacade("https://www.gmail.com/", "Gmail", "", 4, false, 0, "sfg"),
-                new ButtonFacade("Youtube", "https://www.youtube.com", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Gry Online", "https://www.gry-online.pl/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("CD-Action", "https://www.cdaction.pl/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("PPE", "https://www.ppe.pl/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Evenant", "https://evenant.com/courses/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Pluralsight", "https://app.pluralsight.com/library/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Udemy", "https://www.udemy.com/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Netflix", "https://www.netflix.com/browse", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("HBO GO", "https://hbogo.pl/", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Athlean X", "https://www.youtube.com/c/athleanx/videos", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Precision Striking", "https://www.youtube.com/c/PrecisionBoxing/videos", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos", "", 4, false, 0, "sfg", 7),
-                new ButtonFacade("Vories", "https://www.youtube.com/c/Voriesmusic/videos", "", 4, false, 0, "sfg", 7),
+                new ButtonFacade("https://www.gmail.com/", "Gmail", "", 4, true, 0, "sfg"),
+                new ButtonFacade("Youtube", "https://www.youtube.com", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Gry Online", "https://www.gry-online.pl/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("CD-Action", "https://www.cdaction.pl/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("PPE", "https://www.ppe.pl/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Evenant", "https://evenant.com/courses/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Pluralsight", "https://app.pluralsight.com/library/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Udemy", "https://www.udemy.com/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Netflix", "https://www.netflix.com/browse", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("HBO GO", "https://hbogo.pl/", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Athlean X", "https://www.youtube.com/c/athleanx/videos", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Precision Striking", "https://www.youtube.com/c/PrecisionBoxing/videos", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos", "", 4, true, 0, "sfg", 7),
+                new ButtonFacade("Vories", "https://www.youtube.com/c/Voriesmusic/videos", "", 4, true, 0, "sfg", 7),
 
 
 
@@ -193,8 +193,9 @@ namespace KombajnDoPracy.ViewModels
             res.LeftButtons = ValidateGroupedButtonList(res.LeftButtons, 1);
             res.MiddleButtons = ValidateGroupedButtonList(res.MiddleButtons, 2);
             res.RightButtons = ValidateGroupedButtonList(res.RightButtons, 3);
+            res.LinkButtons = ValidateGroupedButtonList(res.LinkButtons, 4);
 
-            res.LinkButtons = InitLinkButton();
+            //res.LinkButtons = InitLinkButton();
 
             return res;
         }
