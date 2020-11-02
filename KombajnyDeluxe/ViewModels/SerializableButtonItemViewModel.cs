@@ -1,5 +1,4 @@
-﻿using KombajnDoPracy.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,56 +10,6 @@ namespace KombajnDoPracy.ViewModels
 {
     public class SerializableButtonItemViewModel
     {
-        private static List<ButtonFacade> InitLinkButton()
-        {
-            var res = new List<ButtonFacade>()
-            {
-                new ButtonFacade("https://www.gmail.com/", "Gmail", "", 4, true, 0, "sfg"),
-                new ButtonFacade("Youtube", "https://www.youtube.com", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Gry Online", "https://www.gry-online.pl/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("CD-Action", "https://www.cdaction.pl/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("PPE", "https://www.ppe.pl/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Evenant", "https://evenant.com/courses/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Pluralsight", "https://app.pluralsight.com/library/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Udemy", "https://www.udemy.com/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Netflix", "https://www.netflix.com/browse", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("HBO GO", "https://hbogo.pl/", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Athlean X", "https://www.youtube.com/c/athleanx/videos", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Precision Striking", "https://www.youtube.com/c/PrecisionBoxing/videos", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos", "", 4, true, 0, "sfg", 7),
-                new ButtonFacade("Vories", "https://www.youtube.com/c/Voriesmusic/videos", "", 4, true, 0, "sfg", 7),
-
-
-
-
-
-
-
-
-
-
-
-                //new LinkUrlModel("Youtube", "https://www.youtube.com"),
-                //new LinkUrlModel("Gry Online", "https://www.gry-online.pl/"),
-                //new LinkUrlModel("CD-Action", "https://www.cdaction.pl/"),
-                //new LinkUrlModel("PPE", "https://www.ppe.pl/"),
-                //new LinkUrlModel("Evenant", "https://evenant.com/courses/"),
-                //new LinkUrlModel("Pluralsight", "https://app.pluralsight.com/library/"),
-                //new LinkUrlModel("Udemy", "https://www.udemy.com/"),
-                //new LinkUrlModel("Netflix", "https://www.netflix.com/browse"),
-                ////new LinkUrlModel("HBO GO", "https://hbogo.pl/"),
-                //new LinkUrlModel("Ipla", "https://www.ipla.tv/wideo/serial/Miodowe-Lata/5007481"),
-                //new LinkUrlModel("Jeremy Either", "https://www.youtube.com/c/JeremyEthier/videos"),
-                //new LinkUrlModel("Athlean X", "https://www.youtube.com/c/athleanx/videos"),
-                //new LinkUrlModel("Precision Striking", "https://www.youtube.com/c/PrecisionBoxing/videos"),
-                //new LinkUrlModel("OSHEEN", "https://www.youtube.com/c/OSHEEN/videos"),
-                //new LinkUrlModel("Vories", "https://www.youtube.com/c/Voriesmusic/videos"),
-            };
-            return res;
-        }
-
         [JsonIgnore]
         public static List<ButtonFacade> AlwaysThereButtons { get; set; }
         public static string SerializedButtonsStatePath { get; } = "SerializedButtonsState.json";
@@ -194,8 +143,6 @@ namespace KombajnDoPracy.ViewModels
             res.MiddleButtons = ValidateGroupedButtonList(res.MiddleButtons, 2);
             res.RightButtons = ValidateGroupedButtonList(res.RightButtons, 3);
             res.LinkButtons = ValidateGroupedButtonList(res.LinkButtons, 4);
-
-            //res.LinkButtons = InitLinkButton();
 
             return res;
         }

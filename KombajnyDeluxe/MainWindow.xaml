@@ -16,7 +16,7 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
-        Topmost="False">
+        Topmost="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

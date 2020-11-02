@@ -38,17 +38,6 @@ namespace KombajnDoPracy
             this.TagName = tagName;
         }
 
-        public ButtonFacade(string name, string path,  string description, int groupId, bool canDelete, long clickCounter, string tagName, int ii)
-        {
-            this.Path = path;
-            this.Name = name;
-            this.Description = description;
-            this.GroupId = groupId;
-            this.CanDelete = canDelete;
-            this.ClickCounter = clickCounter;
-            this.TagName = tagName;
-        }
-
         private ICommand openOrRestoreWindowCommand;
 
         [JsonIgnore]

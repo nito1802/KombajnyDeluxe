@@ -1,5 +1,4 @@
-﻿using KombajnDoPracy.Models;
-using KombajnDoPracy.ViewModels;
+﻿using KombajnDoPracy.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,10 +104,6 @@ namespace KombajnDoPracy
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
-                Close();
-            };
-            LinkUrlModel.CloseApplication = () =>
-            {
                 Close();
             };
         }
