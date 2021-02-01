@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KombajnDoPracy.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,13 +36,8 @@ namespace KombajnDoPracy.ViewModels
 
         public static void InitAlwaysThereButtons()
         {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-            string mojeDanePath = Path.Combine(desktopPath, "MojeDane");
-            string AllDanePath = Path.Combine(desktopPath, "All Dane");
-
-            if (!Directory.Exists(mojeDanePath)) Directory.CreateDirectory(mojeDanePath);
-            if (!Directory.Exists(AllDanePath)) Directory.CreateDirectory(AllDanePath);
+            string mojeDanePath = ButtonPathGenerator.GetMyDataPath();
+            string AllDanePath = ButtonPathGenerator.GetAllDataPath();
 
             AlwaysThereButtons = new List<ButtonFacade>
             {

@@ -1,6 +1,7 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Kombajn_Shortcut.Helpers;
 using Kombajn_Shortcut.Models;
+using KombajnDoPracy.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -135,7 +136,7 @@ namespace Kombajn
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "3",
+                    KeyCode = "4",
                     actionOnClick = () =>
                     {
                         Clipboard.SetText("jszczupak15@gmail.com");
@@ -144,15 +145,16 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
-                    Name = "clip",
-                    Describes = "Kopiuje do schowka",
+                    Name = "Open Daily text file",
+                    Describes = "Otwiera plik tekstowy z folderu Notatki na dany dzień",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "4",
+                    KeyCode = "3",
                     actionOnClick = () =>
                     {
-                        Clipboard.SetText("Jestmoc2010");
+                        string dailyTextFile = ButtonPathGenerator.GetDailyFileFullPath(".txt");
+                        Process.Start(dailyTextFile);
                     }
                 },
 

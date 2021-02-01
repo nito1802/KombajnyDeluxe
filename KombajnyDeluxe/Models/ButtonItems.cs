@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KombajnDoPracy.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -192,40 +193,10 @@ namespace KombajnDoPracy
 
         public new static Action CloseApplication = null;
 
-        void InitData()
+        public  void InitData()
         {
-            var polishFormat = new CultureInfo("pl-PL");
-            string currentYear = DateTime.Now.Year.ToString();
-            string currentMonth = DateTime.Now.ToString("MMMM", polishFormat);
-            string currentDayFormat = DateTime.Now.ToString("dd_MM_yyyy");
-
-            Path = System.IO.Path.Combine(MojeDanePath, currentYear, currentMonth, currentDayFormat, DataType);
-
-            if (!Directory.Exists(MojeDanePath))
-            {
-                MessageBox.Show("Folder nie istineje!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            if (!Directory.Exists(Path))
-            {
-                Directory.CreateDirectory(Path);
-            }
-
-            string txtFileName = $"{currentDayFormat}.txt";
-            string txtFileFullPath = System.IO.Path.Combine(Path, txtFileName);
-
-            if (!File.Exists(txtFileFullPath))
-            {
-                File.Create(txtFileFullPath);
-            }
-
-            string jsonFileName = $"{currentDayFormat}.json";
-            string jsonFileFullPath = System.IO.Path.Combine(Path, jsonFileName);
-
-            if (!File.Exists(jsonFileFullPath))
-            {
-                File.Create(jsonFileFullPath);
-            }
+            ButtonPathGenerator.InitDailyNotes();
+            Path = ButtonPathGenerator.GetNotesPath();
         }
     }
 }
