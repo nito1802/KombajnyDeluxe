@@ -154,7 +154,12 @@ namespace Kombajn
                     actionOnClick = () =>
                     {
                         string dailyTextFile = ButtonPathGenerator.GetDailyFileFullPath(".txt");
-                        Process.Start(dailyTextFile);
+
+                        Process process = new Process();
+                        process.StartInfo.FileName = dailyTextFile;
+                        process.Start();
+                        IntPtr handle = process.Handle;
+                        WinApiHelper.SetForegroundWindow(handle);
                     }
                 },
 
