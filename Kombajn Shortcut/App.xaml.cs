@@ -131,20 +131,6 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
-                    Name = "Get my Gmail",
-                    Describes = "Kopiuje do schowka",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "4",
-                    actionOnClick = () =>
-                    {
-                        Clipboard.SetText("jszczupak15@gmail.com");
-                    }
-                },
-
-                new ShortcutModel()
-                {
                     Name = "Open Daily text file",
                     Describes = "Otwiera plik tekstowy z folderu Notatki na dany dzień",
                     AllModifs = false,
@@ -154,6 +140,26 @@ namespace Kombajn
                     actionOnClick = () =>
                     {
                         string dailyTextFile = ButtonPathGenerator.GetDailyFileFullPath(".txt");
+
+                        Process process = new Process();
+                        process.StartInfo.FileName = dailyTextFile;
+                        process.Start();
+                        IntPtr handle = process.Handle;
+                        WinApiHelper.SetForegroundWindow(handle);
+                    }
+                },
+
+                new ShortcutModel()
+                {
+                    Name = "Open All Dane -> Wazne Notsy",
+                    Describes = "Otwiera plik tekstowy z waznym tekstem",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "4",
+                    actionOnClick = () =>
+                    {
+                        string dailyTextFile = ButtonPathGenerator.GetAllDataNoteFullPath();
 
                         Process process = new Process();
                         process.StartInfo.FileName = dailyTextFile;

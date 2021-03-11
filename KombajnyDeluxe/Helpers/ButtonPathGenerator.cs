@@ -56,6 +56,15 @@ namespace KombajnDoPracy.Helpers
             InitDailyJsonFile();
         }
 
+        public static string GetAllDataNoteFullPath()
+        {
+            string result = Path.Combine(GetAllDataPath(), "notsyWazne.txt");
+
+            if (!File.Exists(result)) File.Create(result);
+
+            return result;
+        }
+
         public static string GetDailyFileFullPath(string extension)
         {
             string dailyNotesPath = GetNotesPath();
@@ -64,6 +73,9 @@ namespace KombajnDoPracy.Helpers
             string txtFileName = $"{currentDayFormat}{extension}";
 
             string result = Path.Combine(dailyNotesPath, txtFileName);
+
+            if (!File.Exists(result)) File.Create(result);
+
             return result;
         }
 

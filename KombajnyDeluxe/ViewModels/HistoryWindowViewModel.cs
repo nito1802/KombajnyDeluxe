@@ -166,6 +166,54 @@ namespace KombajnDoPracy
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private ICommand historyOfScreensCommand;
+
+        public ICommand HistoryOfScreensCommand
+        {
+            get
+            {
+                if (historyOfScreensCommand == null)
+                {
+                    historyOfScreensCommand = new RelayCommand(
+                        param =>
+                        {
+                            int myParam = int.Parse(param.ToString());
+
+                            string path = @"C:\Users\dante\source\repos\DisplayScreens\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
+
+                            ProcessStartInfo startInfo = new ProcessStartInfo(path);
+                            string path2 = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
+                            startInfo.Arguments = $"{myParam} \"{path2}\"";
+                            Process.Start(startInfo);
+                        },
+                        null
+                    );
+                }
+                return historyOfScreensCommand;
+            }
+        }
+
+
+
+
+
+
+
         static long GetDirectorySize(string p)
         {
             // 1.

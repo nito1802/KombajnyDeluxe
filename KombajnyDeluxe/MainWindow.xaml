@@ -26,9 +26,11 @@
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Data from week"  Command="{Binding OpenOrRestoreWindowCommand}" CommandParameter="7"/>
-            <MenuItem Header="Data from months" Command="{Binding OpenOrRestoreWindowCommand}" CommandParameter="30" />
-            <MenuItem Header="Data from year"  Command="{Binding OpenOrRestoreWindowCommand}" CommandParameter="365"/>
+            <MenuItem Header="Screens from 2 week"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="2"/>
+            <MenuItem Header="Screens from month" Command="{Binding HistoryOfScreensCommand}" CommandParameter="4" />
+            <MenuItem Header="Screens from year"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="12"/>
+            <MenuItem Header="Screens from All Time"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="-1"/>
+
         </ContextMenu>
     </Window.ContextMenu>
     <Grid x:Name="mainGrid">
