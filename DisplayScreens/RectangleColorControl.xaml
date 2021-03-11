@@ -1,0 +1,45 @@
+﻿
+    
+    
+    
+    
+    
+<UserControl x:Class="DisplayScreens.RectangleColorControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:DisplayScreens"
+
+    
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <UserControl.DataContext>
+        <local:ScreenModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <Rectangle x:Name="rectangle" Margin="10" Stroke="Black" Fill="Gray">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <local:ColorAnimationBehavior FillColor="Red" Duration="0:0:0.5"/>
+                </i:EventTrigger>
+                
+                
+                
+                
+            </i:Interaction.Triggers>
+        </Rectangle>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Command="{Binding BlueCommand}" Width="100" Content="Blue"/>
+            <Button Command="{Binding GreenCommand}" Width="100" Content="Green"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
