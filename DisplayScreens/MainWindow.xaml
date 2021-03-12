@@ -28,6 +28,9 @@
                 <ResourceDictionary Source="\XamlStyles\ScrollBarStyles.xaml" />
                 <ResourceDictionary Source="\XamlStyles\ButtonsDict.xaml" />
                 <ResourceDictionary Source="\XamlStyles\ListBoxStyle.xaml" />
+                <ResourceDictionary Source="\XamlStyles\ComboBoxStyleTag.xaml" />
+                <ResourceDictionary Source="\XamlStyles\ComboBoxItemStyleTag.xaml" />
+                <ResourceDictionary Source="\XamlStyles\TagColors.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -80,21 +83,21 @@
                 x:Name="btnMinimize"
                 Width="50"
                 Padding="20,10"
+                VerticalContentAlignment="Center"
                 Click="btnMinimize_Click"
                 Content="&#xf2d1;"
                 FontFamily="{StaticResource FontAwesomeLight}"
                 FontSize="20"
-                VerticalContentAlignment="Center"
                 FontWeight="Bold"
                 Style="{StaticResource buttonBordoStyle}" />
 
             <Button
                 x:Name="btnQuit"
                 Padding="20,10"
+                VerticalContentAlignment="Center"
                 Panel.ZIndex="5"
                 Click="btnQuit_Click"
                 Content="&#xf057;"
-                VerticalContentAlignment="Center"
                 FontFamily="{StaticResource FontAwesomeLight}"
                 FontSize="35"
                 FontWeight="Bold"

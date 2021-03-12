@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DisplayScreens.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.Intrinsics.X86;
@@ -24,13 +26,15 @@ namespace DisplayScreens
         public static Action<string> SetFullScreen { get; set; }
         public static Func<string, MessageBoxResult> MessageBoxShow { get; set; }
         public static Action<ScreenModel> RemoveImageFromCollection { get; set; }
+        public static Func<string, Brush> GetBrushForTagFunc { get; set; }
+
+        public ObservableCollection<TagModel> Tags { get; set; } = new ObservableCollection<TagModel>();
 
 
         private DateTime creationDate;
         private double widthImg;
         private double heightImg;
-       private string formatCreationDate;
-
+        private string formatCreationDate;
         private bool runStoryboard;
 
         public ScreenModel() { }
@@ -44,6 +48,15 @@ namespace DisplayScreens
 
             WidthImg = widthImg;
             HeightImg = heightImg;
+        }
+
+        public TagModel SelectedTag { get; set; }
+        public void InitializeTags()
+        {
+            Tags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = GetBrushForTagFunc("FL Studio") });
+            Tags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = GetBrushForTagFunc("Xamarin") });
+            Tags.Add(new TagModel() { Name = "ASP", BackgroundBrush = GetBrushForTagFunc("ASP") });
+            Tags.Add(new TagModel() { Name = "Empty", BackgroundBrush = GetBrushForTagFunc("Empty") });
         }
 
         public void SetBitmap()

@@ -157,6 +157,28 @@ namespace DisplayScreens
                 ImageFull.ImgName?.Freeze();
                 File.Delete(image.Name);
             };
+
+            Dictionary<string, string> TagNameToBrushKeyDict = new Dictionary<string, string>
+            {
+                {"FL Studio", "FlStudioGradientKey" },
+                {"Xamarin", "XamarinGradientKey" },
+                {"ASP", "AspGradientKey" },
+                {"Empty", "EmptyGradientKey" },
+                {"Everything", "EverythingGradientKey" },
+            };
+
+
+            ScreenModel.GetBrushForTagFunc = (key) =>
+            {
+                var brushKey = TagNameToBrushKeyDict[key];
+                var brush = (Brush)this.FindResource(brushKey);
+                return brush;
+            };
+
+            foreach (var item in ScreenModels)
+            {
+                item.InitializeTags();
+            }
         }
 
         private bool FilterScreens(DateTime date, int condition)
