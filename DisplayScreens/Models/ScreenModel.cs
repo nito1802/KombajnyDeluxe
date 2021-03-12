@@ -27,6 +27,7 @@ namespace DisplayScreens
         public static Func<string, MessageBoxResult> MessageBoxShow { get; set; }
         public static Action<ScreenModel> RemoveImageFromCollection { get; set; }
         public static Func<string, Brush> GetBrushForTagFunc { get; set; }
+        public static Action<string, string> SerializeSelectedTag { get; set; }
 
         public ObservableCollection<TagModel> Tags { get; set; } = new ObservableCollection<TagModel>();
 
@@ -49,14 +50,36 @@ namespace DisplayScreens
             WidthImg = widthImg;
             HeightImg = heightImg;
         }
+        //SerializeSelectedTag
 
-        public TagModel SelectedTag { get; set; }
+        private TagModel selectedTag;
+        public TagModel SelectedTag
+        {
+            get { return selectedTag; }
+            set
+            {
+                selectedTag = value;
+                SerializeSelectedTag(Name, value.Name);
+                OnPropertyChanged(nameof(SelectedTag));
+            }
+        }
+
+        public void InitializeSelectedTag(TagModel tag)
+        {
+            selectedTag = tag;
+            OnPropertyChanged(nameof(SelectedTag));
+        }
+
         public void InitializeTags()
         {
+            var emptyTag = new TagModel() { Name = "Empty", BackgroundBrush = GetBrushForTagFunc("Empty") };
+
             Tags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = GetBrushForTagFunc("FL Studio") });
             Tags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = GetBrushForTagFunc("Xamarin") });
             Tags.Add(new TagModel() { Name = "ASP", BackgroundBrush = GetBrushForTagFunc("ASP") });
-            Tags.Add(new TagModel() { Name = "Empty", BackgroundBrush = GetBrushForTagFunc("Empty") });
+            Tags.Add(emptyTag);
+
+            selectedTag = emptyTag;
         }
 
         public void SetBitmap()

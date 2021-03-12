@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" Padding="5">
+                    <Border Padding="5" Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -33,7 +33,10 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
 
-                            <Border Name="borderBtn" Background="{TemplateBinding Background}" Padding="5">
+                            <Border
+                                Name="borderBtn"
+                                Padding="5"
+                                Background="{TemplateBinding Background}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
 

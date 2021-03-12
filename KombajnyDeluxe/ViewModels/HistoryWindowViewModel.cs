@@ -194,7 +194,7 @@ namespace KombajnDoPracy
                         {
                             int myParam = int.Parse(param.ToString());
 
-                            string path = @"C:\Users\dante\source\repos\DisplayScreens\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
+                            string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
 
                             ProcessStartInfo startInfo = new ProcessStartInfo(path);
                             string path2 = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";

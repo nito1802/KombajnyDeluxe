@@ -1,4 +1,5 @@
 ﻿using DisplayScreens.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -76,8 +77,14 @@ namespace DisplayScreens
         public double ScrollFactorSettings { get; set; } = 18; //o ile ma byc dzielony wektor kierunku, aby otrzymac scrollFactor
         public ShowStatus ShowStatus { get; set; }
 
+        public Dictionary<string, string> TagStatesDict { get; set; }
         public ImageFullModel ImageFull { get; set; } = new ImageFullModel();
         public ObservableCollection<ScreenModel> ScreenModels { get; set; } = new ObservableCollection<ScreenModel>();
+        public List<ScreenModel> AllScreenModels { get; set; } = new List<ScreenModel>();
+        public Dictionary<string, ScreenModel> FullPathToScreenDict { get; set; } = new Dictionary<string, ScreenModel>();
+
+        public ObservableCollection<TagModel> TagsMain { get; set; } = new ObservableCollection<TagModel>();
+
 
         public static double Scale { get; set; } = 0.20;
 
@@ -120,6 +127,8 @@ namespace DisplayScreens
                 foreach (var internalItem in item.Reverse())
                 {
                     ScreenModels.Add(internalItem);
+                    AllScreenModels.Add(internalItem);
+                    FullPathToScreenDict.Add(internalItem.Name, internalItem);
                 }
             }
             sw.Stop();
@@ -175,10 +184,31 @@ namespace DisplayScreens
                 return brush;
             };
 
+            ScreenModel.SerializeSelectedTag = (fullPath, tagName) =>
+            {
+                if (TagStatesDict.ContainsKey(fullPath)) TagStatesDict[fullPath] = tagName;
+                else TagStatesDict.Add(fullPath, tagName);
+
+                SerializeTagsState(TagStatesDict);
+            };
+
             foreach (var item in ScreenModels)
             {
                 item.InitializeTags();
             }
+
+            TagStatesDict = DeserializeTagsState() ?? new Dictionary<string, string>();
+
+            foreach (var item in TagStatesDict)
+            {
+                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == item.Value));
+            }
+
+            TagsMain.Add(new TagModel() { Name = "Everything", BackgroundBrush = (Brush)this.FindResource("EverythingGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") });
         }
 
         private bool FilterScreens(DateTime date, int condition)
@@ -324,7 +354,7 @@ namespace DisplayScreens
 
         private void fullImage_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.XButton1)
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.Right)
             {
                 HideFullImage();
             }
@@ -418,13 +448,57 @@ namespace DisplayScreens
                 listBoxItem.Focus();
             }
         }
-    }
 
-    public static class ScreenModelGenerator
-    {
-        public static ScreenModel GetScreenModel(string path)
+        private void cbMaintTag_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return new ScreenModel("5 - 17_19_03.png", 1920 * MainWindow.Scale, 1080 * MainWindow.Scale);
+            var changedTag = e.AddedItems[0] as TagModel;
+
+            if(changedTag != null)
+            {
+                ScreenModels.Clear();
+
+                if (changedTag.Name == "Everything")
+                {
+                    AllScreenModels.ForEach(a => ScreenModels.Add(a));
+                }
+                else
+                {
+                    foreach (var item in AllScreenModels.Where(a => a.SelectedTag.Name == changedTag.Name))
+                    {
+                        ScreenModels.Add(item);
+                    }
+                }
+            }
+        }
+
+        public static void SerializeTagsState(Dictionary<string,string> tagsState)
+        {
+            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string applicationFolder = "KombajnDeluxe Data";
+            var appDataPath = System.IO.Path.Combine(myDocumentPath, applicationFolder);
+            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
+
+            string serializedStatePath = System.IO.Path.Combine(appDataPath, "DisplayScreenTags.json");
+
+            var serializedContent = JsonConvert.SerializeObject(tagsState);
+            File.WriteAllText(serializedStatePath, serializedContent);
+        }
+
+        private static Dictionary<string, string> DeserializeTagsState()
+        {
+            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string applicationFolder = "KombajnDeluxe Data";
+            var appDataPath = System.IO.Path.Combine(myDocumentPath, applicationFolder);
+
+            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
+            string serializedStatePath = System.IO.Path.Combine(appDataPath, "DisplayScreenTags.json");
+
+            if (!File.Exists(serializedStatePath)) return null;
+
+            var serializedContent = File.ReadAllText(serializedStatePath);
+            var res = JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedContent);
+
+            return res;
         }
     }
 }

@@ -10,10 +10,10 @@
 
     <Style x:Key="ContainerStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="Red"/>
+                <Setter Property="Background" Value="Red" />
                 <Setter Property="ContentTemplate" Value="{StaticResource SelectedTemplate}" />
             </Trigger>
         </Style.Triggers>

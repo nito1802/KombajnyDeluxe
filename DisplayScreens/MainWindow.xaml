@@ -79,6 +79,38 @@
             Panel.ZIndex="5"
             Orientation="Horizontal">
 
+            <ComboBox
+                Name="cbMaintTag"
+                Width="100"
+                Margin="0 0 20 0"
+                Height="30"
+                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                ItemsSource="{Binding TagsMain}"
+                SelectedIndex="0"
+                SelectionChanged="cbMaintTag_SelectionChanged"
+                Style="{StaticResource ComboBoxStyle1}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border
+                                Width="100"
+                                Padding="4"
+                                HorizontalAlignment="Stretch"
+                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                CornerRadius="5">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#FF242323"
+                                    Text="{Binding Name}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <Button
                 x:Name="btnMinimize"
                 Width="50"
@@ -269,23 +301,34 @@
                                         FontSize="20"
                                         Style="{StaticResource buttonBordoStyle}" />
 
-                                    <Border
-                                        Margin="15,5,0,0"
-                                        Padding="3"
-                                        HorizontalAlignment="Right"
-                                        CornerRadius="5"
-                                        DockPanel.Dock="Right">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Color="#FF91BF1A" />
-                                                <GradientStop Offset="1" Color="#FF749A10" />
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="FL Studio" />
-                                    </Border>
+                                    <ComboBox
+                                        Width="100"
+                                        Height="30"
+                                        ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                                        ItemsSource="{Binding Tags}"
+                                        SelectedItem="{Binding SelectedTag}"
+                                        Style="{StaticResource ComboBoxStyle1}">
+
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Border
+                                                        Width="100"
+                                                        Padding="4"
+                                                        HorizontalAlignment="Stretch"
+                                                        Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                                        CornerRadius="5">
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontWeight="Bold"
+                                                            Foreground="#FF242323"
+                                                            Text="{Binding Name}" />
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
