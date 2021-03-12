@@ -113,11 +113,11 @@
 
             <Button
                 x:Name="btnMinimize"
-                Width="50"
-                Padding="20,10"
                 VerticalContentAlignment="Center"
                 Click="btnMinimize_Click"
                 Content="&#xf2d1;"
+                Height="50"
+                Width="50"
                 FontFamily="{StaticResource FontAwesomeLight}"
                 FontSize="20"
                 FontWeight="Bold"
@@ -125,9 +125,11 @@
 
             <Button
                 x:Name="btnQuit"
-                Padding="20,10"
+                Height="50"
+                Width="50"
                 VerticalContentAlignment="Center"
                 Panel.ZIndex="5"
+                Padding="0 20 0 0"
                 Click="btnQuit_Click"
                 Content="&#xf057;"
                 FontFamily="{StaticResource FontAwesomeLight}"

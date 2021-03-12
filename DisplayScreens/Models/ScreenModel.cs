@@ -77,6 +77,7 @@ namespace DisplayScreens
             Tags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = GetBrushForTagFunc("FL Studio") });
             Tags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = GetBrushForTagFunc("Xamarin") });
             Tags.Add(new TagModel() { Name = "ASP", BackgroundBrush = GetBrushForTagFunc("ASP") });
+            Tags.Add(new TagModel() { Name = "Inne", BackgroundBrush = GetBrushForTagFunc("Inne") });
             Tags.Add(emptyTag);
 
             selectedTag = emptyTag;

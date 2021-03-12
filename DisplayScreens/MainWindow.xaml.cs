@@ -174,6 +174,7 @@ namespace DisplayScreens
                 {"ASP", "AspGradientKey" },
                 {"Empty", "EmptyGradientKey" },
                 {"Everything", "EverythingGradientKey" },
+                {"Inne", "InneGradientKey" },
             };
 
 
@@ -208,6 +209,7 @@ namespace DisplayScreens
             TagsMain.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
             TagsMain.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
             TagsMain.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Inne", BackgroundBrush = (Brush)this.FindResource("InneGradientKey") });
             TagsMain.Add(new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") });
         }
 
