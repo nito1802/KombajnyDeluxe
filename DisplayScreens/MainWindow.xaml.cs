@@ -202,6 +202,8 @@ namespace DisplayScreens
 
             foreach (var item in TagStatesDict)
             {
+                if (!FullPathToScreenDict.ContainsKey(item.Key)) continue;
+
                 FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == item.Value));
             }
 

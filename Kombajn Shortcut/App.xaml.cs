@@ -1,6 +1,7 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Kombajn_Shortcut.Helpers;
 using Kombajn_Shortcut.Models;
+using Kombajn_Shortcut.Views;
 using KombajnDoPracy.Helpers;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,12 @@ namespace Kombajn
                     {
                         try
                         {
-                            screener.TakeScreenshot();
+                            string screenPath = screener.TakeScreenshot();
+                            var screenAnimation = new ScreenAnimationWindow(screenPath);
+                            screenAnimation.Left = SystemParameters.VirtualScreenWidth - 250;
+                            screenAnimation.Top = 0;
+
+                            screenAnimation.Show();
                         }
                         catch (Exception ex)
                         {

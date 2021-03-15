@@ -230,7 +230,7 @@ namespace DisplayScreens
                 {
                     removeImage = new RelayCommand(param =>
                     {
-                        var res = MessageBoxShow?.Invoke("Czy na pewno chcesz usunąć screena?");
+                        //var res = MessageBoxShow?.Invoke("Czy na pewno chcesz usunąć screena?");
                         RemoveImageFromCollection(this);
                         
                         //InsertSingleStrumAction?.Invoke(this);

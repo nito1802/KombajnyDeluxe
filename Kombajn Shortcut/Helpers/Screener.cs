@@ -12,7 +12,7 @@ namespace Kombajn
 {
     class Screener
     {
-        public void TakeScreenshot()
+        public string TakeScreenshot()
         {
             double screenLeft = SystemParameters.VirtualScreenLeft;
             double screenTop = SystemParameters.VirtualScreenTop;
@@ -32,7 +32,9 @@ namespace Kombajn
                     String filename = $"{files.Length+1} - {DateTime.Now.ToString("HH_mm_ss")}.png";
                     g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
 
+                    string result = System.IO.Path.Combine(screenerPath, filename);
                     bmp.Save(System.IO.Path.Combine(screenerPath, filename));
+                    return result;
                 }
             }
         }
