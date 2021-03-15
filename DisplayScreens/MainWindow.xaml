@@ -35,41 +35,8 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid MouseWheel="Grid_MouseWheel">
-        <Image
-            x:Name="fullImage"
-            DataContext="{Binding ImageFull}"
-            MouseUp="fullImage_MouseUp"
-            Opacity="1"
-            Source="{Binding ImgName}"
-            Visibility="Hidden" />
-
-        <Button
-            x:Name="btnBackFromFull"
-            Width="50"
-            Height="50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="btnBackFromFull_Click"
-            Content="&#xf0a8;"
-            FontFamily="{StaticResource FontAwesomeLight}"
-            FontSize="40"
-            Opacity="0.7"
-            Style="{StaticResource buttonBordoStyle}"
-            Visibility="Hidden" />
-
-        <Button
-            x:Name="btnRemoveImageFullScreen"
-            Width="50"
-            Height="50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Click="btnRemoveImageFullScreen_Click"
-            Content="&#xf2ed;"
-            FontFamily="{StaticResource FontAwesomeLight}"
-            FontSize="30"
-            Opacity="0.7"
-            Style="{StaticResource buttonBordoStyle}"
-            Visibility="Hidden" />
+        
+        <local:FullScreenImageControl Visibility="Hidden" x:Name="userCtrlFullScreenImg" ImageSourcePath="{Binding ImgName, UpdateSourceTrigger=PropertyChanged}"/>
 
         <StackPanel
             x:Name="btnsMinimizeQuit"

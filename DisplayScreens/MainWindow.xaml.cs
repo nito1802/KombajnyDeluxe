@@ -94,6 +94,7 @@ namespace DisplayScreens
             InitializeComponent();
 
             this.DataContext = this;
+            userCtrlFullScreenImg.DataContext = ImageFull;
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -150,8 +151,9 @@ namespace DisplayScreens
 
             ScreenModel.SetFullScreen = (source) =>
             {
-                ImageFull.ImgName = BitmapFromUri(new Uri(source)); ;
+                ImageFull.ImgName = BitmapFromUri(new Uri(source));
                 ShowFullImage();
+                userCtrlFullScreenImg.btnNext.Focus();
             };
 
             ScreenModel.MessageBoxShow = (text) =>
@@ -191,6 +193,55 @@ namespace DisplayScreens
                 else TagStatesDict.Add(fullPath, tagName);
 
                 SerializeTagsState(TagStatesDict);
+            };
+
+            FullScreenImageControl.PreviousScreen = () =>
+            {
+                if (mainListbox.SelectedIndex == 0) return;
+
+                mainListbox.SelectedIndex--;
+                var selectedItem = mainListbox.SelectedItem as ScreenModel;
+
+                ImageFull.ImgName = selectedItem.ButtonImage;
+            };
+
+            FullScreenImageControl.NextScreen = () =>
+            {
+                if (mainListbox.SelectedIndex == ScreenModels.Count - 1) return;
+
+                mainListbox.SelectedIndex++;
+                var selectedItem = mainListbox.SelectedItem as ScreenModel;
+
+                ImageFull.ImgName = selectedItem.ButtonImage;
+            };
+
+            FullScreenImageControl.RemoveScreen = () =>
+            {
+                var selectedItem = mainListbox.SelectedItem as ScreenModel;
+
+                if (selectedItem != null)
+                {
+                    var res = MessageBox.Show("Czy na pewno chcesz usunąć screena?", "Warning", MessageBoxButton.YesNo);
+
+                    if (res == MessageBoxResult.No) return;
+
+                    int removedIdx = mainListbox.SelectedIndex;
+                    ScreenModel.RemoveImageFromCollection(selectedItem);
+
+                    mainListbox.SelectedIndex = removedIdx;
+                    var selectedItemNext = mainListbox.SelectedItem as ScreenModel;
+
+                    ImageFull.ImgName = selectedItemNext.ButtonImage;
+                }
+            };
+
+            FullScreenImageControl.GoBack = () =>
+            {
+                HideFullImage();
+                var listBoxItem = (ListBoxItem)mainListbox
+                                                .ItemContainerGenerator
+                                                .ContainerFromItem(mainListbox.SelectedItem);
+                listBoxItem.Focus();
             };
 
             foreach (var item in ScreenModels)
@@ -301,31 +352,18 @@ namespace DisplayScreens
             this.WindowState = WindowState.Minimized;
         }
 
-        private void btnBackFromFull_Click(object sender, RoutedEventArgs e)
-        {
-            HideFullImage();
-            var listBoxItem = (ListBoxItem)mainListbox
-                                            .ItemContainerGenerator
-                                            .ContainerFromItem(mainListbox.SelectedItem);
-            listBoxItem.Focus();
-        }
-
         private void ShowFullImage()
         {
-            fullImage.Visibility = Visibility.Visible;
-            btnBackFromFull.Visibility = Visibility.Visible;
-            btnRemoveImageFullScreen.Visibility = Visibility.Visible;
-            btnsMinimizeQuit.Visibility = Visibility.Hidden;
+            userCtrlFullScreenImg.Visibility = Visibility.Visible;
+            cbMaintTag.Visibility = Visibility.Hidden;
             mySv.Visibility = Visibility.Hidden;
             ShowStatus = ShowStatus.FullImage;
         }
 
         private void HideFullImage()
         {
-            fullImage.Visibility = Visibility.Hidden;
-            btnBackFromFull.Visibility = Visibility.Hidden;
-            btnRemoveImageFullScreen.Visibility = Visibility.Hidden;
-            btnsMinimizeQuit.Visibility = Visibility.Visible;
+            userCtrlFullScreenImg.Visibility = Visibility.Hidden;
+            cbMaintTag.Visibility = Visibility.Visible;
             mySv.Visibility = Visibility.Visible;
             ShowStatus = ShowStatus.ListOfImages;
         }
@@ -368,23 +406,7 @@ namespace DisplayScreens
         {
             if (e.Key == Key.Escape)
             {
-                if (ShowStatus == ShowStatus.ListOfImages)
-                {
-                    this.WindowState = WindowState.Minimized;
-                    //this.Close();
-                }
-                else if (ShowStatus == ShowStatus.FullImage)
-                {
-                    HideFullImage();
-                    //mainListbox.Focus();
-                    //Keyboard.Focus(mainListbox);
-
-                    var listBoxItem = (ListBoxItem)mainListbox
-                                                     .ItemContainerGenerator
-                                                     .ContainerFromItem(mainListbox.SelectedItem);
-
-                    listBoxItem.Focus();
-                }
+                this.WindowState = WindowState.Minimized;
             }
             else if (e.Key == Key.Enter)
             {
@@ -427,30 +449,6 @@ namespace DisplayScreens
                 }
             }
             return child;
-        }
-
-        private void btnRemoveImageFullScreen_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = mainListbox.SelectedItem as ScreenModel;
-
-            if(selectedItem != null)
-            {
-                var res = MessageBox.Show("Czy na pewno chcesz usunąć screena?", "Warning", MessageBoxButton.YesNo);
-
-                if (res == MessageBoxResult.No) return;
-
-                int removedIdx = mainListbox.SelectedIndex;
-                ScreenModel.RemoveImageFromCollection(selectedItem);
-
-                HideFullImage();
-
-                mainListbox.SelectedIndex = removedIdx;
-                var listBoxItem = (ListBoxItem)mainListbox
-                                                 .ItemContainerGenerator
-                                                 .ContainerFromItem(mainListbox.SelectedItem);
-
-                listBoxItem.Focus();
-            }
         }
 
         private void cbMaintTag_SelectionChanged(object sender, SelectionChangedEventArgs e)

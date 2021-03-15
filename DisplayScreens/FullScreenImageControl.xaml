@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:Class="DisplayScreens.FullScreenImageControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DisplayScreens"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    PreviewKeyDown="UserControl_PreviewKeyDown"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\XamlStyles\ButtonsDict.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <TextBlock
+            x:Name="tbTitleScreen"
+            Panel.ZIndex="11"
+            Margin="50 0 0 0"
+            FontSize="30"
+            Foreground="#FFF1F1F1"
+            Opacity="0.7" />
+
+        <Button
+            x:Name="btnBackFromFull"
+            Width="50"
+            Height="50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Panel.ZIndex="22"
+            Click="btnBackFromFull_Click"
+            Content="&#xf0a8;"
+            FontFamily="{StaticResource FontAwesomeLight}"
+            FontSize="40"
+            Opacity="0.7"
+            Style="{StaticResource buttonBordoStyle}" />
+
+        <Button
+            x:Name="btnRemoveImageFullScreen"
+            Width="50"
+            Height="50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Panel.ZIndex="22"
+            Click="btnRemoveImageFullScreen_Click"
+            Content="&#xf2ed;"
+            FontFamily="{StaticResource FontAwesomeLight}"
+            FontSize="30"
+            Opacity="0.7"
+            Style="{StaticResource buttonBordoStyle}" />
+
+        <Button
+            x:Name="btnPrevious"
+            Width="50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Panel.ZIndex="22"
+            Click="btnPrevious_Click"
+            Content="&#xf053;"
+            FontFamily="{StaticResource FontAwesomeLight}"
+            FontSize="40"
+            Opacity="0.7"
+            Style="{StaticResource buttonBordoStyle}" />
+
+        <Button
+            x:Name="btnNext"
+            Width="50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Panel.ZIndex="22"
+            Click="btnNext_Click"
+            Content="&#xf054;"
+            FontFamily="{StaticResource FontAwesomeLight}"
+            FontSize="40"
+            Opacity="0.7"
+            Style="{StaticResource buttonBordoStyle}" />
+        <Image x:Name="imgUserControl" />
+    </Grid>
+</UserControl>
