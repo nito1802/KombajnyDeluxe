@@ -267,8 +267,13 @@ namespace DisplayScreens
         }
 
         private bool FilterScreens(DateTime date, int condition)
-        { 
-            if(condition == 2)
+        {
+            if (condition == 1)
+            {
+                var diff = DateTime.Now - date;
+                return diff.TotalDays <= 7;
+            }
+            else if (condition == 2)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 14;

@@ -1,22 +1,23 @@
-﻿<Window x:Class="KombajnDoPracy.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KombajnDoPracy"
-        mc:Ignorable="d"
-        MouseDown="Window_MouseDown"
-        Background="#12000000"
-		AllowsTransparency="True"
-		WindowStyle="None"
-		BorderThickness="1"
-		BorderBrush="#FF10327C"
-        Title="MainWindow"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded"
-        Topmost="True">
+﻿<Window
+    x:Class="KombajnDoPracy.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:KombajnDoPracy"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    AllowsTransparency="True"
+    Background="#12000000"
+    BorderBrush="#FF10327C"
+    BorderThickness="1"
+    Loaded="Window_Loaded"
+    MouseDown="Window_MouseDown"
+    PreviewKeyDown="Window_PreviewKeyDown"
+    SizeToContent="WidthAndHeight"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,84 +27,161 @@
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Screens from 2 week"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="2"/>
-            <MenuItem Header="Screens from month" Command="{Binding HistoryOfScreensCommand}" CommandParameter="4" />
-            <MenuItem Header="Screens from year"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="12"/>
-            <MenuItem Header="Screens from All Time"  Command="{Binding HistoryOfScreensCommand}" CommandParameter="-1"/>
+            <MenuItem
+                Command="{Binding HistoryOfScreensCommand}"
+                CommandParameter="2"
+                Header="Screens from 2 weeks" />
+            <MenuItem
+                Command="{Binding HistoryOfScreensCommand}"
+                CommandParameter="4"
+                Header="Screens from month" />
+            <MenuItem
+                Command="{Binding HistoryOfScreensCommand}"
+                CommandParameter="12"
+                Header="Screens from year" />
+            <MenuItem
+                Command="{Binding HistoryOfScreensCommand}"
+                CommandParameter="-1"
+                Header="Screens from All Time" />
 
         </ContextMenu>
     </Window.ContextMenu>
     <Grid x:Name="mainGrid">
 
-        <Button Name="btnOptions" Margin="0 5 5 0" Style="{StaticResource DarkOptionsButton}" VerticalAlignment="Top" HorizontalAlignment="Right" Click="BtnOptions_Click">
-            <Image Source="Options.png" Width="25"/>
+        <Button
+            Name="btnOptions"
+            Margin="0,5,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="BtnOptions_Click"
+            Style="{StaticResource DarkOptionsButton}">
+            <Image Width="25" Source="Options.png" />
 
         </Button>
 
         <StackPanel>
-            <Grid Margin="10 40 10 10">
+            <Grid Margin="10,40,10,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
 
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="320"/>
-                    <ColumnDefinition Width="158"/>
-                    <ColumnDefinition Width="320"/>
-                    <ColumnDefinition Width="158"/>
-                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="158" />
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="158" />
+                    <ColumnDefinition Width="320" />
                 </Grid.ColumnDefinitions>
 
-                <Border Margin="5 0 5 0" Padding="5" BorderThickness="1" BorderBrush="#FF023D15">
+                <Border
+                    Margin="5,0,5,0"
+                    Padding="5"
+                    BorderBrush="#FF023D15"
+                    BorderThickness="1">
                     <Border.Background>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
-                            <GradientStop Color="#CC054F1D" Offset="0"/>
-                            <GradientStop Color="#CC033212" Offset="1"/>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Offset="0" Color="#CC054F1D" />
+                            <GradientStop Offset="1" Color="#CC033212" />
                         </LinearGradientBrush>
                     </Border.Background>
-                    <TextBlock Text="{Binding LeftGroupName, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFCBCBCB" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Foreground="#FFCBCBCB"
+                        Text="{Binding LeftGroupName, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <Border Grid.Column="2" Margin="5 0 5 0" Padding="5" BorderThickness="1" BorderBrush="#FF053375">
+                <Border
+                    Grid.Column="2"
+                    Margin="5,0,5,0"
+                    Padding="5"
+                    BorderBrush="#FF053375"
+                    BorderThickness="1">
                     <Border.Background>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
-                            <GradientStop Color="#CC0F499C" Offset="0"/>
-                            <GradientStop Color="#CC042049" Offset="1"/>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Offset="0" Color="#CC0F499C" />
+                            <GradientStop Offset="1" Color="#CC042049" />
                         </LinearGradientBrush>
                     </Border.Background>
-                    <TextBlock Text="{Binding MiddleGroupName, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFCBCBCB" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Foreground="#FFCBCBCB"
+                        Text="{Binding MiddleGroupName, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <Border Grid.Column="4" Margin="5 0 5 0" Padding="5" BorderThickness="1" BorderBrush="#FF323232">
+                <Border
+                    Grid.Column="4"
+                    Margin="5,0,5,0"
+                    Padding="5"
+                    BorderBrush="#FF323232"
+                    BorderThickness="1">
                     <Border.Background>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
-                            <GradientStop Color="#FF151414" Offset="0"/>
-                            <GradientStop Color="#FF1D1C1C" Offset="1"/>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Offset="0" Color="#FF151414" />
+                            <GradientStop Offset="1" Color="#FF1D1C1C" />
                         </LinearGradientBrush>
                     </Border.Background>
-                    <TextBlock Grid.Column="4" Text="{Binding RightGroupName, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFCBCBCB" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock
+                        Grid.Column="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        Foreground="#FFCBCBCB"
+                        Text="{Binding RightGroupName, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <ItemsControl Name="LeftGroup" ItemsSource="{Binding LeftButtons, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="1" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ItemsControl
+                    Name="LeftGroup"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding LeftButtons, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel/>
+                            <WrapPanel />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Margin="5" Padding="10" Style="{StaticResource GreenButton}" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}" BorderBrush="#FF1C6339" Foreground="#FFCBCBCB" FontWeight="Normal">
+                                <Button
+                                    Margin="5"
+                                    Padding="10"
+                                    BorderBrush="#FF1C6339"
+                                    Command="{Binding Path=OpenOrRestoreWindowCommand}"
+                                    FontWeight="Normal"
+                                    Foreground="#FFCBCBCB"
+                                    IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                    Style="{StaticResource GreenButton}"
+                                    ToolTip="{Binding Path}">
                                     <Button.Content>
-                                        <Grid Margin="0 6 0 0">
+                                        <Grid Margin="0,6,0,0">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="28"/>
-                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="28" />
+                                                <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
 
-                                            <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                FontSize="20"
+                                                Foreground="#FFCBCBCB"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                FontSize="9"
+                                                FontWeight="Bold"
+                                                Foreground="#FFD6D6D6"
+                                                Text="{Binding Description}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Button.Content>
 
@@ -114,26 +192,51 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <ItemsControl Name="MiddleGroup" ItemsSource="{Binding MiddleButtons, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="2" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <ItemsControl
+                    Name="MiddleGroup"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding MiddleButtons, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel/>
+                            <WrapPanel />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Margin="5" Padding="10"  Style="{StaticResource BlueButton}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}" Foreground="#FFD8D8D8" BorderBrush="#FF10327C">
+                                <Button
+                                    Margin="5"
+                                    Padding="10"
+                                    BorderBrush="#FF10327C"
+                                    Command="{Binding Path=OpenOrRestoreWindowCommand}"
+                                    Foreground="#FFD8D8D8"
+                                    Style="{StaticResource BlueButton}"
+                                    ToolTip="{Binding Path}">
 
                                     <Button.Content>
-                                        <Grid Margin="0 6 0 0">
+                                        <Grid Margin="0,6,0,0">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="28"/>
-                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="28" />
+                                                <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
 
-                                            <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                FontSize="20"
+                                                Foreground="#FFCBCBCB"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                FontSize="9"
+                                                FontWeight="Bold"
+                                                Foreground="#FFD6D6D6"
+                                                Text="{Binding Description}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Button.Content>
                                 </Button>
@@ -142,25 +245,47 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <ItemsControl Name="RightGroup" ItemsSource="{Binding RightButtons, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ItemsControl
+                    Name="RightGroup"
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ItemsSource="{Binding RightButtons, UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel/>
+                            <WrapPanel />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Margin="5" Padding="10" Style="{StaticResource DarkButton}" Command="{Binding Path=OpenOrRestoreWindowCommand}" ToolTip="{Binding Path}">
+                                <Button
+                                    Margin="5"
+                                    Padding="10"
+                                    Command="{Binding Path=OpenOrRestoreWindowCommand}"
+                                    Style="{StaticResource DarkButton}"
+                                    ToolTip="{Binding Path}">
                                     <Button.Content>
-                                        <Grid Margin="0 6 0 0">
+                                        <Grid Margin="0,6,0,0">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="28"/>
-                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="28" />
+                                                <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
 
-                                            <TextBlock Text="{Binding Name}" FontSize="20" Foreground="#FFCBCBCB" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="9" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                FontSize="20"
+                                                Foreground="#FFCBCBCB"
+                                                Text="{Binding Name}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Center"
+                                                FontSize="9"
+                                                FontWeight="Bold"
+                                                Foreground="#FFD6D6D6"
+                                                Text="{Binding Description}"
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Button.Content>
                                 </Button>
@@ -170,19 +295,40 @@
                 </ItemsControl>
             </Grid>
 
-            <ItemsControl Name="LinkGroup" ItemsSource="{Binding LinkButtons, UpdateSourceTrigger=PropertyChanged}" Width="1276">
+            <ItemsControl
+                Name="LinkGroup"
+                Width="1276"
+                ItemsSource="{Binding LinkButtons, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel/>
+                        <WrapPanel />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Button Style="{StaticResource LinkButton}" Command="{Binding Path=OpenUrlCommand}" Width="250" Margin="5 0 0 5" Padding="5">
+                            <Button
+                                Width="250"
+                                Margin="5,0,0,5"
+                                Padding="5"
+                                Command="{Binding Path=OpenUrlCommand}"
+                                Style="{StaticResource LinkButton}">
                                 <StackPanel Width="230">
-                                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Foreground="#FFCBCBCB" FontWeight="Bold" FontSize="15"/>
-                                    <TextBlock TextTrimming="CharacterEllipsis" Height="50" FontSize="10" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" TextDecorations="Underline" TextWrapping="WrapWithOverflow" Foreground="#FFC29C0F"/>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Foreground="#FFCBCBCB"
+                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock
+                                        Height="50"
+                                        FontSize="10"
+                                        Foreground="#FFC29C0F"
+                                        Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
+                                        TextDecorations="Underline"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="WrapWithOverflow"
+                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                                 </StackPanel>
                             </Button>
                         </Grid>

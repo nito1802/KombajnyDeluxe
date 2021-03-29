@@ -192,14 +192,18 @@ namespace KombajnDoPracy
                     historyOfScreensCommand = new RelayCommand(
                         param =>
                         {
-                            int myParam = int.Parse(param.ToString());
-
                             string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
 
-                            ProcessStartInfo startInfo = new ProcessStartInfo(path);
-                            string path2 = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
-                            startInfo.Arguments = $"{myParam} \"{path2}\"";
-                            Process.Start(startInfo);
+                            string searchScreenFrom = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
+                            int dateRange = int.Parse(param.ToString()); ;
+
+                            Process process = new Process();
+                            process.StartInfo.FileName = path;
+                            process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
+                            process.Start();
+                            IntPtr handle = process.Handle;
+                            WinApiHelper.SetForegroundWindow(handle);
+                            App.Current.Shutdown();
                         },
                         null
                     );
