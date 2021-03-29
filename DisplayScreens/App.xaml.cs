@@ -15,7 +15,7 @@ namespace DisplayScreens
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            int conditionDisplay = e.Args.Length == 2 ? int.Parse(e.Args[0]) : 2;
+            int conditionDisplay = e.Args.Length == 2 ? int.Parse(e.Args[0]) : 24;
             string startupPath = e.Args.Length == 2 ? e.Args[1] : @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
 
             MainWindow wnd = new MainWindow(conditionDisplay, startupPath);

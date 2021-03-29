@@ -177,12 +177,37 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
+                    Name = "DisplayScreens from today",
+                    Describes = "Wszystkie screeny z dzisiaj",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "5",
+                    actionOnClick = () =>
+                    {
+                        string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
+
+                        string searchScreenFrom = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
+                        int dateRange = 24;
+
+                        Process process = new Process();
+                        process.StartInfo.FileName = path;
+                        process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
+                        process.Start();
+                        IntPtr handle = process.Handle;
+                        WinApiHelper.SetForegroundWindow(handle);
+                    }
+                },
+
+
+                new ShortcutModel()
+                {
                     Name = "DisplayScreens from weeek",
                     Describes = "Wszystkie screeny z tygodnia",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "5",
+                    KeyCode = "6",
                     actionOnClick = () =>
                     {
                         string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";

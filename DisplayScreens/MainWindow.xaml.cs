@@ -125,7 +125,7 @@ namespace DisplayScreens
 
             foreach (var item in grouped)
             {
-                foreach (var internalItem in item.Reverse())
+                foreach (var internalItem in item)
                 {
                     ScreenModels.Add(internalItem);
                     AllScreenModels.Add(internalItem);
@@ -268,7 +268,12 @@ namespace DisplayScreens
 
         private bool FilterScreens(DateTime date, int condition)
         {
-            if (condition == 1)
+            if (condition == 24)
+            {
+                var diff = DateTime.Now - date;
+                return diff.TotalDays <= 1;
+            }
+            else if (condition == 1)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 7;
