@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Fonts\fa-brands-400.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

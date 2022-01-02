@@ -72,9 +72,12 @@ namespace DisplayScreens
 
         public void InitializeTags()
         {
+            Tags.Clear();
             var emptyTag = new TagModel() { Name = "Empty", BackgroundBrush = GetBrushForTagFunc("Empty") };
 
+            Tags.Add(new TagModel() { Name = "Android", BackgroundBrush = GetBrushForTagFunc("Android") });
             Tags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = GetBrushForTagFunc("FL Studio") });
+            Tags.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = GetBrushForTagFunc("Jetpack Compose") });
             Tags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = GetBrushForTagFunc("Xamarin") });
             Tags.Add(new TagModel() { Name = "ASP", BackgroundBrush = GetBrushForTagFunc("ASP") });
             Tags.Add(new TagModel() { Name = "Inne", BackgroundBrush = GetBrushForTagFunc("Inne") });
@@ -240,6 +243,11 @@ namespace DisplayScreens
         }
 
         public event PropertyChangedEventHandler PropertyChanged; //INotifyPropertyChanged
+
+        public void OnPropertyChangedMy()
+        {
+            OnPropertyChanged("SelectedTag");
+        }
 
         protected void OnPropertyChanged(string name)
         {

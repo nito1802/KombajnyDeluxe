@@ -38,6 +38,8 @@
         
         <local:FullScreenImageControl Visibility="Hidden" x:Name="userCtrlFullScreenImg" ImageSourcePath="{Binding ImgName, UpdateSourceTrigger=PropertyChanged}"/>
 
+        
+        
         <StackPanel
             x:Name="btnsMinimizeQuit"
             Margin="0,0,25,0"
@@ -48,7 +50,7 @@
 
             <ComboBox
                 Name="cbMaintTag"
-                Width="100"
+                Width="110"
                 Margin="0 0 20 0"
                 Height="30"
                 ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
@@ -61,7 +63,8 @@
                     <DataTemplate>
                         <Grid>
                             <Border
-                                Width="100"
+                                Margin="0 1 0 0"
+                                Width="110"
                                 Padding="4"
                                 HorizontalAlignment="Stretch"
                                 Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
@@ -103,6 +106,152 @@
                 FontSize="35"
                 FontWeight="Bold"
                 Style="{StaticResource buttonBordoStyle}" />
+        </StackPanel> 
+        
+        <StackPanel
+            x:Name="stFilterFrom"
+            Margin="0,180,25,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="5"
+            Orientation="Horizontal">
+
+            <TextBlock
+                Text="Filter From:"
+                FontSize="16"
+                Foreground="#FFF1F1F1"
+                VerticalAlignment="Center"
+                />
+
+            <ComboBox
+                Name="cbFilterFromDate"
+                Width="110"
+                Margin="5 0 5 0"
+                Height="30"
+                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                ItemsSource="{Binding ShowFromDates}"
+                SelectedIndex="0"
+                SelectionChanged="cbFilterFromDate_SelectionChanged"
+                VerticalContentAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource ComboBoxStyle1}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border
+                                Margin="0 1 0 0"
+                                Width="110"
+                                Padding="4"
+                                HorizontalAlignment="Stretch"
+                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                CornerRadius="5">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#FF242323"
+                                    Text="{Binding Name}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button
+                x:Name="btnRefresh"
+                Height="50"
+                Width="50"
+                VerticalContentAlignment="Center"
+                Panel.ZIndex="5"
+                Padding="0 20 0 0"
+                Click="btnRefresh_Click"
+                Content="&#xf021;"
+                FontFamily="{StaticResource FontAwesomeLight}"
+                FontSize="35"
+                FontWeight="Bold"
+                Style="{StaticResource buttonBordoStyle}" />
+        </StackPanel>
+        
+        <StackPanel
+            x:Name="stMultipleFilter"
+            Margin="0,340,25,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="5"
+            Orientation="Horizontal">
+
+            <TextBlock
+                Text="Set Multiple:"
+                FontSize="16"
+                Foreground="#FFF1F1F1"
+                VerticalAlignment="Center"
+                />
+
+            <ComboBox
+                Name="cbSetFilterMultiple"
+                Width="110"
+                Margin="5 0 0 0"
+                Height="30"
+                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                ItemsSource="{Binding MultipleFilterTags}"
+                SelectedIndex="0"
+                SelectionChanged="cbSetFilterMultiple_SelectionChanged"
+                VerticalContentAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource ComboBoxStyle1}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border
+                                Margin="0 1 0 0"
+                                Width="110"
+                                Padding="4"
+                                HorizontalAlignment="Stretch"
+                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                CornerRadius="5">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#FF242323"
+                                    Text="{Binding Name}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel> 
+        
+        <StackPanel
+            x:Name="stMultipleRemove"
+            Margin="0,440,25,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="5"
+            Orientation="Horizontal">
+
+            <TextBlock
+                Text="Remove Many:"
+                FontSize="16"
+                Foreground="#FFF1F1F1"
+                VerticalAlignment="Center"
+                />
+
+            <Button
+                x:Name="btnRemoveMany"
+                Height="50"
+                Width="50"
+                VerticalContentAlignment="Center"
+                Panel.ZIndex="5"
+                Padding="0 20 0 0"
+                Click="btnRemoveMany_Click"
+                Content="&#xf2ed;"
+                FontFamily="{StaticResource FontAwesomeLight}"
+                FontSize="35"
+                FontWeight="Bold"
+                Style="{StaticResource buttonBordoStyle}" />
         </StackPanel>
 
         <!--<Image x:Name="myImg" Source="5 - 17_19_03.png" />-->
@@ -124,8 +273,10 @@
                 x:Name="mainListbox"
                 Margin="10,0,0,0"
                 Background="Transparent"
+                SelectionMode="Extended"
                 BorderBrush="Transparent"
                 ItemContainerStyle="{StaticResource ContainerStyle}"
+                SelectionChanged="mainListbox_SelectionChanged"
                 ScrollViewer.CanContentScroll="False"
                 ScrollViewer.PanningMode="VerticalOnly">
                 <ListBox.GroupStyle>
@@ -271,18 +422,19 @@
                                         Style="{StaticResource buttonBordoStyle}" />
 
                                     <ComboBox
-                                        Width="100"
+                                        Width="110"
                                         Height="30"
+                                        Visibility="Visible"
                                         ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
                                         ItemsSource="{Binding Tags}"
-                                        SelectedItem="{Binding SelectedTag}"
+                                        SelectedItem="{Binding SelectedTag, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                         Style="{StaticResource ComboBoxStyle1}">
 
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
                                                     <Border
-                                                        Width="100"
+                                                        Width="110"
                                                         Padding="4"
                                                         HorizontalAlignment="Stretch"
                                                         Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"

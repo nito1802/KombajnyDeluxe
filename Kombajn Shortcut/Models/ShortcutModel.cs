@@ -80,6 +80,8 @@ namespace Kombajn_Shortcut.Models
             }
         }
 
+        public bool IsMouseDoubleMiddleClick { get; set; }
+
         public ModificatorNumeration SelectedModificator
         {
             get

@@ -69,7 +69,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="templateRoot"
-                        Width="100"
+                        Width="110"
                         Margin="0"
                         Background="Transparent"
                         BorderBrush="{StaticResource ComboBox.Static.Border}"
@@ -114,7 +114,7 @@
             <ToggleButton
                 x:Name="toggleButton"
                 Grid.ColumnSpan="2"
-                Width="100"
+                Width="110"
                 Height="25"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -125,7 +125,7 @@
             <ContentPresenter
                 x:Name="contentPresenter"
                 Grid.ColumnSpan="2"
-                Width="100"
+                Width="110"
                 Height="25"
                 Margin="0"
                 HorizontalAlignment="Stretch"

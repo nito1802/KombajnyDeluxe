@@ -20,6 +20,11 @@
         <GradientStop Offset="1" Color="#FF4B4D4F" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="AndroidGradientKey" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF1ED186" />
+        <GradientStop Offset="1" Color="#FF0A9E60" />
+    </LinearGradientBrush>
+    
     <LinearGradientBrush x:Key="InneGradientKey" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Color="#FF1ED186" />
         <GradientStop Offset="1" Color="#FF0A9E60" />
@@ -30,4 +35,14 @@
         <GradientStop Offset="1" Color="#FFE3D61E" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="DateGradientKey" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FFB0B9BB" />
+        <GradientStop Offset="1" Color="#FFB0B9BB" />
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="JetpackComposeGradientKey" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF863CEA" />
+        <GradientStop Offset="1" Color="#FF7F37E1" />
+    </LinearGradientBrush>
+    
 </ResourceDictionary>

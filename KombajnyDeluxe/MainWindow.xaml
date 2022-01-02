@@ -29,6 +29,10 @@
         <ContextMenu>
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
+                CommandParameter="1"
+                Header="Screens from 1 week" />
+            <MenuItem
+                Command="{Binding HistoryOfScreensCommand}"
                 CommandParameter="2"
                 Header="Screens from 2 weeks" />
             <MenuItem

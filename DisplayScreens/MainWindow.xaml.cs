@@ -1,4 +1,5 @@
-﻿using DisplayScreens.Models;
+﻿using DisplayScreens.Enums;
+using DisplayScreens.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -71,68 +72,47 @@ namespace DisplayScreens
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
+        public string StartupPath { get; }
         public bool IsDragging { get; set; }
         public Point StartDragPosition { get; set; }
         public double ScrollFactor { get; set; }
         public double ScrollFactorSettings { get; set; } = 18; //o ile ma byc dzielony wektor kierunku, aby otrzymac scrollFactor
         public ShowStatus ShowStatus { get; set; }
+        public bool InitFilterFrom { get; set; } = true;
 
         public Dictionary<string, string> TagStatesDict { get; set; }
         public ImageFullModel ImageFull { get; set; } = new ImageFullModel();
         public ObservableCollection<ScreenModel> ScreenModels { get; set; } = new ObservableCollection<ScreenModel>();
         public List<ScreenModel> AllScreenModels { get; set; } = new List<ScreenModel>();
         public Dictionary<string, ScreenModel> FullPathToScreenDict { get; set; } = new Dictionary<string, ScreenModel>();
+        Dictionary<string, ShowFilesFromDate> FilterFromDict { get; set; }
 
         public ObservableCollection<TagModel> TagsMain { get; set; } = new ObservableCollection<TagModel>();
+        public List<TagModel> MultipleFilterTags { get; set; } = new List<TagModel>();
+
+        public List<TagModel> ShowFromDates { get; set; } = new List<TagModel>();
 
 
         public static double Scale { get; set; } = 0.20;
+        public ShowFilesFromDate ShowFilesFromDate { get; set; }
 
         public DispatcherTimer TimerDragging { get; set; } = new DispatcherTimer();
         public MainWindow(int displayCondition, string startupPath)
         {
             InitializeComponent();
 
+            StartupPath = startupPath;
+
             this.DataContext = this;
             userCtrlFullScreenImg.DataContext = ImageFull;
+            ShowFilesFromDate = (ShowFilesFromDate)displayCondition;
+            SetActions();
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            var allPng = Directory.GetFiles(startupPath, "*.png", SearchOption.AllDirectories);
+            InitItems();
 
-            var pngFromScreensDir = allPng.Where(a => Directory.GetParent(a).Name == "Screeny").ToList();
-
-            if (pngFromScreensDir == null && !pngFromScreensDir.Any())
-            {
-                MessageBox.Show("Brak screenów!");
-                Close();
-            }
-
-            var screensDetails = pngFromScreensDir.Select(a => new ScreenModel(a, 1920 * Scale, 1080 * Scale))
-                                                  .Where(c => FilterScreens(c.CreationDate, displayCondition))
-                                                  .OrderBy(b => b.CreationDate)
-                                                  //.Take(20)
-                                                  .Reverse()
-                                                  .ToList();
-
-            foreach (var item in screensDetails)
-            {
-                item.SetBitmap();
-            }
-           
-            var grouped = screensDetails.GroupBy(a => a.Directory).ToList();
-
-
-            foreach (var item in grouped)
-            {
-                foreach (var internalItem in item)
-                {
-                    ScreenModels.Add(internalItem);
-                    AllScreenModels.Add(internalItem);
-                    FullPathToScreenDict.Add(internalItem.Name, internalItem);
-                }
-            }
-            sw.Stop();
+            ICollectionView view = CollectionViewSource.GetDefaultView(ScreenModels);
+            view.GroupDescriptions.Add(new PropertyGroupDescription("FormatCreationDate"));
+            mainListbox.ItemsSource = view;
 
             TimerDragging.Tick += (sender, e) =>
             {
@@ -145,10 +125,108 @@ namespace DisplayScreens
 
             TimerDragging.Interval = TimeSpan.FromMilliseconds(10);
 
-            ICollectionView view = CollectionViewSource.GetDefaultView(ScreenModels);
-            view.GroupDescriptions.Add(new PropertyGroupDescription("FormatCreationDate"));
-            mainListbox.ItemsSource = view;
 
+
+            
+            InitComboboxes();
+        }
+
+        private void InitItems()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            TagStatesDict = DeserializeTagsState() ?? new Dictionary<string, string>();
+
+            
+
+            var allPng = Directory.GetFiles(StartupPath, "*.png", SearchOption.AllDirectories);
+
+            var pngFromScreensDir = allPng.Where(a => Directory.GetParent(a).Name == "Screeny").ToList();
+
+            if (pngFromScreensDir == null && !pngFromScreensDir.Any())
+            {
+                MessageBox.Show("Brak screenów!");
+                Close();
+            }
+
+            var screensDetails = pngFromScreensDir.Select(a => new ScreenModel(a, 1920 * Scale, 1080 * Scale))
+                                                  .Where(c => FilterScreens(c.CreationDate, ShowFilesFromDate))
+                                                  .OrderBy(b => b.CreationDate)
+                                                  //.Take(20)
+                                                  .Reverse()
+                                                  .ToList();
+
+            foreach (var item in screensDetails)
+            {
+                item.SetBitmap();
+            }
+
+            var grouped = screensDetails.GroupBy(a => a.Directory).ToList();
+
+
+            foreach (var item in grouped)
+            {
+                foreach (var internalItem in item)
+                {
+                    ScreenModels.Add(internalItem);
+                    AllScreenModels.Add(internalItem);
+                    FullPathToScreenDict.Add(internalItem.Name, internalItem);
+                }
+            }
+
+            foreach (var item in ScreenModels)
+            {
+                item.InitializeTags();
+            }
+
+            foreach (var item in TagStatesDict)
+            {
+                if (!FullPathToScreenDict.ContainsKey(item.Key)) continue;
+
+                var myIdx = item.Value;
+                //if (myIdx == "Everything") myIdx = "Xamarin";
+                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == myIdx));
+            }
+            sw.Stop();
+
+            //ICollectionView view = CollectionViewSource.GetDefaultView(ScreenModels);
+            //view.GroupDescriptions.Add(new PropertyGroupDescription("FormatCreationDate"));
+            //mainListbox.ItemsSource = view;
+        }
+
+        private void InitComboboxes()
+        {
+            ShowFromDates.Add(new TagModel() { Name = "Last Day", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+            ShowFromDates.Add(new TagModel() { Name = "Last Week", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+            ShowFromDates.Add(new TagModel() { Name = "Last Two Weeks", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+            ShowFromDates.Add(new TagModel() { Name = "Last Month", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+            ShowFromDates.Add(new TagModel() { Name = "Last Year", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+            ShowFromDates.Add(new TagModel() { Name = "Everything", BackgroundBrush = (Brush)this.FindResource("DateGradientKey") });
+
+            TagsMain.Add(new TagModel() { Name = "Everything", BackgroundBrush = (Brush)this.FindResource("EverythingGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Android", BackgroundBrush = (Brush)this.FindResource("AndroidGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = (Brush)this.FindResource("JetpackComposeGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Inne", BackgroundBrush = (Brush)this.FindResource("InneGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") });
+
+
+            var emptyTag = new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") };
+
+            MultipleFilterTags.Add(emptyTag);
+            MultipleFilterTags.Add(new TagModel() { Name = "Android", BackgroundBrush = (Brush)this.FindResource("AndroidGradientKey") });
+            MultipleFilterTags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
+            MultipleFilterTags.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = (Brush)this.FindResource("JetpackComposeGradientKey") });
+            MultipleFilterTags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
+            MultipleFilterTags.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
+
+        }
+
+        private void SetActions()
+        {
             ScreenModel.SetFullScreen = (source) =>
             {
                 ImageFull.ImgName = BitmapFromUri(new Uri(source));
@@ -169,13 +247,25 @@ namespace DisplayScreens
                 File.Delete(image.Name);
             };
 
+            FilterFromDict = new Dictionary<string, ShowFilesFromDate>
+            {
+                {"Last Day", ShowFilesFromDate.LastDay },
+                {"Last Week", ShowFilesFromDate.LastWeek },
+                {"Last Two Weeks", ShowFilesFromDate.LastTwoWeeks },
+                {"Last Month", ShowFilesFromDate.LastMonth },
+                {"Last Year", ShowFilesFromDate.LastYear },
+                {"Everything", ShowFilesFromDate.Everything }
+            };
+
             Dictionary<string, string> TagNameToBrushKeyDict = new Dictionary<string, string>
             {
+                {"Android", "AndroidGradientKey" },
                 {"FL Studio", "FlStudioGradientKey" },
                 {"Xamarin", "XamarinGradientKey" },
                 {"ASP", "AspGradientKey" },
                 {"Empty", "EmptyGradientKey" },
                 {"Everything", "EverythingGradientKey" },
+                {"Jetpack Compose", "JetpackComposeGradientKey" },
                 {"Inne", "InneGradientKey" },
             };
 
@@ -243,57 +333,36 @@ namespace DisplayScreens
                                                 .ContainerFromItem(mainListbox.SelectedItem);
                 listBoxItem.Focus();
             };
-
-            foreach (var item in ScreenModels)
-            {
-                item.InitializeTags();
-            }
-
-            TagStatesDict = DeserializeTagsState() ?? new Dictionary<string, string>();
-
-            foreach (var item in TagStatesDict)
-            {
-                if (!FullPathToScreenDict.ContainsKey(item.Key)) continue;
-
-                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == item.Value));
-            }
-
-            TagsMain.Add(new TagModel() { Name = "Everything", BackgroundBrush = (Brush)this.FindResource("EverythingGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "Inne", BackgroundBrush = (Brush)this.FindResource("InneGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") });
         }
 
-        private bool FilterScreens(DateTime date, int condition)
+        private bool FilterScreens(DateTime date, ShowFilesFromDate condition)
         {
-            if (condition == 24)
+            if (condition == ShowFilesFromDate.LastDay)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 1;
             }
-            else if (condition == 1)
+            else if (condition == ShowFilesFromDate.LastWeek)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 7;
             }
-            else if (condition == 2)
+            else if (condition == ShowFilesFromDate.LastTwoWeeks)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 14;
             }
-            else if (condition == 4)
+            else if (condition == ShowFilesFromDate.LastMonth)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 31;
             }
-            else if (condition == 12)
+            else if (condition == ShowFilesFromDate.LastYear)
             {
                 var diff = DateTime.Now - date;
                 return diff.TotalDays <= 365;
             }
-            else if(condition == -1)
+            else if(condition == ShowFilesFromDate.Everything)
             {
                 return true;
             }
@@ -368,6 +437,9 @@ namespace DisplayScreens
             cbMaintTag.Visibility = Visibility.Hidden;
             mySv.Visibility = Visibility.Hidden;
             ShowStatus = ShowStatus.FullImage;
+            stFilterFrom.Visibility = Visibility.Hidden;
+            stMultipleFilter.Visibility = Visibility.Hidden;
+            stMultipleRemove.Visibility = Visibility.Hidden;
         }
 
         private void HideFullImage()
@@ -376,6 +448,9 @@ namespace DisplayScreens
             cbMaintTag.Visibility = Visibility.Visible;
             mySv.Visibility = Visibility.Visible;
             ShowStatus = ShowStatus.ListOfImages;
+            stFilterFrom.Visibility = Visibility.Visible;
+            stMultipleFilter.Visibility = Visibility.Hidden;
+            stMultipleRemove.Visibility = Visibility.Hidden;
         }
 
         private void mySv_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -396,6 +471,7 @@ namespace DisplayScreens
                                             .ItemContainerGenerator
                                             .ContainerFromItem(mainListbox.SelectedItem);
             listBoxItem.Focus();
+            InitFilterFrom = false;
         }
 
         private void mySv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -511,6 +587,82 @@ namespace DisplayScreens
             var res = JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedContent);
 
             return res;
+        }
+
+        private void cbFilterFromDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (InitFilterFrom) return;
+            var changedTag = e.AddedItems[0] as TagModel;
+            
+            ShowFilesFromDate = FilterFromDict[changedTag.Name];
+
+            FullPathToScreenDict.Clear();
+            ScreenModels.Clear();
+            AllScreenModels.Clear();
+
+            InitItems();
+        }
+
+        private void cbSetFilterMultiple_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var changedTag = e.AddedItems[0] as TagModel;
+            
+            foreach (var item in mainListbox.SelectedItems)
+            {
+                var screenModel = (ScreenModel)item;
+                screenModel.SelectedTag = changedTag;
+            }
+
+            foreach (var item in ScreenModels)
+            {
+                item.InitializeTags();
+            }
+
+            foreach (var item in TagStatesDict)
+            {
+                if (!FullPathToScreenDict.ContainsKey(item.Key)) continue;
+
+                var myIdx = item.Value;
+                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == myIdx));
+            }
+        }
+
+        private void mainListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(mainListbox.SelectedItems.Count > 1)
+            {
+                stMultipleFilter.Visibility = Visibility.Visible;
+                stMultipleRemove.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                stMultipleFilter.Visibility = Visibility.Hidden;
+                stMultipleRemove.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            FullPathToScreenDict.Clear();
+            ScreenModels.Clear();
+            AllScreenModels.Clear();
+
+            InitItems();
+        }
+
+        private void btnRemoveMany_Click(object sender, RoutedEventArgs e)
+        {
+            var res = MessageBox.Show("Czy na pewno chcesz usunąć screeny?", "Warning", MessageBoxButton.YesNo);
+
+            if (res == MessageBoxResult.No) return;
+
+            //int removedIdx = mainListbox.SelectedIndex;
+
+            var toRemove = mainListbox.SelectedItems.Cast<ScreenModel>().ToList();
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                ScreenModel.RemoveImageFromCollection(toRemove[i]);
+            }
         }
     }
 }

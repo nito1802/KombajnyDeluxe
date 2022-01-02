@@ -44,7 +44,7 @@ namespace Kombajn
                     KeyCode = "1",
                     actionOnClick = () =>
                     {
-                        string kombajnDoPracyPath = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
+                        string kombajnDoPracyPath = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
                          Process.Start(kombajnDoPracyPath);
                     }
                 },
@@ -55,6 +55,34 @@ namespace Kombajn
                     Describes = "Robi screena aktualnego monitora i wrzuca go do folderu zbiorczego z innymi screenami",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    IsMouseDoubleMiddleClick = true,
+                    KeyCode = "2",
+                    actionOnClick = () =>
+                    {
+                        try
+                        {
+                            string screenPath = screener.TakeScreenshot();
+                            var screenAnimation = new ScreenAnimationWindow(screenPath);
+                            screenAnimation.Left = SystemParameters.VirtualScreenWidth - 250;
+                            screenAnimation.Top = 0;
+
+                            screenAnimation.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString(), "Exception", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            LogError(ex.ToString());
+                        }
+                    }
+                },
+
+                new ShortcutModel()
+                {
+                    Name = "Screener Alt Modificator",
+                    Describes = "Robi screena aktualnego monitora i wrzuca go do folderu zbiorczego z innymi screenami",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Alt,
                     AlternateSelectedModificator = ModificatorNumeration.None,
                     KeyCode = "2",
                     actionOnClick = () =>
@@ -110,7 +138,7 @@ namespace Kombajn
                     KeyCode = "L",
                     actionOnClick = () =>
                     {
-                        string rulerProcessPath = @"C:\Users\dante\source\Repos 2020\Linijka\MojaLinijka\bin\Debug\Linijka.exe";
+                        string rulerProcessPath = @"C:\Users\dante\source\repos myProject\jszczupak-linijka-febed5c118da\MojaLinijka\bin\Release\Linijka.exe";
 
                         Process process = new Process();
                         process.StartInfo.FileName = rulerProcessPath;
@@ -185,9 +213,9 @@ namespace Kombajn
                     KeyCode = "5",
                     actionOnClick = () =>
                     {
-                        string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
+                        string path = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
 
-                        string searchScreenFrom = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
+                        string searchScreenFrom = @"C:\Users\dante\Desktop\MojeDane";
                         int dateRange = 24;
 
                         Process process = new Process();
@@ -210,7 +238,7 @@ namespace Kombajn
                     KeyCode = "6",
                     actionOnClick = () =>
                     {
-                        string path = @"C:\Users\dante\source\Repos 2020\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
+                        string path = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
 
                         string searchScreenFrom = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
                         int dateRange = 1;
@@ -229,13 +257,13 @@ namespace Kombajn
                 {
                     Name = "Process Killer",
                     Describes = "Zabija proces po nazwie",
-                    AllModifs = true,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.Alt,
-                    KeyCode = "R",
+                    AllModifs = false,
+                    SelectedModificator = ModificatorNumeration.Alt,
+                    AlternateSelectedModificator = ModificatorNumeration.None,
+                    KeyCode = "Q",
                     actionOnClick = () =>
                     {
-                        string processKiller = @"C:\Users\dante\source\Repos 2020\Process Killer\Process Killer\bin\Debug\Process Killer.exe";
+                        string processKiller = @"C:\Users\dante\source\Repos 2020\Process Killer\Process Killer\bin\Release\Process Killer.exe";
                         Process.Start(processKiller);
                     }
                 },
