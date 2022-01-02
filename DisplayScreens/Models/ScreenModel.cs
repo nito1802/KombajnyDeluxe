@@ -22,12 +22,16 @@ namespace DisplayScreens
         private RelayCommand onMouseLeave;
         private RelayCommand onMouseLeftButtonDown;
         private RelayCommand removeImage;
+        private RelayCommand renameImage;
 
-        public static Action<string> SetFullScreen { get; set; }
+
+        public static Action<string, string, string> SetFullScreen { get; set; }
         public static Func<string, MessageBoxResult> MessageBoxShow { get; set; }
         public static Action<ScreenModel> RemoveImageFromCollection { get; set; }
+        public static Action<ScreenModel> RenameImageAction { get; set; }
         public static Func<string, Brush> GetBrushForTagFunc { get; set; }
         public static Action<string, string> SerializeSelectedTag { get; set; }
+        public static Action<string, string> SerializeSelectedDisplayName { get; set; }
 
         public ObservableCollection<TagModel> Tags { get; set; } = new ObservableCollection<TagModel>();
 
@@ -114,6 +118,23 @@ namespace DisplayScreens
         }
 
         public string Name { get; set; }
+
+        private string displayedName;
+
+        public string DisplayedName
+        {
+            get 
+            { 
+                return string.IsNullOrEmpty(displayedName) ? Description : displayedName; 
+            }
+            set
+            {
+                displayedName = value;
+                SerializeSelectedDisplayName(Name, displayedName);
+                OnPropertyChanged(nameof(DisplayedName));
+            }
+        }
+
         public string Directory { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate
@@ -216,7 +237,7 @@ namespace DisplayScreens
                 {
                     onMouseLeftButtonDown = new RelayCommand(param =>
                     {
-                        SetFullScreen?.Invoke(Name);
+                        SetFullScreen?.Invoke(Name, DisplayedName, SelectedTag.Name);
                         //InsertSingleStrumAction?.Invoke(this);
                     }
                      , param => true);
@@ -239,6 +260,21 @@ namespace DisplayScreens
                      , param => true);
                 }
                 return removeImage;
+            }
+        }
+        public ICommand RenameImage
+        {
+            get
+            {
+                if (renameImage == null)
+                {
+                    renameImage = new RelayCommand(param =>
+                    {
+                        RenameImageAction(this);
+                    }
+                     , param => true);
+                }
+                return renameImage;
             }
         }
 

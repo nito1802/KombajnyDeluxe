@@ -36,7 +36,10 @@
     </Window.Resources>
     <Grid MouseWheel="Grid_MouseWheel">
         
-        <local:FullScreenImageControl Visibility="Hidden" x:Name="userCtrlFullScreenImg" ImageSourcePath="{Binding ImgName, UpdateSourceTrigger=PropertyChanged}"/>
+        <local:FullScreenImageControl Visibility="Hidden" x:Name="userCtrlFullScreenImg" 
+                                      ImageSourcePath="{Binding ImgName, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayedName="{Binding DisplayedName, UpdateSourceTrigger=PropertyChanged}"
+                                      />
 
         
         
@@ -254,6 +257,36 @@
                 Style="{StaticResource buttonBordoStyle}" />
         </StackPanel>
 
+        <StackPanel
+            x:Name="stMultipleRename"
+            Margin="0,540,25,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="5"
+            Orientation="Horizontal">
+
+            <TextBlock
+                Text="Rename Many:"
+                FontSize="16"
+                Foreground="#FFF1F1F1"
+                VerticalAlignment="Center"
+                />
+
+            <Button
+                x:Name="btnRenameMany"
+                Height="50"
+                Width="50"
+                VerticalContentAlignment="Center"
+                Panel.ZIndex="5"
+                Padding="0 20 0 0"
+                Click="btnRenameMany_Click"
+                Content="&#xf044;"
+                FontFamily="{StaticResource FontAwesomeLight}"
+                FontSize="35"
+                FontWeight="Bold"
+                Style="{StaticResource buttonBordoStyle}" />
+        </StackPanel>
+
         <!--<Image x:Name="myImg" Source="5 - 17_19_03.png" />-->
 
         <!--<local:RectangleColorControl Panel.ZIndex="5"/>-->
@@ -406,11 +439,12 @@
                                     FontSize="16"
                                     FontWeight="Normal"
                                     Foreground="{StaticResource AlmostWhite}"
-                                    Text="{Binding Description}" 
+                                    Text="{Binding DisplayedName}" 
                                     />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                                     <Button
                                         Content="&#xf044;"
+                                        Command="{Binding RenameImage}"
                                         FontFamily="{StaticResource FontAwesomeLight}"
                                         FontSize="20"
                                         Style="{StaticResource buttonBordoStyle}" />

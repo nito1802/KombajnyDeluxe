@@ -1,0 +1,92 @@
+﻿<Window x:Class="DisplayScreens.Windows.ChangeScreenNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DisplayScreens.Windows"
+        mc:Ignorable="d"
+        Title="ChangeScreenNameWindow" 
+        Background="#FF2090FF"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        Loaded="Window_Loaded"
+        Width="250">
+    <Window.Resources>
+
+        <DropShadowEffect x:Key="RedglowEffect" BlurRadius="10" Opacity="1" ShadowDepth="-44" Color="#FFF02020"></DropShadowEffect>
+
+        <Style TargetType="Button" x:Key="StyleButton">
+            <Setter Property="BorderBrush" Value="#FF232323" />
+            <Setter Property="Background" Value="#FF252526" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF084F6A" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF17617E" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="#FF4795F3" BorderThickness="1">
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF323232" Offset="0"/>
+                    <GradientStop Color="#FF2B2B2B" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="15 10 0 0"  Grid.ColumnSpan="3" HorizontalAlignment="Left" Text="Podaj nową nazwę" TextWrapping="Wrap" FontSize="20" Foreground="White" />
+            <TextBox Name="tbDisplayedName" Margin="15 5 0 20" Grid.Row="1" Width="200" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="#FFF0F0F0" PreviewKeyUp="tbDisplayedName_PreviewKeyUp"/>
+
+            <TextBlock Margin="15 10 0 0"  Grid.ColumnSpan="3" Grid.Row="2" HorizontalAlignment="Left" Text="Nazwa pliku (tylko do odczytu)" TextWrapping="Wrap" FontSize="10" Foreground="White" />
+            <TextBox Name="tbFileName" Margin="15 5 0 20" Grid.Row="3" IsEnabled="True" IsReadOnly="True" Width="200" Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.ColumnSpan="3" HorizontalAlignment="Left" Background="#FF838383" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" PreviewMouseLeftButtonDown="tbFileName_PreviewMouseLeftButtonDown"/>
+
+            <Button Name="btnYes" Grid.Row="4" FontSize="20" Style="{StaticResource StyleButton}" Click="btnYes_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Tak" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Name="btnNo" Grid.Row="4" Grid.Column="2" FontSize="20" Style="{StaticResource StyleButton}" Click="btnNo_Click" >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Nie" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

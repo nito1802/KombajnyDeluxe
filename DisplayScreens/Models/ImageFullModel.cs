@@ -20,6 +20,17 @@ namespace DisplayScreens.Models
             }
         }
 
+        private string displayedName;
+
+        public string DisplayedName
+        {
+            get { return displayedName; }
+            set
+            {
+                displayedName = value;
+                OnPropertyChanged(nameof(DisplayedName));
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged; //INotifyPropertyChanged

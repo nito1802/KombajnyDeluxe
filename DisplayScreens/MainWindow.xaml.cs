@@ -1,5 +1,6 @@
 ﻿using DisplayScreens.Enums;
 using DisplayScreens.Models;
+using DisplayScreens.Windows;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,9 @@ namespace DisplayScreens
         public ShowStatus ShowStatus { get; set; }
         public bool InitFilterFrom { get; set; } = true;
 
-        public Dictionary<string, string> TagStatesDict { get; set; }
+        public static Dictionary<string, string> TagStatesDict { get; set; }
+        public static Dictionary<string, string> ScreenDisplayedNames { get; set; }
+
         public ImageFullModel ImageFull { get; set; } = new ImageFullModel();
         public ObservableCollection<ScreenModel> ScreenModels { get; set; } = new ObservableCollection<ScreenModel>();
         public Dictionary<string, ScreenModel> FullPathToScreenDict { get; set; } = new Dictionary<string, ScreenModel>();
@@ -136,8 +139,9 @@ namespace DisplayScreens
             sw.Start();
 
             TagStatesDict = DeserializeTagsState() ?? new Dictionary<string, string>();
+            ScreenDisplayedNames = DeserializeDisplayedNames() ?? new Dictionary<string, string>();
 
-            
+
 
             var allPng = Directory.GetFiles(StartupPath, "*.png", SearchOption.AllDirectories);
 
@@ -187,6 +191,11 @@ namespace DisplayScreens
             {
                 foreach (var internalItem in item)
                 {
+                    if(ScreenDisplayedNames.ContainsKey(internalItem.Name))
+                    {
+                        internalItem.DisplayedName = ScreenDisplayedNames[internalItem.Name];
+                    }
+
                     ScreenModels.Add(internalItem);
                     FullPathToScreenDict.Add(internalItem.Name, internalItem);
                 }
@@ -243,9 +252,14 @@ namespace DisplayScreens
 
         private void SetActions()
         {
-            ScreenModel.SetFullScreen = (source) =>
+            ScreenModel.SetFullScreen = (source, displayedName, selectedTagName) =>
             {
                 ImageFull.ImgName = BitmapFromUri(new Uri(source));
+                ImageFull.DisplayedName = displayedName;
+                if (selectedTagName != "Empty")
+                {
+                    ImageFull.DisplayedName += $" ({selectedTagName})";
+                }
                 ShowFullImage();
                 userCtrlFullScreenImg.btnNext.Focus();
             };
@@ -261,6 +275,19 @@ namespace DisplayScreens
                 image.ButtonImage.Freeze();
                 ImageFull.ImgName?.Freeze();
                 File.Delete(image.Name);
+            };
+
+            ScreenModel.RenameImageAction = (image) =>
+            {
+                var changeVideoDisplayNameWindow = new ChangeScreenNameWindow(image.DisplayedName, image.Name);
+
+                changeVideoDisplayNameWindow.Owner = this;
+                changeVideoDisplayNameWindow.ShowDialog();
+
+                if (changeVideoDisplayNameWindow.Result == true)
+                {
+                    image.DisplayedName = changeVideoDisplayNameWindow.Text;
+                }
             };
 
             FilterFromDict = new Dictionary<string, ShowFilesFromDate>
@@ -298,7 +325,15 @@ namespace DisplayScreens
                 if (TagStatesDict.ContainsKey(fullPath)) TagStatesDict[fullPath] = tagName;
                 else TagStatesDict.Add(fullPath, tagName);
 
-                SerializeTagsState(TagStatesDict);
+                SerializeTagsState();
+            };
+
+            ScreenModel.SerializeSelectedDisplayName= (fullPath, tagName) =>
+            {
+                if (ScreenDisplayedNames.ContainsKey(fullPath)) ScreenDisplayedNames[fullPath] = tagName;
+                else ScreenDisplayedNames.Add(fullPath, tagName);
+
+                SerializeDisplayedNames();
             };
 
             FullScreenImageControl.PreviousScreen = () =>
@@ -309,6 +344,7 @@ namespace DisplayScreens
                 var selectedItem = mainListbox.SelectedItem as ScreenModel;
 
                 ImageFull.ImgName = selectedItem.ButtonImage;
+                ImageFull.DisplayedName = selectedItem.DisplayedName;
             };
 
             FullScreenImageControl.NextScreen = () =>
@@ -319,6 +355,7 @@ namespace DisplayScreens
                 var selectedItem = mainListbox.SelectedItem as ScreenModel;
 
                 ImageFull.ImgName = selectedItem.ButtonImage;
+                ImageFull.DisplayedName = selectedItem.DisplayedName;
             };
 
             FullScreenImageControl.RemoveScreen = () =>
@@ -338,6 +375,7 @@ namespace DisplayScreens
                     var selectedItemNext = mainListbox.SelectedItem as ScreenModel;
 
                     ImageFull.ImgName = selectedItemNext.ButtonImage;
+                    ImageFull.DisplayedName = selectedItem.DisplayedName;
                 }
             };
 
@@ -456,6 +494,7 @@ namespace DisplayScreens
             stFilterFrom.Visibility = Visibility.Hidden;
             stMultipleFilter.Visibility = Visibility.Hidden;
             stMultipleRemove.Visibility = Visibility.Hidden;
+            stMultipleRename.Visibility = Visibility.Hidden;
         }
 
         private void HideFullImage()
@@ -467,6 +506,7 @@ namespace DisplayScreens
             stFilterFrom.Visibility = Visibility.Visible;
             stMultipleFilter.Visibility = Visibility.Hidden;
             stMultipleRemove.Visibility = Visibility.Hidden;
+            stMultipleRename.Visibility = Visibility.Hidden;
         }
 
         private void mySv_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -517,6 +557,13 @@ namespace DisplayScreens
                 if (selectedItem != null)
                 {
                     ImageFull.ImgName = BitmapFromUri(new Uri(selectedItem.Name));
+                    ImageFull.DisplayedName = selectedItem.DisplayedName;
+
+                    if(selectedItem.SelectedTag.Name != "Empty")
+                    {
+                        ImageFull.DisplayedName += $" ({selectedItem.SelectedTag.Name})";
+                    }
+
                     ShowFullImage();
                 }
             }
@@ -567,27 +614,27 @@ namespace DisplayScreens
             }
         }
 
-        public static void SerializeTagsState(Dictionary<string,string> tagsState)
+        private static void SerializeDictionary(Dictionary<string, string> dict, string fileName)
         {
             string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string applicationFolder = "KombajnDeluxe Data";
             var appDataPath = System.IO.Path.Combine(myDocumentPath, applicationFolder);
             if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
 
-            string serializedStatePath = System.IO.Path.Combine(appDataPath, "DisplayScreenTags.json");
+            string serializedStatePath = System.IO.Path.Combine(appDataPath, fileName);
 
-            var serializedContent = JsonConvert.SerializeObject(tagsState);
+            var serializedContent = JsonConvert.SerializeObject(dict, Formatting.Indented);
             File.WriteAllText(serializedStatePath, serializedContent);
         }
 
-        private static Dictionary<string, string> DeserializeTagsState()
+        private static Dictionary<string, string> DeserializeTagsState(string fileName)
         {
             string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string applicationFolder = "KombajnDeluxe Data";
             var appDataPath = System.IO.Path.Combine(myDocumentPath, applicationFolder);
 
             if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
-            string serializedStatePath = System.IO.Path.Combine(appDataPath, "DisplayScreenTags.json");
+            string serializedStatePath = System.IO.Path.Combine(appDataPath, fileName);
 
             if (!File.Exists(serializedStatePath)) return null;
 
@@ -595,6 +642,26 @@ namespace DisplayScreens
             var res = JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedContent);
 
             return res;
+        }
+
+        private static void SerializeTagsState()
+        {
+            SerializeDictionary(TagStatesDict, "DisplayScreenTags.json");
+        }
+
+        private static Dictionary<string, string> DeserializeTagsState()
+        {
+            return DeserializeTagsState("DisplayScreenTags.json");
+        }
+        
+        private static void SerializeDisplayedNames()
+        {
+            SerializeDictionary(ScreenDisplayedNames, "ScreenDisplayedNames.json");
+        }
+
+        private static Dictionary<string, string> DeserializeDisplayedNames()
+        {
+            return DeserializeTagsState("ScreenDisplayedNames.json");
         }
 
         private void cbFilterFromDate_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -641,11 +708,13 @@ namespace DisplayScreens
             {
                 stMultipleFilter.Visibility = Visibility.Visible;
                 stMultipleRemove.Visibility = Visibility.Visible;
+                stMultipleRename.Visibility = Visibility.Visible;
             }
             else
             {
                 stMultipleFilter.Visibility = Visibility.Hidden;
                 stMultipleRemove.Visibility = Visibility.Hidden;
+                stMultipleRename.Visibility = Visibility.Hidden;
             }
         }
 
@@ -669,6 +738,30 @@ namespace DisplayScreens
             for (int i = 0; i < toRemove.Count; i++)
             {
                 ScreenModel.RemoveImageFromCollection(toRemove[i]);
+            }
+        }
+
+        private void btnRenameMany_Click(object sender, RoutedEventArgs e)
+        {
+            var toRename = mainListbox.SelectedItems
+                .Cast<ScreenModel>()
+                .OrderBy(a => a.Name)
+                .ToList();
+
+            var changeVideoDisplayNameWindow = new ChangeScreenNameWindow("", $"Count: {toRename.Count}");
+
+
+            changeVideoDisplayNameWindow.Owner = this;
+            changeVideoDisplayNameWindow.ShowDialog();
+
+            if (changeVideoDisplayNameWindow.Result == true)
+            {
+                for (int i = 0; i < toRename.Count; i++)
+                {
+                    var item = toRename[i];
+
+                    item.DisplayedName = $"{changeVideoDisplayNameWindow.Text} - Pt. {i+1}";
+                }
             }
         }
     }

@@ -19,13 +19,18 @@
     <Grid>
         <TextBlock
             x:Name="tbTitleScreen"
+            Padding="3"
+            Background="#C0000000"
             Panel.ZIndex="11"
             Margin="50 0 0 0"
-            FontSize="30"
-            Foreground="#FFF1F1F1"
-            Opacity="0.7" />
+            FontSize="28"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Foreground="#D7B15F"
+            Opacity="0.9" />
 
-        <Button
+
+            <Button
             x:Name="btnBackFromFull"
             Width="50"
             Height="50"

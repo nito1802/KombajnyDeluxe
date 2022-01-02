@@ -57,6 +57,38 @@ namespace DisplayScreens
         }
 
 
+        public string DisplayedName
+        {
+            get { return (string)GetValue(DisplayedNameProperty); }
+            set
+            {
+                SetValue(DisplayedNameProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for ImageSourcePath.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisplayedNameProperty =
+            DependencyProperty.Register("DisplayedName", typeof(string), typeof(FullScreenImageControl), new PropertyMetadata(default(string), DisplayedNameChanged));
+
+
+        private static void DisplayedNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            FullScreenImageControl UserControl1Control = d as FullScreenImageControl;
+
+            if (UserControl1Control != null) UserControl1Control.DisplayedNameNonStaticChanged(e);
+
+        }
+
+        public void DisplayedNameNonStaticChanged(DependencyPropertyChangedEventArgs e)
+        {
+            var newDisplayedName = e.NewValue as string;
+
+            if (newDisplayedName != null) tbTitleScreen.Text = newDisplayedName;
+            //tbTitleScreen.Text = "15 sierpnia 2 555";
+            //imgUserControl.Source = ImageSourcePath;
+
+        }
+
         public FullScreenImageControl()
         {
             InitializeComponent();
