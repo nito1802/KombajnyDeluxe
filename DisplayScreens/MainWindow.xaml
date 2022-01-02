@@ -406,7 +406,8 @@
                                     FontSize="16"
                                     FontWeight="Normal"
                                     Foreground="{StaticResource AlmostWhite}"
-                                    Text="{Binding Description}" />
+                                    Text="{Binding Description}" 
+                                    />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                                     <Button
                                         Content="&#xf044;"

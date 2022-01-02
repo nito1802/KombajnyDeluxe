@@ -80,7 +80,7 @@ namespace DisplayScreens
             Tags.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = GetBrushForTagFunc("Jetpack Compose") });
             Tags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = GetBrushForTagFunc("Xamarin") });
             Tags.Add(new TagModel() { Name = "ASP", BackgroundBrush = GetBrushForTagFunc("ASP") });
-            Tags.Add(new TagModel() { Name = "Inne", BackgroundBrush = GetBrushForTagFunc("Inne") });
+            Tags.Add(new TagModel() { Name = "Unity", BackgroundBrush = GetBrushForTagFunc("Unity") });
             Tags.Add(emptyTag);
 
             selectedTag = emptyTag;

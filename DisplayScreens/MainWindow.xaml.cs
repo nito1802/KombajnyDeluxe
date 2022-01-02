@@ -83,7 +83,6 @@ namespace DisplayScreens
         public Dictionary<string, string> TagStatesDict { get; set; }
         public ImageFullModel ImageFull { get; set; } = new ImageFullModel();
         public ObservableCollection<ScreenModel> ScreenModels { get; set; } = new ObservableCollection<ScreenModel>();
-        public List<ScreenModel> AllScreenModels { get; set; } = new List<ScreenModel>();
         public Dictionary<string, ScreenModel> FullPathToScreenDict { get; set; } = new Dictionary<string, ScreenModel>();
         Dictionary<string, ShowFilesFromDate> FilterFromDict { get; set; }
 
@@ -157,6 +156,25 @@ namespace DisplayScreens
                                                   .Reverse()
                                                   .ToList();
 
+            var mainTag = cbMaintTag.SelectedItem as TagModel;
+
+            if(mainTag != null && mainTag.Name != "Everything")
+            {
+                screensDetails = screensDetails
+                    .Where(a =>
+                    {
+                        string tagName = TagStatesDict.ContainsKey(a.Name) ? TagStatesDict[a.Name] : null;
+
+                        if (tagName != null)
+                        {
+                            return tagName == mainTag.Name;
+                        }
+
+                        return false;
+                    })
+                    .ToList();
+            }
+
             foreach (var item in screensDetails)
             {
                 item.SetBitmap();
@@ -170,7 +188,6 @@ namespace DisplayScreens
                 foreach (var internalItem in item)
                 {
                     ScreenModels.Add(internalItem);
-                    AllScreenModels.Add(internalItem);
                     FullPathToScreenDict.Add(internalItem.Name, internalItem);
                 }
             }
@@ -184,9 +201,7 @@ namespace DisplayScreens
             {
                 if (!FullPathToScreenDict.ContainsKey(item.Key)) continue;
 
-                var myIdx = item.Value;
-                //if (myIdx == "Everything") myIdx = "Xamarin";
-                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == myIdx));
+                FullPathToScreenDict[item.Key].InitializeSelectedTag(FullPathToScreenDict[item.Key].Tags.First(a => a.Name == item.Value));
             }
             sw.Stop();
 
@@ -210,7 +225,7 @@ namespace DisplayScreens
             TagsMain.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
             TagsMain.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
             TagsMain.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = (Brush)this.FindResource("JetpackComposeGradientKey") });
-            TagsMain.Add(new TagModel() { Name = "Inne", BackgroundBrush = (Brush)this.FindResource("InneGradientKey") });
+            TagsMain.Add(new TagModel() { Name = "Unity", BackgroundBrush = (Brush)this.FindResource("UnityGradientKey") });
             TagsMain.Add(new TagModel() { Name = "Empty", BackgroundBrush = (Brush)this.FindResource("EmptyGradientKey") });
 
 
@@ -220,6 +235,7 @@ namespace DisplayScreens
             MultipleFilterTags.Add(new TagModel() { Name = "Android", BackgroundBrush = (Brush)this.FindResource("AndroidGradientKey") });
             MultipleFilterTags.Add(new TagModel() { Name = "FL Studio", BackgroundBrush = (Brush)this.FindResource("FlStudioGradientKey") });
             MultipleFilterTags.Add(new TagModel() { Name = "Jetpack Compose", BackgroundBrush = (Brush)this.FindResource("JetpackComposeGradientKey") });
+            MultipleFilterTags.Add(new TagModel() { Name = "Unity", BackgroundBrush = (Brush)this.FindResource("UnityGradientKey") });
             MultipleFilterTags.Add(new TagModel() { Name = "Xamarin", BackgroundBrush = (Brush)this.FindResource("XamarinGradientKey") });
             MultipleFilterTags.Add(new TagModel() { Name = "ASP", BackgroundBrush = (Brush)this.FindResource("AspGradientKey") });
 
@@ -266,7 +282,7 @@ namespace DisplayScreens
                 {"Empty", "EmptyGradientKey" },
                 {"Everything", "EverythingGradientKey" },
                 {"Jetpack Compose", "JetpackComposeGradientKey" },
-                {"Inne", "InneGradientKey" },
+                {"Unity", "UnityGradientKey" },
             };
 
 
@@ -539,23 +555,15 @@ namespace DisplayScreens
 
         private void cbMaintTag_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (InitFilterFrom) return;
             var changedTag = e.AddedItems[0] as TagModel;
 
             if(changedTag != null)
             {
                 ScreenModels.Clear();
+                FullPathToScreenDict.Clear();
 
-                if (changedTag.Name == "Everything")
-                {
-                    AllScreenModels.ForEach(a => ScreenModels.Add(a));
-                }
-                else
-                {
-                    foreach (var item in AllScreenModels.Where(a => a.SelectedTag.Name == changedTag.Name))
-                    {
-                        ScreenModels.Add(item);
-                    }
-                }
+                InitItems();
             }
         }
 
@@ -598,13 +606,13 @@ namespace DisplayScreens
 
             FullPathToScreenDict.Clear();
             ScreenModels.Clear();
-            AllScreenModels.Clear();
 
             InitItems();
         }
 
         private void cbSetFilterMultiple_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (InitFilterFrom) return;
             var changedTag = e.AddedItems[0] as TagModel;
             
             foreach (var item in mainListbox.SelectedItems)
@@ -645,7 +653,6 @@ namespace DisplayScreens
         {
             FullPathToScreenDict.Clear();
             ScreenModels.Clear();
-            AllScreenModels.Clear();
 
             InitItems();
         }
