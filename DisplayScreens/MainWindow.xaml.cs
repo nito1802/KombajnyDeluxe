@@ -526,7 +526,7 @@ namespace DisplayScreens
             var listBoxItem = (ListBoxItem)mainListbox
                                             .ItemContainerGenerator
                                             .ContainerFromItem(mainListbox.SelectedItem);
-            listBoxItem.Focus();
+            listBoxItem?.Focus();
             InitFilterFrom = false;
         }
 
