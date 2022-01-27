@@ -92,19 +92,19 @@ namespace KombajnDoPracy
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
-                Close();
+                WindowState = WindowState.Minimized;
             };
             MyDataItem.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
-                Close();
+                WindowState = WindowState.Minimized;
             };
             MyDataNotes.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
-                Close();
+                WindowState = WindowState.Minimized;
             };
         }
 
@@ -208,7 +208,7 @@ namespace KombajnDoPracy
             }
             else if (e.ChangedButton == MouseButton.Middle)
             {
-                App.Current.Shutdown();
+                WindowState = WindowState.Minimized;
             }
         }
 
@@ -229,7 +229,7 @@ namespace KombajnDoPracy
         {
             if(e.Key == Key.Escape)
             {
-                App.Current.Shutdown();
+                WindowState = WindowState.Minimized;
             }
         }
 
