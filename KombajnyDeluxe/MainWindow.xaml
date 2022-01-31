@@ -317,6 +317,10 @@
                                 Padding="5"
                                 Command="{Binding Path=OpenUrlCommand}"
                                 Style="{StaticResource LinkButton}">
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="RightClick" Command="{Binding CopyPath}" />
+                                </Button.InputBindings>
+                                
                                 <StackPanel Width="230">
                                     <TextBlock
                                         HorizontalAlignment="Center"

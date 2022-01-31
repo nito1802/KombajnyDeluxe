@@ -86,6 +86,29 @@ namespace KombajnDoPracy
             }
         }
 
+        private ICommand copyPath;
+
+        [JsonIgnore]
+        public ICommand CopyPath
+        {
+            get
+            {
+                if (copyPath == null)
+                {
+                    copyPath = new RelayCommand(
+                        param =>
+                        {
+                            Clipboard.SetText(Path);
+                            ClickCounter++;
+                            CloseApplication();
+                        },
+                        null
+                    );
+                }
+                return copyPath;
+            }
+        }
+
         //public override string ToString()
         //{
         //    return $"ButtonFacade Name: {Name} Path: {Path}";
