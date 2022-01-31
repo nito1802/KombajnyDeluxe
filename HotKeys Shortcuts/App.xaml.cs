@@ -172,9 +172,9 @@ namespace Kombajn
                     {
                         string dailyTextFile = ButtonPathGenerator.GetDailyFileFullPath(".txt");
 
-                        Process process = new Process();
-                        process.StartInfo.FileName = dailyTextFile;
-                        process.Start();
+                        var processStartInfo = new ProcessStartInfo() { FileName = dailyTextFile, UseShellExecute = true };
+                        var process = Process.Start(processStartInfo);
+
                         IntPtr handle = process.Handle;
                         WinApiHelper.SetForegroundWindow(handle);
                     }
@@ -192,9 +192,8 @@ namespace Kombajn
                     {
                         string dailyTextFile = ButtonPathGenerator.GetAllDataNoteFullPath();
 
-                        Process process = new Process();
-                        process.StartInfo.FileName = dailyTextFile;
-                        process.Start();
+                        var processStartInfo = new ProcessStartInfo() { FileName = dailyTextFile, UseShellExecute = true };
+                        var process = Process.Start(processStartInfo);
                         IntPtr handle = process.Handle;
                         WinApiHelper.SetForegroundWindow(handle);
                     }
