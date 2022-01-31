@@ -1,4 +1,5 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
+﻿using Common;
+using Hardcodet.Wpf.TaskbarNotification;
 using Kombajn_Shortcut.Helpers;
 using Kombajn_Shortcut.Models;
 using Kombajn_Shortcut.Views;
@@ -44,8 +45,7 @@ namespace Kombajn
                     KeyCode = "1",
                     actionOnClick = () =>
                     {
-                        string kombajnDoPracyPath = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\KombajnyDeluxe\bin\Release\KombajnDoPracy.exe";
-                         Process.Start(kombajnDoPracyPath);
+                         Process.Start(AppsPath.WorkBoardPath);
                     }
                 },
 
@@ -138,10 +138,8 @@ namespace Kombajn
                     KeyCode = "L",
                     actionOnClick = () =>
                     {
-                        string rulerProcessPath = @"C:\Users\dante\source\repos myProject\jszczupak-linijka-febed5c118da\MojaLinijka\bin\Release\Linijka.exe";
-
                         Process process = new Process();
-                        process.StartInfo.FileName = rulerProcessPath;
+                        process.StartInfo.FileName = AppsPath.LinijkaPath;
                         process.Start();
                         IntPtr handle = process.Handle;
                         WinApiHelper.SetForegroundWindow(handle);
@@ -158,8 +156,7 @@ namespace Kombajn
                     KeyCode = "T",
                     actionOnClick = () =>
                     {
-                        string snippingCzasowyWylacznik = @"C:\Users\dante\source\Repos 2020\GetColor\GetColor\bin\Debug\GetColor.exe";
-                        Process.Start(snippingCzasowyWylacznik);
+                        Process.Start(AppsPath.GetColorPath);
                     }
                 },
 
@@ -203,54 +200,6 @@ namespace Kombajn
                     }
                 },
 
-                new ShortcutModel()
-                {
-                    Name = "DisplayScreens from today",
-                    Describes = "Wszystkie screeny z dzisiaj",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "5",
-                    actionOnClick = () =>
-                    {
-                        string path = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
-
-                        string searchScreenFrom = @"C:\Users\dante\Desktop\MojeDane";
-                        int dateRange = 24;
-
-                        Process process = new Process();
-                        process.StartInfo.FileName = path;
-                        process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
-                        process.Start();
-                        IntPtr handle = process.Handle;
-                        WinApiHelper.SetForegroundWindow(handle);
-                    }
-                },
-
-
-                new ShortcutModel()
-                {
-                    Name = "DisplayScreens from weeek",
-                    Describes = "Wszystkie screeny z tygodnia",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "6",
-                    actionOnClick = () =>
-                    {
-                        string path = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
-
-                        string searchScreenFrom = @"C:\Users\dante\OneDrive\Pulpit\MojeDane";
-                        int dateRange = 1;
-
-                        Process process = new Process();
-                        process.StartInfo.FileName = path;
-                        process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
-                        process.Start();
-                        IntPtr handle = process.Handle;
-                        WinApiHelper.SetForegroundWindow(handle);
-                    }
-                },
 
 
                 new ShortcutModel()
@@ -263,8 +212,7 @@ namespace Kombajn
                     KeyCode = "Q",
                     actionOnClick = () =>
                     {
-                        string processKiller = @"C:\Users\dante\source\Repos 2020\Process Killer\Process Killer\bin\Release\Process Killer.exe";
-                        Process.Start(processKiller);
+                        Process.Start(AppsPath.ProcessKillerPath);
                     }
                 },
 

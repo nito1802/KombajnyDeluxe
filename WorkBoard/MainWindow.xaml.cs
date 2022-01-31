@@ -1,4 +1,5 @@
-﻿using KombajnDoPracy.ViewModels;
+﻿using Common;
+using KombajnDoPracy.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,7 @@ namespace KombajnDoPracy
             InitializeComponent();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string mojeDanePath = Path.Combine(desktopPath, "MojeDane");
+            string mojeDanePath = KombajnCommon.MojeDanePath;
             HistoryWindowViewModel = new HistoryWindowViewModel(mojeDanePath);
 
             this.DataContext = HistoryWindowViewModel;

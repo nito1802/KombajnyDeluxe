@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -14,7 +15,7 @@ namespace KombajnDoPracy.Helpers
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            string result = Path.Combine(desktopPath, "MojeDane");
+            string result = KombajnCommon.MojeDanePath;
 
             if (!Directory.Exists(result)) Directory.CreateDirectory(result);
 
@@ -25,7 +26,7 @@ namespace KombajnDoPracy.Helpers
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            string result = Path.Combine(desktopPath, "All Dane");
+            string result = KombajnCommon.AllDanePath;
 
             if (!Directory.Exists(result)) Directory.CreateDirectory(result);
 

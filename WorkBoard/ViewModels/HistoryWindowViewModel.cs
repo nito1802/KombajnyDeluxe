@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -194,7 +195,7 @@ namespace KombajnDoPracy
                         {
                             string path = @"C:\Users\dante\source\repos myProject\KombajnyDeluxe\DisplayScreens\bin\Release\netcoreapp3.1\DisplayScreens.exe";
 
-                            string searchScreenFrom = @"C:\Users\dante\Desktop\MojeDane";
+                            string searchScreenFrom = KombajnCommon.MojeDanePath;
                             int dateRange = int.Parse(param.ToString()); ;
 
                             Process process = new Process();
