@@ -205,7 +205,8 @@ namespace KombajnDoPracy
                     openOrRestoreWindowCommand = new RelayCommand(
                         param =>
                         {
-                            Process.Start(Path);
+                            var processStartInfo = new ProcessStartInfo() { FileName = Path, UseShellExecute = true };
+                            Process.Start(processStartInfo);
                             ClickCounter++;
                             CloseApplication();
                         },

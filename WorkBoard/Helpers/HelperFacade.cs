@@ -39,8 +39,8 @@ namespace KombajnDoPracy
             //    }
             //}
 
-            
-            Process.Start(selectedPath);
+            var processStartInfo = new ProcessStartInfo() { FileName = selectedPath, UseShellExecute = true };
+            Process.Start(processStartInfo);
         }
     }
 }

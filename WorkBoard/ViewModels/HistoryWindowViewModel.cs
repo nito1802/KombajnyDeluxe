@@ -57,7 +57,8 @@ namespace KombajnDoPracy
                         param =>
                         {
                             if (!Directory.Exists(DayPath)) return;
-                            Process.Start(DayPath);
+                            var processStartInfo = new ProcessStartInfo() { FileName = DayPath, UseShellExecute = true };
+                            Process.Start(processStartInfo);
                             App.Current.Shutdown();
                         },
                         null
@@ -201,6 +202,7 @@ namespace KombajnDoPracy
                             Process process = new Process();
                             process.StartInfo.FileName = path;
                             process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
+                            process.StartInfo.UseShellExecute = true;
                             process.Start();
                             IntPtr handle = process.Handle;
                             WinApiHelper.SetForegroundWindow(handle);
