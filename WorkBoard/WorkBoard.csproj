@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Options.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Options.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tennisbal_q5n_icon.ico" />
   </ItemGroup>
 
