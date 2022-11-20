@@ -98,8 +98,7 @@ namespace WorkBoard.Models
                     copyPath = new RelayCommand(
                         param =>
                         {
-                            //Clipboard.SetText(Path);
-                            Clipboard.SetText($"{Name} --> {Path}");
+                            Clipboard.SetText(Path);
                             ClickCounter++;
                             CloseApplication();
                         },
@@ -107,6 +106,29 @@ namespace WorkBoard.Models
                     );
                 }
                 return copyPath;
+            }
+        }
+
+        private ICommand copyNameWithPath;
+
+        [JsonIgnore]
+        public ICommand CopyNameWithPath
+        {
+            get
+            {
+                if (copyNameWithPath == null)
+                {
+                    copyNameWithPath = new RelayCommand(
+                        param =>
+                        {
+                            Clipboard.SetText($"{Name} --> {Path}");
+                            ClickCounter++;
+                            CloseApplication();
+                        },
+                        null
+                    );
+                }
+                return copyNameWithPath;
             }
         }
 

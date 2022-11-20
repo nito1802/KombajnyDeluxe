@@ -25,11 +25,13 @@ namespace KombajnDoPracy
     public partial class EditButtons : Window, INotifyPropertyChanged
     {
         public EditButtonViewModel EditButtonViewModel { get; set; }
+        private string OldUrlButtonState { get; set; }
         public EditButtons(SerializableButtonItemViewModel serializableVm)
         {
             InitializeComponent();
 
             EditButtonViewModel = EditButtonViewModel.GetFromSerializableButtonItemViewModel(serializableVm);
+            OldUrlButtonState = EditButtonViewModel.GetUrlButtonsState();
             this.DataContext = EditButtonViewModel;
         }
 
@@ -41,17 +43,25 @@ namespace KombajnDoPracy
 
             var sb = new StringBuilder();
             sb.AppendLine($"Stan linków na: {date}");
-            sb.AppendLine();
-            sb.AppendLine(urlButtonsState);
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("---------------------------");
+            sb.Append(PrintButtonUrlState(OldUrlButtonState, "OLD"));
+            sb.Append(PrintButtonUrlState(urlButtonsState, "NEW"));
             var wholeText = sb.ToString();
             File.AppendAllText(changesLogPath, wholeText);
 
             DialogResult = true;
             Close();
+        }
+
+        private static string PrintButtonUrlState(string urlButtonsState, string tag)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"{tag}>>>>");
+            sb.AppendLine(urlButtonsState);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine("---------------------------");
+            return sb.ToString();
         }
 
         private static string GetChangesLogFile()

@@ -319,7 +319,10 @@
                                 Command="{Binding Path=OpenUrlCommand}"
                                 Style="{StaticResource LinkButton}">
                                 <Button.InputBindings>
-                                    <MouseBinding Gesture="RightClick" Command="{Binding CopyPath}" />
+                                    <MouseBinding Gesture="RightClick" 
+                                                  Command="{Binding CopyPath}" />
+                                    <MouseBinding Gesture="Ctrl+RightClick"
+                                                  Command="{Binding CopyNameWithPath}" />
                                 </Button.InputBindings>
                                 
                                 <StackPanel Width="230">
