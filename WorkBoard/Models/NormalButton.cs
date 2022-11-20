@@ -98,7 +98,8 @@ namespace WorkBoard.Models
                     copyPath = new RelayCommand(
                         param =>
                         {
-                            Clipboard.SetText(Path);
+                            //Clipboard.SetText(Path);
+                            Clipboard.SetText($"{Name} --> {Path}");
                             ClickCounter++;
                             CloseApplication();
                         },

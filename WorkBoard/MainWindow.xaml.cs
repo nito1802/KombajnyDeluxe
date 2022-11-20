@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using WorkBoard.Models;
+using WorkBoard.Models.ClickableButttons.Details;
 using WorkBoard.Models.SpecialButtons;
 
 namespace KombajnDoPracy

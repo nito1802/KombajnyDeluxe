@@ -182,8 +182,8 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
-                    Name = "Open All Dane -> Wazne Notsy",
-                    Describes = "Otwiera plik tekstowy z waznym tekstem",
+                    Name = "Open All Dane -> Ważne Notsy",
+                    Describes = "Otwiera plik tekstowy z ważnym tekstem",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,

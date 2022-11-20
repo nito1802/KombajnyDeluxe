@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WorkBoard.Consts;
 
 namespace KombajnDoPracy
 {
@@ -23,7 +25,6 @@ namespace KombajnDoPracy
     public partial class EditButtons : Window, INotifyPropertyChanged
     {
         public EditButtonViewModel EditButtonViewModel { get; set; }
-
         public EditButtons(SerializableButtonItemViewModel serializableVm)
         {
             InitializeComponent();
@@ -34,8 +35,34 @@ namespace KombajnDoPracy
 
         private void BtnApply_Click(object sender, RoutedEventArgs e)
         {
+            var urlButtonsState = EditButtonViewModel.GetUrlButtonsState();
+            var date = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+            var changesLogPath = GetChangesLogFile();
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"Stan linków na: {date}");
+            sb.AppendLine();
+            sb.AppendLine(urlButtonsState);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine("---------------------------");
+            var wholeText = sb.ToString();
+            File.AppendAllText(changesLogPath, wholeText);
+
             DialogResult = true;
             Close();
+        }
+
+        private static string GetChangesLogFile()
+        {
+            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var appDataPath = System.IO.Path.Combine(myDocumentPath, Consts.DataDirectoryName);
+
+            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
+            var changesLogPath = System.IO.Path.Combine(appDataPath, Consts.ChangesLogFileName);
+            if (!File.Exists(changesLogPath)) File.Create(changesLogPath).Dispose();
+            return changesLogPath;
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

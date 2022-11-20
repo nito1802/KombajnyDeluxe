@@ -2,10 +2,13 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using WorkBoard.Consts;
 using WorkBoard.Enums;
 using WorkBoard.Models;
+using WorkBoard.Models.ClickableButttons.Details;
 using WorkBoard.Models.SpecialButtons;
 
 namespace KombajnDoPracy.ViewModels
@@ -14,12 +17,6 @@ namespace KombajnDoPracy.ViewModels
     {
         [JsonIgnore]
         public static List<NormalButton> AlwaysThereButtons { get; set; }
-        public static string SerializedButtonsStatePath { get; } = "SerializedButtonsState.json";
-        public static string MojeDaneTag { get; } = "__MojeDane";
-        public static string AllDaneTag { get; } = "__AllDane";
-        public static string ScreenyTag { get; } = "__Screeny";
-        public static string NotatkiTag { get; } = "__Notatki";
-
         public List<NormalButton> LeftButtons { get; set; }
         public List<NormalButton> MiddleButtons { get; set; }
         public List<NormalButton> RightButtons { get; set; }
@@ -39,13 +36,14 @@ namespace KombajnDoPracy.ViewModels
         {
             string mojeDanePath = ButtonPathGenerator.GetMyDataPath();
             string AllDanePath = ButtonPathGenerator.GetAllDataPath();
+            ButtonPathGenerator.InitNotesDirectoryInMonth();
 
             AlwaysThereButtons = new List<NormalButton>
             {
-                new SpecialDataButton("Moje Dane", mojeDanePath, "Inne"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = MojeDaneTag},
-                new NormalButton {Path = AllDanePath, Name = "All Dane", GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = AllDaneTag },
-                new SpecialDataButton("Moje Screeny", mojeDanePath, "Screeny"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = ScreenyTag },
-                new SpecialNotesButton("Moje Notatki", mojeDanePath, "Notatki"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = NotatkiTag },
+                new SpecialDataButton("Moje Dane", mojeDanePath, "Inne"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = Consts.MojeDaneTag},
+                new NormalButton {Path = AllDanePath, Name = "All Dane", GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = Consts.AllDaneTag },
+                new SpecialDataButton("Moje Screeny", mojeDanePath, "Screeny"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = Consts.ScreenyTag },
+                new SpecialNotesButton("Moje Notatki", mojeDanePath, "Notatki"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = Consts.NotatkiTag },
             };
         }
 
@@ -75,15 +73,15 @@ namespace KombajnDoPracy.ViewModels
             {
                 buttons = buttons.OrderBy(a => a.Idx).ToList();
 
-                ValidateSpecialButton(buttons, MojeDaneTag, 0);
-                ValidateSpecialButton(buttons, AllDaneTag, 1);
-                ValidateSpecialButton(buttons, ScreenyTag, 2);
-                ValidateSpecialButton(buttons, NotatkiTag, 3);
+                ValidateSpecialButton(buttons, Consts.MojeDaneTag, 0);
+                ValidateSpecialButton(buttons, Consts.AllDaneTag, 1);
+                ValidateSpecialButton(buttons, Consts.ScreenyTag, 2);
+                ValidateSpecialButton(buttons, Consts.NotatkiTag, 3);
 
-                HandleSpecialButton(buttons, MojeDaneTag, 0);
-                HandleSpecialButton(buttons, AllDaneTag, 1);
-                HandleSpecialButton(buttons, ScreenyTag, 2);
-                HandleSpecialButton(buttons, NotatkiTag, 3);
+                HandleSpecialButton(buttons, Consts.MojeDaneTag, 0);
+                HandleSpecialButton(buttons, Consts.AllDaneTag, 1);
+                HandleSpecialButton(buttons, Consts.ScreenyTag, 2);
+                HandleSpecialButton(buttons, Consts.NotatkiTag, 3);
             }
 
             int startIdx = 1;
@@ -102,7 +100,7 @@ namespace KombajnDoPracy.ViewModels
 
         private static void HandleSpecialButton(List<NormalButton> buttons, string tagName, int alwaysThereIdx)
         {
-            var btnIdx = GetButtonIndex(buttons, MojeDaneTag);
+            var btnIdx = GetButtonIndex(buttons, Consts.MojeDaneTag);
             if (btnIdx != alwaysThereIdx)
             {
                 var myBtn = buttons.First(a => a.TagName == tagName);
@@ -147,11 +145,10 @@ namespace KombajnDoPracy.ViewModels
         public static void Save(SerializableButtonItemViewModel state)
         {
             string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string applicationFolder = "KombajnDeluxe Data";
-            var appDataPath = Path.Combine(myDocumentPath, applicationFolder);
+            var appDataPath = Path.Combine(myDocumentPath, Consts.DataDirectoryName);
 
             if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
-            string serializedStatePath = Path.Combine(appDataPath, SerializedButtonsStatePath);
+            string serializedStatePath = Path.Combine(appDataPath, Consts.SerializedButtonsStateFileName);
 
             var serializedContent = JsonConvert.SerializeObject(state);
             File.WriteAllText(serializedStatePath, serializedContent);
@@ -160,11 +157,10 @@ namespace KombajnDoPracy.ViewModels
         private static SerializableButtonItemViewModel GetSerializedState()
         {
             string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string applicationFolder = "KombajnDeluxe Data";
-            var appDataPath = Path.Combine(myDocumentPath, applicationFolder);
+            var appDataPath = Path.Combine(myDocumentPath, Consts.DataDirectoryName);
 
             if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
-            string serializedStatePath = Path.Combine(appDataPath, SerializedButtonsStatePath);
+            string serializedStatePath = Path.Combine(appDataPath, Consts.SerializedButtonsStateFileName);
 
             if (!File.Exists(serializedStatePath)) return null;
 

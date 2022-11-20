@@ -57,7 +57,7 @@ namespace WorkBoard.Models.SpecialButtons
             var polishFormat = new CultureInfo("pl-PL");
             string currentYear = DateTime.Now.Year.ToString();
             string currentMonth = DateTime.Now.ToString("MMMM", polishFormat);
-            string currentDayFormat = DateTime.Now.ToString("dd_MM_yyyy");
+            string currentDayFormat = DateTime.Now.ToString(Consts.Consts.DateFormat);
 
             Path = System.IO.Path.Combine(MojeDanePath, currentYear, currentMonth, currentDayFormat, DataType);
 

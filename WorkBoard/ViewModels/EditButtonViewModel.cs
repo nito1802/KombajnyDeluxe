@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using WorkBoard.Enums;
@@ -140,6 +141,8 @@ namespace KombajnDoPracy.ViewModels
 
             return res;
         }
+
+        public string GetUrlButtonsState() => string.Join(Environment.NewLine, UrlButtons.Select(a => $"{a.Name} --> {a.Path}"));
 
         public event PropertyChangedEventHandler PropertyChanged; //INotifyPropertyChanged
 

@@ -5,9 +5,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using WorkBoard.Consts;
 
 namespace KombajnDoPracy
 {
@@ -106,7 +105,7 @@ namespace KombajnDoPracy
                             {
                                 string currentYear = DateTime.Now.AddDays(-i).Year.ToString();
                                 string currentMonth = DateTime.Now.AddDays(-i).ToString("MMMM", polishFormat);
-                                string currentDayFormat = DateTime.Now.AddDays(-i).ToString("dd_MM_yyyy");
+                                string currentDayFormat = DateTime.Now.AddDays(-i).ToString(Consts.DateFormat);
                                 string dataType = "Inne";
 
                                 var dayPath = System.IO.Path.Combine(MojeDanePath, currentYear, currentMonth, currentDayFormat, dataType);

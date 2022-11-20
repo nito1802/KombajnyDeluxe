@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
 
-namespace WorkBoard.Models.SpecialButtons
+namespace WorkBoard.Models.ClickableButttons.Details
 {
     /// <summary>
     /// Model dla przycisku "Moje Notatki"
@@ -17,11 +17,10 @@ namespace WorkBoard.Models.SpecialButtons
 
         public SpecialNotesButton(string name, string mojeDanePath, string dataType)
         {
-            Name = name;
-            MojeDanePath = mojeDanePath;
-            DataType = dataType;
-
-            InitData();
+            this.Name = name;
+            this.MojeDanePath = mojeDanePath;
+            this.DataType = dataType;
+            Path = ButtonPathGenerator.GetNotesPath();
         }
 
         private ICommand openOrRestoreWindowCommand;
@@ -49,11 +48,5 @@ namespace WorkBoard.Models.SpecialButtons
         }
 
         public new static Action CloseApplication = null;
-
-        public void InitData()
-        {
-            ButtonPathGenerator.InitDailyNotes();
-            Path = ButtonPathGenerator.GetNotesPath();
-        }
     }
 }
