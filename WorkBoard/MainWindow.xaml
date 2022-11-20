@@ -14,7 +14,7 @@
     MouseDown="Window_MouseDown"
     PreviewKeyDown="Window_PreviewKeyDown"
     SizeToContent="WidthAndHeight"
-    Topmost="True"
+    Topmost="False"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">

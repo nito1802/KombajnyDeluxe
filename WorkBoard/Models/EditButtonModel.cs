@@ -1,15 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using WorkBoard.Enums;
+using WorkBoard.Models;
 
 namespace KombajnDoPracy.ViewModels
 {
-    public class EditButtonModel : ButtonFacade, INotifyPropertyChanged
+    public class EditButtonModel : NormalButton, INotifyPropertyChanged
     {
         public static Action<EditButtonModel, EditButtonModel> InsertNewButtonAction { get; set; }
         public static Action<EditButtonModel> DeleteButtonAction { get; set; }
@@ -27,7 +25,7 @@ namespace KombajnDoPracy.ViewModels
         private int idx;
         private long clickCounter;
 
-        public EditButtonModel(string path, string name, string description, int groupId, bool canDelete, long clickCounter, string tagName)
+        public EditButtonModel(string path, string name, string description, ButtonGroup groupId, bool canDelete, long clickCounter, string tagName)
         {
             this.Path = path;
             this.Name = name;
@@ -38,7 +36,7 @@ namespace KombajnDoPracy.ViewModels
             this.TagName = tagName;
         }
 
-        public EditButtonModel(int groupId)
+        public EditButtonModel(ButtonGroup groupId)
         {
             this.GroupId = groupId;
             this.Name = "Name";

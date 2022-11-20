@@ -4,25 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WorkBoard.Enums;
+using WorkBoard.Models;
+using WorkBoard.Models.SpecialButtons;
 
 namespace KombajnDoPracy.ViewModels
 {
     public class SerializableButtonItemViewModel
     {
         [JsonIgnore]
-        public static List<ButtonFacade> AlwaysThereButtons { get; set; }
+        public static List<NormalButton> AlwaysThereButtons { get; set; }
         public static string SerializedButtonsStatePath { get; } = "SerializedButtonsState.json";
-        public static string MojeDaneTag = "__MojeDane";
-        public static string AllDaneTag = "__AllDane";
-        public static string ScreenyTag = "__Screeny";
-        public static string NotatkiTag = "__Notatki";
+        public static string MojeDaneTag { get; } = "__MojeDane";
+        public static string AllDaneTag { get; } = "__AllDane";
+        public static string ScreenyTag { get; } = "__Screeny";
+        public static string NotatkiTag { get; } = "__Notatki";
 
-        public List<ButtonFacade> LeftButtons { get; set; }
-        public List<ButtonFacade> MiddleButtons { get; set; }
-        public List<ButtonFacade> RightButtons { get; set; }
-        public List<ButtonFacade> LinkButtons { get; set; }
+        public List<NormalButton> LeftButtons { get; set; }
+        public List<NormalButton> MiddleButtons { get; set; }
+        public List<NormalButton> RightButtons { get; set; }
+        public List<NormalButton> LinkButtons { get; set; }
 
         public string LeftGroupName { get; set; }
         public string MiddleGroupName { get; set; }
@@ -39,16 +40,16 @@ namespace KombajnDoPracy.ViewModels
             string mojeDanePath = ButtonPathGenerator.GetMyDataPath();
             string AllDanePath = ButtonPathGenerator.GetAllDataPath();
 
-            AlwaysThereButtons = new List<ButtonFacade>
+            AlwaysThereButtons = new List<NormalButton>
             {
-                new MyDataItem("Moje Dane", mojeDanePath, "Inne"){ GroupId = 2, CanDelete = false, TagName = MojeDaneTag},
-                new ButtonFacade {Path = AllDanePath, Name = "All Dane", GroupId = 2, CanDelete = false, TagName = AllDaneTag },
-                new MyDataItem("Moje Screeny", mojeDanePath, "Screeny"){ GroupId = 2, CanDelete = false, TagName = ScreenyTag },
-                new MyDataNotes("Moje Notatki", mojeDanePath, "Notatki"){ GroupId = 2, CanDelete = false, TagName = NotatkiTag },
+                new SpecialDataButton("Moje Dane", mojeDanePath, "Inne"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = MojeDaneTag},
+                new NormalButton {Path = AllDanePath, Name = "All Dane", GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = AllDaneTag },
+                new SpecialDataButton("Moje Screeny", mojeDanePath, "Screeny"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = ScreenyTag },
+                new SpecialNotesButton("Moje Notatki", mojeDanePath, "Notatki"){ GroupId = ButtonGroup.MiddleButtons, CanDelete = false, TagName = NotatkiTag },
             };
         }
 
-        private static void ValidateSpecialButton(List<ButtonFacade> buttons, string tagName, int alwaysThereIdx)
+        private static void ValidateSpecialButton(List<NormalButton> buttons, string tagName, int alwaysThereIdx)
         {
             var tagButtons = buttons.Where(a => a.TagName == tagName).ToList();
 
@@ -66,7 +67,7 @@ namespace KombajnDoPracy.ViewModels
             buttons.Add(btnToInsert);
         }
 
-        private static List<ButtonFacade> ValidateGroupedButtonList(List<ButtonFacade> buttons, int groupIdx)
+        private static List<NormalButton> ValidateGroupedButtonList(List<NormalButton> buttons, int groupIdx)
         {
             buttons = buttons.OrderBy(a => a.Idx).ToList();
 
@@ -99,7 +100,7 @@ namespace KombajnDoPracy.ViewModels
             return buttons;
         }
 
-        private static void HandleSpecialButton(List<ButtonFacade> buttons, string tagName, int alwaysThereIdx)
+        private static void HandleSpecialButton(List<NormalButton> buttons, string tagName, int alwaysThereIdx)
         {
             var btnIdx = GetButtonIndex(buttons, MojeDaneTag);
             if (btnIdx != alwaysThereIdx)
@@ -109,7 +110,7 @@ namespace KombajnDoPracy.ViewModels
                 buttons.Insert(alwaysThereIdx, myBtn);
             }
         }
-        private static int GetButtonIndex(List<ButtonFacade> buttons, string tagName)
+        private static int GetButtonIndex(List<NormalButton> buttons, string tagName)
         {
             var btn = buttons.First(a => a.TagName == tagName);
             int idx = buttons.IndexOf(btn);
@@ -129,10 +130,10 @@ namespace KombajnDoPracy.ViewModels
                 res.MiddleGroupName = "MiddleGroupName";
                 res.RightGroupName = "RightGroupName";
 
-                res.LeftButtons = new List<ButtonFacade>();
-                res.MiddleButtons = new List<ButtonFacade>();
-                res.RightButtons = new List<ButtonFacade>();
-                res.LinkButtons = new List<ButtonFacade>();
+                res.LeftButtons = new List<NormalButton>();
+                res.MiddleButtons = new List<NormalButton>();
+                res.RightButtons = new List<NormalButton>();
+                res.LinkButtons = new List<NormalButton>();
             }
 
             res.LeftButtons = ValidateGroupedButtonList(res.LeftButtons, 1);
@@ -183,10 +184,10 @@ namespace KombajnDoPracy.ViewModels
 
             res.WholeClickCount = editedVm.WholeClickCount;
 
-            res.LeftButtons = editedVm.LeftButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new ButtonFacade(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
-            res.MiddleButtons = editedVm.MiddleButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new ButtonFacade(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
-            res.RightButtons = editedVm.RightButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new ButtonFacade(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
-            res.LinkButtons = editedVm.UrlButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new ButtonFacade(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
+            res.LeftButtons = editedVm.LeftButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new NormalButton(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
+            res.MiddleButtons = editedVm.MiddleButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new NormalButton(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
+            res.RightButtons = editedVm.RightButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new NormalButton(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
+            res.LinkButtons = editedVm.UrlButtons.Where(b => !string.IsNullOrEmpty(b.Path)).Select(a => new NormalButton(a.Path, a.Name, a.Description, a.GroupId, a.CanDelete, a.ClickCounter, a.TagName)).ToList();
 
             res.LeftButtons = ValidateGroupedButtonList(res.LeftButtons, 1);
             res.MiddleButtons = ValidateGroupedButtonList(res.MiddleButtons, 2);

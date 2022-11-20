@@ -1,25 +1,14 @@
 ﻿using Common;
 using KombajnDoPracy.ViewModels;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using WorkBoard.Models;
+using WorkBoard.Models.SpecialButtons;
 
 namespace KombajnDoPracy
 {
@@ -65,11 +54,8 @@ namespace KombajnDoPracy
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-        private HelperFacade helperFacade = new HelperFacade();
-
         public SerializableButtonItemViewModel ButtonsViewModel { get; set; }
 
-        public string AllDanePath { get; set; }
         public HistoryWindowViewModel HistoryWindowViewModel { get; set; }
 
         private string leftGroupName;
@@ -89,19 +75,20 @@ namespace KombajnDoPracy
             ButtonsViewModel = SerializableButtonItemViewModel.Load();
             mainGrid.DataContext = ButtonsViewModel;
 
-            ButtonFacade.CloseApplication = () =>
+            NormalButton.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
                 WindowState = WindowState.Minimized;
             };
-            MyDataItem.CloseApplication = () =>
+
+            SpecialDataButton.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
                 WindowState = WindowState.Minimized;
             };
-            MyDataNotes.CloseApplication = () =>
+            SpecialNotesButton.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
                 SerializableButtonItemViewModel.Save(ButtonsViewModel);
@@ -175,30 +162,6 @@ namespace KombajnDoPracy
                     item.Kill();
                 }
             }
-        }
-
-        private SerializableButtonItemViewModel GetSerializedState()
-        {
-            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string applicationFolder = "KombajnDeluxe Data";
-            var appDataPath = Path.Combine(myDocumentPath, applicationFolder);
-
-            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
-            string serializedStatePath = Path.Combine(appDataPath, "serializedState.json");
-
-            if (!File.Exists(serializedStatePath)) return null;
-
-            var serializedContent = File.ReadAllText(serializedStatePath);
-            var res = JsonConvert.DeserializeObject<SerializableButtonItemViewModel>(serializedContent);
-
-            return res;
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-
-            Application.Current.Shutdown();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

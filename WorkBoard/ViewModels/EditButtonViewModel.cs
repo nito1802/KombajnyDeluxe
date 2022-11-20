@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WorkBoard.Enums;
+using WorkBoard.Models;
 
 namespace KombajnDoPracy.ViewModels
 {
@@ -53,28 +51,14 @@ namespace KombajnDoPracy.ViewModels
             }
         }
 
-        ObservableCollection<EditButtonModel> GetButtonCollection(int groupId)
+        ObservableCollection<EditButtonModel> GetButtonCollection(ButtonGroup groupId) => groupId switch
         {
-            ObservableCollection<EditButtonModel> res = null;
-            if (groupId == 1)
-            {
-                res = LeftButtons;
-            }
-            else if (groupId == 2)
-            {
-                res = MiddleButtons;
-            }
-            else if (groupId == 3)
-            {
-                res = RightButtons;
-            }
-            else if (groupId == 4)
-            {
-                res = UrlButtons;
-            }
-
-            return res;
-        }
+            ButtonGroup.LeftButtons => LeftButtons,
+            ButtonGroup.MiddleButtons => MiddleButtons,
+            ButtonGroup.RightButtons => RightButtons,
+            ButtonGroup.UrlButtons => UrlButtons,
+            _ => throw new InvalidEnumArgumentException(nameof(groupId))
+        };
 
         public void InitActions()
         {
@@ -149,10 +133,10 @@ namespace KombajnDoPracy.ViewModels
             serializableVm.LinkButtons.ForEach(b => res.UrlButtons.Add(new EditButtonModel(b.Path, b.Name, b.Description, b.GroupId, b.CanDelete, b.ClickCounter, b.TagName)));
 
             //jesli brak buttonow w grupie, wtedy dajemy jeden placeholder
-            if (!res.LeftButtons.Any(a => a.CanDelete)) res.LeftButtons.Add(new EditButtonModel(1));
-            if (!res.MiddleButtons.Any(a => a.CanDelete)) res.MiddleButtons.Add(new EditButtonModel(2));
-            if (!res.RightButtons.Any(a => a.CanDelete)) res.RightButtons.Add(new EditButtonModel(3));
-            if (!res.UrlButtons.Any(a => a.CanDelete)) res.UrlButtons.Add(new EditButtonModel(4));
+            if (!res.LeftButtons.Any(a => a.CanDelete)) res.LeftButtons.Add(new EditButtonModel(ButtonGroup.LeftButtons));
+            if (!res.MiddleButtons.Any(a => a.CanDelete)) res.MiddleButtons.Add(new EditButtonModel(ButtonGroup.MiddleButtons));
+            if (!res.RightButtons.Any(a => a.CanDelete)) res.RightButtons.Add(new EditButtonModel(ButtonGroup.RightButtons));
+            if (!res.UrlButtons.Any(a => a.CanDelete)) res.UrlButtons.Add(new EditButtonModel(ButtonGroup.UrlButtons));
 
             return res;
         }
