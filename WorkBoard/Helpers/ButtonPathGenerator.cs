@@ -70,7 +70,7 @@ namespace KombajnDoPracy.Helpers
             var result = Path.Combine(GetMyDataPath(), yearText, monthText);
             for (int i = day; i <= daysInMonth; i++)
             {
-                var date = $"{i}_{month}_{year}";
+                var date = $"{i:D2}_{month:D2}_{year}";
                 CreateDailyFileFullPath(result, date, ".txt");
                 CreateDailyFileFullPath(result, date, ".json");
             }
