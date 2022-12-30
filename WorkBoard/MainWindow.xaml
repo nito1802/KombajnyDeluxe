@@ -27,26 +27,29 @@
     </Window.Resources>
     <Window.ContextMenu>
         <ContextMenu>
+            <MenuItem Command="{Binding HistoryOfScreensCommand}"
+                      CommandParameter="24"
+                      Header="Screeny z dzisiaj" />
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
                 CommandParameter="1"
-                Header="Screens from 1 week" />
+                Header="Screeny z ostatniego tygodnia" />
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
                 CommandParameter="2"
-                Header="Screens from 2 weeks" />
+                Header="Screeny z ostatnich 2 tygodni" />
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="4"
-                Header="Screens from month" />
+                CommandParameter="3"
+                Header="Screeny z ostatniego miesiąca" />
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
                 CommandParameter="12"
-                Header="Screens from year" />
+                Header="Screeny z ostatniego roku" />
             <MenuItem
                 Command="{Binding HistoryOfScreensCommand}"
                 CommandParameter="-1"
-                Header="Screens from All Time" />
+                Header="Wszystkie screeny" />
 
         </ContextMenu>
     </Window.ContextMenu>

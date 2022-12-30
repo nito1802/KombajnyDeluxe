@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DisplayScreens.Enums
+﻿namespace DisplayScreens.Enums
 {
     public enum ShowFilesFromDate
     {
