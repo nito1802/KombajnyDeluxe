@@ -106,30 +106,6 @@ namespace Kombajn
 
                 new ShortcutModel()
                 {
-                    Describes = "Wycina określony obszar",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "E",
-                    actionOnClick = () =>
-                    {
-                        string snippingToolProcess = string.Empty;
-
-                        if (!Environment.Is64BitProcess)
-                            snippingToolProcess = @"C:\Windows\sysnative\SnippingTool.exe";
-                        else
-                            snippingToolProcess = @"C:\WINDOWS\system32\SnippingTool.exe";
-
-                        Process process = new Process();
-                        process.StartInfo.FileName = snippingToolProcess;
-                        process.Start();
-                        IntPtr handle = process.Handle;
-                        WinApiHelper.SetForegroundWindow(handle);
-                    }
-                },
-
-                new ShortcutModel()
-                {
                     Name = "Linijka",
                     Describes = "Miarka pikselów na ekranie",
                     AllModifs = false,
@@ -153,7 +129,7 @@ namespace Kombajn
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Ctrl,
                     AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "T",
+                    KeyCode = "D",
                     actionOnClick = () =>
                     {
                         Process.Start(AppsPath.GetColorPath);
@@ -198,23 +174,6 @@ namespace Kombajn
                         WinApiHelper.SetForegroundWindow(handle);
                     }
                 },
-
-
-
-                new ShortcutModel()
-                {
-                    Name = "Process Killer",
-                    Describes = "Zabija proces po nazwie",
-                    AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Alt,
-                    AlternateSelectedModificator = ModificatorNumeration.None,
-                    KeyCode = "Q",
-                    actionOnClick = () =>
-                    {
-                        Process.Start(AppsPath.ProcessKillerPath);
-                    }
-                },
-
                 new ShortcutModel()
                 {
                     Name = "Quit PC",
