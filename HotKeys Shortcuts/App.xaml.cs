@@ -127,7 +127,7 @@ namespace Kombajn
                     Name = "Color Picker",
                     Describes = "Pokazuje kolor z hexa",
                     AllModifs = false,
-                    SelectedModificator = ModificatorNumeration.Ctrl,
+                    SelectedModificator = ModificatorNumeration.Alt,
                     AlternateSelectedModificator = ModificatorNumeration.None,
                     KeyCode = "D",
                     actionOnClick = () =>
