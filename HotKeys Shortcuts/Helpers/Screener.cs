@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Kombajn
 {
-    class Screener
+    internal class Screener
     {
-        public string TakeScreenshot()
+        public string TakeScreenshot(string directoryName)
         {
             double screenLeft = SystemParameters.VirtualScreenLeft;
             double screenTop = SystemParameters.VirtualScreenTop;
@@ -22,25 +22,19 @@ namespace Kombajn
             double screenWidth = Screen.PrimaryScreen.Bounds.Width;
             double screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
-            string screenerPath = GetScreenerPath();
-            var files = Directory.GetFiles(screenerPath);
+            string screenerPath = GetScreenerPath(directoryName);
+            String filename = $"{Directory.GetFiles(screenerPath).Length + 1} - {DateTime.Now.ToString("HH_mm_ss")}.png";
+            string fullPath = System.IO.Path.Combine(screenerPath, filename);
 
-            using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap((int)screenWidth,
-                (int)screenHeight))
-            {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp))
-                {
-                    String filename = $"{files.Length+1} - {DateTime.Now.ToString("HH_mm_ss")}.png";
-                    g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
+            using System.Drawing.Bitmap bmp = new System.Drawing.Bitmap((int)screenWidth, (int)screenHeight);
+            using System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            g.CopyFromScreen((int)screenLeft, (int)screenTop, 0, 0, bmp.Size);
 
-                    string result = System.IO.Path.Combine(screenerPath, filename);
-                    bmp.Save(System.IO.Path.Combine(screenerPath, filename));
-                    return result;
-                }
-            }
+            bmp.Save(fullPath);
+            return fullPath;
         }
 
-        private string GetScreenerPath()
+        private string GetScreenerPath(string directoryName)
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -52,7 +46,7 @@ namespace Kombajn
             string currentYear = DateTime.Now.Year.ToString();
             string currentMonth = DateTime.Now.ToString("MMMM", polishFormat);
             string currentDayFormat = DateTime.Now.ToString("dd_MM_yyyy");
-            string dataType = "Screeny";
+            string dataType = directoryName;
 
             var screenerPath = System.IO.Path.Combine(mojeDanePath, currentYear, currentMonth, currentDayFormat, dataType);
 

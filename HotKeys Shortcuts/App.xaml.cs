@@ -1,19 +1,14 @@
 ﻿using Common;
 using Hardcodet.Wpf.TaskbarNotification;
+using HotKeys_Shortcuts.Helpers;
 using Kombajn_Shortcut.Helpers;
 using Kombajn_Shortcut.Models;
 using Kombajn_Shortcut.Views;
 using KombajnDoPracy.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Kombajn
@@ -62,7 +57,7 @@ namespace Kombajn
                     {
                         try
                         {
-                            string screenPath = screener.TakeScreenshot();
+                            string screenPath = screener.TakeScreenshot(ScreenPaths.Screeny);
                             var screenAnimation = new ScreenAnimationWindow(screenPath);
                             screenAnimation.Left = SystemParameters.VirtualScreenWidth - 250;
                             screenAnimation.Top = 0;
@@ -80,7 +75,7 @@ namespace Kombajn
                 new ShortcutModel()
                 {
                     Name = "Screener Alt Modificator",
-                    Describes = "Robi screena aktualnego monitora i wrzuca go do folderu zbiorczego z innymi screenami",
+                    Describes = "Robi screena aktualnego monitora i wysyła do LanguagesTeachcer",
                     AllModifs = false,
                     SelectedModificator = ModificatorNumeration.Alt,
                     AlternateSelectedModificator = ModificatorNumeration.None,
@@ -89,8 +84,9 @@ namespace Kombajn
                     {
                         try
                         {
-                            string screenPath = screener.TakeScreenshot();
+                            string screenPath = screener.TakeScreenshot(ScreenPaths.ToOcr);
                             var screenAnimation = new ScreenAnimationWindow(screenPath);
+                            LanguageTeacherOcrProcessRunner.RunImageUploader(screenPath);
                             screenAnimation.Left = SystemParameters.VirtualScreenWidth - 250;
                             screenAnimation.Top = 0;
 
