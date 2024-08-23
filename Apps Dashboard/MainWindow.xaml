@@ -1,0 +1,76 @@
+﻿<Window x:Class="Apps_Dashboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Apps_Dashboard.ViewModels"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="#12000000"
+        BorderBrush="#FF10327C"
+        BorderThickness="1"
+        Title="Apps Dashboard"
+        Width="1400"
+        Height="600"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Loaded="Window_Loaded"
+        MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="XamlStyles\StylesForMainWindow.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:AppsGroupsViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Button Name="btnOptions"
+                Margin="0,5,5,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Click="btnOptions_Click"
+                Panel.ZIndex="55"
+                Style="{StaticResource DarkOptionsButton}">
+            <Image Width="25"
+                   Source="Options.png" />
+        </Button>
+
+        <ItemsControl ItemsSource="{Binding AppsGroups}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="10">
+                        <TextBlock Text="{Binding GroupName}"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Margin="0,0,0,10" />
+                        <ItemsControl ItemsSource="{Binding Apps}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5"
+                                                Width="100">
+                                        <Image Source="{Binding Icon}"
+                                               Width="64"
+                                               Height="64"
+                                               Margin="0,0,0,5" />
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   TextAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Window>
