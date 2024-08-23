@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         AllowsTransparency="True"
         Background="#12000000"
-        BorderBrush="#FF10327C"
+        BorderBrush="#A0DD861C"
         BorderThickness="1"
         Title="Apps Dashboard"
         Width="1400"
@@ -27,7 +27,7 @@
     <Window.DataContext>
         <local:AppsGroupsViewModel />
     </Window.DataContext>
-    <Grid>
+    <Grid Margin="5">
         <Button Name="btnOptions"
                 Margin="0,5,5,0"
                 HorizontalAlignment="Right"
@@ -57,17 +57,21 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Button Style="{StaticResource AppIconButton}"
+                                            Background="Wheat"
                                             Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                             CommandParameter="{Binding Path}">
                                         <StackPanel Margin="5"
                                                     Width="100">
                                             <Image Source="{Binding Icon}"
-                                                   Width="64"
-                                                   Height="64"
+                                                   Width="32"
+                                                   Height="32"
                                                    Margin="0,0,0,5" />
                                             <TextBlock Text="{Binding DisplayName}"
                                                        Style="{StaticResource GroupHeaderStyle}"
                                                        TextAlignment="Center"
+                                                       Width="100"
+                                                       TextWrapping="Wrap"
+                                                       Height="50"
                                                        FontSize="12" />
                                         </StackPanel>
                                     </Button>

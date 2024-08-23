@@ -3,8 +3,8 @@ using Apps_Dashboard.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
-using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -19,29 +19,32 @@ namespace Apps_Dashboard.ViewModels
 
         public AppsGroupsViewModel()
         {
-            AppsGroups = new ObservableCollection<AppsGroupModel>
-            {
-                new AppsGroupModel
-                {
-                    GroupName = "MOJE",
-                    Apps = GenerateSampleApps()
-                },
-                new AppsGroupModel
-                {
-                    GroupName = "PROGRAMOWANIE",
-                    Apps = GenerateSampleApps()
-                },
-                new AppsGroupModel
-                {
-                    GroupName = "ART",
-                    Apps = GenerateSampleApps()
-                },
-                new AppsGroupModel
-                {
-                    GroupName = "INNE",
-                    Apps = GenerateSampleApps()
-                }
-            };
+            var allText = File.ReadAllText(@"C:\Users\dante\Desktop\Istotne\MojeDane\2024\sierpień\23_08_2024\Notatki\23_08_2024.json");
+            AppsGroups = JsonConvert.DeserializeObject<ObservableCollection<AppsGroupModel>>(allText);
+
+            //AppsGroups = new ObservableCollection<AppsGroupModel>
+            //{
+            //    new AppsGroupModel
+            //    {
+            //        GroupName = "MOJE",
+            //        Apps = GenerateSampleApps()
+            //    },
+            //    new AppsGroupModel
+            //    {
+            //        GroupName = "PROGRAMOWANIE",
+            //        Apps = GenerateSampleApps()
+            //    },
+            //    new AppsGroupModel
+            //    {
+            //        GroupName = "ART",
+            //        Apps = GenerateSampleApps()
+            //    },
+            //    new AppsGroupModel
+            //    {
+            //        GroupName = "INNE",
+            //        Apps = GenerateSampleApps()
+            //    }
+            //};
 
             var serialized = JsonConvert.SerializeObject(AppsGroups, Formatting.Indented);
 
