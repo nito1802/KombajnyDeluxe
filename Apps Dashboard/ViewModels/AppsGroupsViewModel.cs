@@ -1,7 +1,12 @@
-﻿using Apps_Dashboard.Models;
+﻿using Apps_Dashboard.Helpers;
+using Apps_Dashboard.Models;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
@@ -9,34 +14,8 @@ namespace Apps_Dashboard.ViewModels
 {
     public class AppsGroupsViewModel
     {
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public struct SHFILEINFO
-        {
-            public IntPtr hIcon;
-            public int iIcon;
-            public uint dwAttributes;
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public string szDisplayName;
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string szTypeName;
-        };
-
-        private class Win32
-        {
-            public const uint SHGFI_ICON = 0x000000100;
-            public const uint SHGFI_LARGEICON = 0x000000000;
-            public const uint SHGFI_SMALLICON = 0x000000001;
-            public const uint SHGFI_EXTRALARGEICON = 0x000000002;
-            public const uint SHGFI_SYSICONINDEX = 0x00004000;
-            public const uint SHGFI_ICONLOCATION = 0x000001000;
-
-            [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-            public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbFileInfo, uint uFlags);
-        }
-
         public ObservableCollection<AppsGroupModel> AppsGroups { get; set; }
+        public ICommand LaunchAppCommand { get; }
 
         public AppsGroupsViewModel()
         {
@@ -63,12 +42,16 @@ namespace Apps_Dashboard.ViewModels
                     Apps = GenerateSampleApps()
                 }
             };
+
+            var serialized = JsonConvert.SerializeObject(AppsGroups, Formatting.Indented);
+
+            LaunchAppCommand = new RelayCommand(LaunchApp);
         }
 
         private ObservableCollection<SingleAppModel> GenerateSampleApps()
         {
             var sampleApps = new ObservableCollection<SingleAppModel>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
                 sampleApps.Add(new SingleAppModel
                 {
@@ -88,6 +71,21 @@ namespace Apps_Dashboard.ViewModels
                 shinfo.hIcon,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions());
+        }
+
+        private void LaunchApp(object path)
+        {
+            if (path is string appPath)
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo(appPath) { UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Nie udało się uruchomić aplikacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

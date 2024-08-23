@@ -35,7 +35,7 @@
                 Click="btnOptions_Click"
                 Panel.ZIndex="55"
                 Style="{StaticResource DarkOptionsButton}">
-            <Image Width="25"
+            <Image Width="30"
                    Source="Options.png" />
         </Button>
 
@@ -46,6 +46,7 @@
                         <TextBlock Text="{Binding GroupName}"
                                    FontWeight="Bold"
                                    FontSize="16"
+                                   Foreground="#FFF1F1F1"
                                    Margin="0,0,0,10" />
                         <ItemsControl ItemsSource="{Binding Apps}">
                             <ItemsControl.ItemsPanel>
@@ -55,16 +56,21 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="5"
-                                                Width="100">
-                                        <Image Source="{Binding Icon}"
-                                               Width="64"
-                                               Height="64"
-                                               Margin="0,0,0,5" />
-                                        <TextBlock Text="{Binding DisplayName}"
-                                                   TextAlignment="Center"
-                                                   FontSize="12" />
-                                    </StackPanel>
+                                    <Button Style="{StaticResource AppIconButton}"
+                                            Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding Path}">
+                                        <StackPanel Margin="5"
+                                                    Width="100">
+                                            <Image Source="{Binding Icon}"
+                                                   Width="64"
+                                                   Height="64"
+                                                   Margin="0,0,0,5" />
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       Style="{StaticResource GroupHeaderStyle}"
+                                                       TextAlignment="Center"
+                                                       FontSize="12" />
+                                        </StackPanel>
+                                    </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

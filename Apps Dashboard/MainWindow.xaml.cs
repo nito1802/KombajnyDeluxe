@@ -53,7 +53,6 @@ namespace Apps_Dashboard
             InitializeComponent();
 
             this.DataContext = new AppsGroupsViewModel();
-
         }
 
         internal void EnableBlur()
