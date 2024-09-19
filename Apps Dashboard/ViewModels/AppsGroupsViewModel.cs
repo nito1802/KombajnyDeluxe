@@ -16,54 +16,16 @@ namespace Apps_Dashboard.ViewModels
     {
         public ObservableCollection<AppsGroupModel> AppsGroups { get; set; }
         public ICommand LaunchAppCommand { get; }
+        public static Action MinimizeApplication { get; set; } = null;
 
         public AppsGroupsViewModel()
         {
-            var allText = File.ReadAllText(@"C:\Users\dante\Desktop\Istotne\MojeDane\2024\sierpień\23_08_2024\Notatki\23_08_2024.json");
+            var allText = File.ReadAllText("AppsInputData.json");
             AppsGroups = JsonConvert.DeserializeObject<ObservableCollection<AppsGroupModel>>(allText);
-
-            //AppsGroups = new ObservableCollection<AppsGroupModel>
-            //{
-            //    new AppsGroupModel
-            //    {
-            //        GroupName = "MOJE",
-            //        Apps = GenerateSampleApps()
-            //    },
-            //    new AppsGroupModel
-            //    {
-            //        GroupName = "PROGRAMOWANIE",
-            //        Apps = GenerateSampleApps()
-            //    },
-            //    new AppsGroupModel
-            //    {
-            //        GroupName = "ART",
-            //        Apps = GenerateSampleApps()
-            //    },
-            //    new AppsGroupModel
-            //    {
-            //        GroupName = "INNE",
-            //        Apps = GenerateSampleApps()
-            //    }
-            //};
 
             var serialized = JsonConvert.SerializeObject(AppsGroups, Formatting.Indented);
 
             LaunchAppCommand = new RelayCommand(LaunchApp);
-        }
-
-        private ObservableCollection<SingleAppModel> GenerateSampleApps()
-        {
-            var sampleApps = new ObservableCollection<SingleAppModel>();
-            for (int i = 0; i < 2; i++)
-            {
-                sampleApps.Add(new SingleAppModel
-                {
-                    DisplayName = $"FL Studio {i + 1}",
-                    Path = @"C:\Program Files\Image-Line\FL Studio 21\FL64.exe",
-                    Icon = GetIconFromFile(@"C:\Program Files\Image-Line\FL Studio 21\FL64.exe")
-                });
-            }
-            return sampleApps;
         }
 
         private BitmapSource GetIconFromFile(string filePath)
@@ -88,6 +50,8 @@ namespace Apps_Dashboard.ViewModels
                 {
                     MessageBox.Show($"Nie udało się uruchomić aplikacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
+                MinimizeApplication();
             }
         }
     }

@@ -52,6 +52,11 @@ namespace Apps_Dashboard
         {
             InitializeComponent();
 
+            AppsGroupsViewModel.MinimizeApplication = () =>
+            {
+                WindowState = WindowState.Minimized;
+            };
+
             this.DataContext = new AppsGroupsViewModel();
         }
 
