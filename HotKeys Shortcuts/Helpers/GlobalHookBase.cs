@@ -1,44 +1,38 @@
 ﻿using System;
-using Kombajn_Shortcut.Models;
-using MouseKeyboardActivityMonitor;
-using MouseKeyboardActivityMonitor.WinApi;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
+using Kombajn_Shortcut.Models;
 
 namespace Kombajn
 {
-    class GlobalHookBase : IDisposable
+    internal class GlobalHookBase : IDisposable
     {
-        private KeyboardHookListener KeyboardHook { get; }
-        private MouseHookListener MouseHook { get; }
-
+        private IKeyboardMouseEvents GlobalHook { get; }
         private List<ShortcutModel> Shortcuts { get; set; }
 
         public GlobalHookBase(List<ShortcutModel> shortcuts)
         {
             Shortcuts = shortcuts;
-            KeyboardHook = new KeyboardHookListener(new GlobalHooker());
-            MouseHook = new MouseHookListener(new GlobalHooker());
+            GlobalHook = Hook.GlobalEvents();
 
-            KeyboardHook.KeyDown += KeyboardHook_KeyDown;
-            MouseHook.MouseDoubleClick += MouseHook_MouseDoubleClick;
-
-            KeyboardHook.Start();
-            MouseHook.Start();
+            GlobalHook.KeyDown += KeyboardHook_KeyDown;
+            GlobalHook.MouseDoubleClick += MouseHook_MouseDoubleClick;
         }
 
-        private void MouseHook_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void MouseHook_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             foreach (var item in Shortcuts)
             {
-                if(item.IsMouseDoubleMiddleClick && e.Button == System.Windows.Forms.MouseButtons.Middle)
+                if (item.IsMouseDoubleMiddleClick && e.Button == MouseButtons.Middle)
                 {
-                    item.actionOnClick();
+                    item.actionOnClick?.Invoke();
                     break;
                 }
             }
         }
 
-        private void KeyboardHook_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void KeyboardHook_KeyDown(object sender, KeyEventArgs e)
         {
             foreach (var item in Shortcuts)
             {
@@ -48,40 +42,28 @@ namespace Kombajn
                 {
                     if (item.AllModifs)
                     {
-                        if (e.Modifiers.HasFlag(System.Windows.Forms.Keys.Control) && e.Modifiers.HasFlag(System.Windows.Forms.Keys.Alt))
+                        if (e.Modifiers.HasFlag(Keys.Control) && e.Modifiers.HasFlag(Keys.Alt))
                         {
-                            item.actionOnClick();
+                            item.actionOnClick?.Invoke();
                             e.Handled = true;
                         }
                     }
                     else
                     {
-                        if (item.SelectedModificator == ModificatorNumeration.Ctrl && e.Modifiers == System.Windows.Forms.Keys.Control) //for now ctrl is always first selected modifiers
+                        if (item.SelectedModificator == ModificatorNumeration.Ctrl && e.Modifiers == Keys.Control)
                         {
-                            if (item.actionOnClick != null)
-                            {
-                                item.actionOnClick();
-                                e.Handled = true;
-
-                            }
+                            item.actionOnClick?.Invoke();
+                            e.Handled = true;
                         }
-                        else if (item.SelectedModificator == ModificatorNumeration.Alt && e.Modifiers == System.Windows.Forms.Keys.Alt) //for now ctrl is always first selected modifiers
+                        else if (item.SelectedModificator == ModificatorNumeration.Alt && e.Modifiers == Keys.Alt)
                         {
-                            if (item.actionOnClick != null)
-                            {
-                                item.actionOnClick();
-                                e.Handled = true;
-
-                            }
+                            item.actionOnClick?.Invoke();
+                            e.Handled = true;
                         }
-                        else if (item.AlternateSelectedModificator.ToString() == e.Modifiers.ToString()) //alt or shift
+                        else if (item.AlternateSelectedModificator.ToString() == e.Modifiers.ToString())
                         {
-                            if (item.alternateActionOnClick != null)
-                            {
-                                item.alternateActionOnClick();
-                                e.Handled = true;
-
-                            }
+                            item.alternateActionOnClick?.Invoke();
+                            e.Handled = true;
                         }
                     }
                 }
@@ -90,11 +72,9 @@ namespace Kombajn
 
         public void Dispose()
         {
-            KeyboardHook.Enabled = false;
-            KeyboardHook.Dispose();
-
-            MouseHook.Enabled = false;
-            MouseHook.Dispose();
+            GlobalHook.KeyDown -= KeyboardHook_KeyDown;
+            GlobalHook.MouseDoubleClick -= MouseHook_MouseDoubleClick;
+            GlobalHook.Dispose();
         }
     }
 }

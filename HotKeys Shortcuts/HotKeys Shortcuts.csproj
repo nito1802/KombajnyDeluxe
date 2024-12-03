@@ -28,7 +28,7 @@
     <PackageReference Include="Expression.Blend.Sdk.WPF" Version="1.0.1" />
     <PackageReference Include="Hardcodet.Wpf.TaskbarNotification.Core" Version="2.0.0" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="MouseKeyboardActivityMonitor" Version="4.0.5150.10665" />
+    <PackageReference Include="MouseKeyHook" Version="5.7.1" />
     <PackageReference Include="Selen.Wpf" Version="1.0.0" />
   </ItemGroup>
 
