@@ -1,17 +1,12 @@
 ﻿using DisplayScreens.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace DisplayScreens
@@ -24,7 +19,6 @@ namespace DisplayScreens
         private RelayCommand removeImage;
         private RelayCommand renameImage;
 
-
         public static Action<string, string, string> SetFullScreen { get; set; }
         public static Func<string, MessageBoxResult> MessageBoxShow { get; set; }
         public static Action<ScreenModel> RemoveImageFromCollection { get; set; }
@@ -35,14 +29,16 @@ namespace DisplayScreens
 
         public ObservableCollection<TagModel> Tags { get; set; } = new ObservableCollection<TagModel>();
 
-
         private DateTime creationDate;
+        private DateTime modificationDate;
         private double widthImg;
         private double heightImg;
         private string formatCreationDate;
         private bool runStoryboard;
 
-        public ScreenModel() { }
+        public ScreenModel()
+        { }
+
         public ScreenModel(string fullName, double widthImg, double heightImg)
         {
             //Name = Path.GetFileName(fullName);
@@ -50,13 +46,16 @@ namespace DisplayScreens
             Description = Path.GetFileNameWithoutExtension(fullName).Replace('_', ':');
             Directory = Path.GetDirectoryName(fullName);
             CreationDate = File.GetCreationTime(fullName);
+            ModificationDate = File.GetLastWriteTime(fullName);
 
             WidthImg = widthImg;
             HeightImg = heightImg;
         }
+
         //SerializeSelectedTag
 
         private TagModel selectedTag;
+
         public TagModel SelectedTag
         {
             get { return selectedTag; }
@@ -105,6 +104,39 @@ namespace DisplayScreens
             return bitmap;
         }
 
+        public async Task<ImageSource> BitmapFromUriAsync(Uri source)
+        {
+            var res = await Task.Run(() =>
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = source;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                return bitmap;
+            }).ConfigureAwait(false);
+
+            return res;
+        }
+
+        public async Task SetBitmapAsync()
+        {
+            var bitmap = await BitmapFromUriAsync(new Uri(Name));
+
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                ButtonImage = bitmap;
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(() => ButtonImage = bitmap);
+            }
+
+            //ButtonImage = bitmap;
+            //Application.Current.Dispatcher.Invoke(() => ButtonImage = bitmap);
+            //await Application.Current.Dispatcher.InvokeAsync(() => ButtonImage = bitmap).Wait();
+        }
+
         private ImageSource buttonImage;
 
         public ImageSource ButtonImage
@@ -117,15 +149,27 @@ namespace DisplayScreens
             }
         }
 
+        private string buttonImageUri;
+
+        public string ButtonImageUri
+        {
+            get { return buttonImageUri; }
+            set
+            {
+                buttonImageUri = value;
+                OnPropertyChanged(nameof(ButtonImageUri));
+            }
+        }
+
         public string Name { get; set; }
 
         private string displayedName;
 
         public string DisplayedName
         {
-            get 
-            { 
-                return string.IsNullOrEmpty(displayedName) ? Description : displayedName; 
+            get
+            {
+                return string.IsNullOrEmpty(displayedName) ? Description : displayedName;
             }
             set
             {
@@ -137,6 +181,7 @@ namespace DisplayScreens
 
         public string Directory { get; set; }
         public string Description { get; set; }
+
         public DateTime CreationDate
         {
             get { return creationDate; }
@@ -144,6 +189,16 @@ namespace DisplayScreens
             {
                 creationDate = value;
                 FormatCreationDate = GetFormatCreationDate(creationDate);
+            }
+        }
+
+        public DateTime ModificationDate
+        {
+            get { return modificationDate; }
+            set
+            {
+                modificationDate = value;
+                FormatCreationDate = GetFormatCreationDate(modificationDate);
             }
         }
 
@@ -192,7 +247,7 @@ namespace DisplayScreens
                 OnPropertyChanged(nameof(FormatCreationDate));
             }
         }
-        
+
         public ICommand OnMouseEnter
         {
             get
@@ -202,7 +257,7 @@ namespace DisplayScreens
                     onMouseEnter = new RelayCommand(param =>
                     {
                         //var sb = new Storyboard();
-                        
+
                         RunStoryboard = true;
                         //InsertSingleStrumAction?.Invoke(this);
                     }
@@ -255,13 +310,14 @@ namespace DisplayScreens
                     removeImage = new RelayCommand(param =>
                     {
                         var res = MessageBoxShow?.Invoke("Czy na pewno chcesz usunąć screena?");
-                        if(res == MessageBoxResult.Yes) RemoveImageFromCollection(this);
+                        if (res == MessageBoxResult.Yes) RemoveImageFromCollection(this);
                     }
                      , param => true);
                 }
                 return removeImage;
             }
         }
+
         public ICommand RenameImage
         {
             get

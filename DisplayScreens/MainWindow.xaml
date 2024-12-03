@@ -1,21 +1,21 @@
-﻿<Window
-    x:Class="DisplayScreens.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:local="clr-namespace:DisplayScreens"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Display Screens"
-    Width="1920"
-    Height="1080"
-    AllowsTransparency="True"
-    Background="#A5000000"
-    Loaded="Window_Loaded"
-    PreviewKeyDown="Window_PreviewKeyDown"
-    WindowState="Maximized"
-    WindowStyle="None"
-    mc:Ignorable="d">
+﻿<Window x:Class="DisplayScreens.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DisplayScreens"
+        xmlns:converters="clr-namespace:DisplayScreens.Converters"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="Display Screens"
+        Width="1920"
+        Height="1080"
+        AllowsTransparency="True"
+        Background="#A5000000"
+        Loaded="Window_Loaded"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        WindowState="Maximized"
+        WindowStyle="None"
+        mc:Ignorable="d">
     <!--<Window.Background>
         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Color="#FF167AC0" />
@@ -32,286 +32,259 @@
                 <ResourceDictionary Source="\XamlStyles\ComboBoxItemStyleTag.xaml" />
                 <ResourceDictionary Source="\XamlStyles\TagColors.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:BitmapFrameConverter x:Key="BitmapConverter"
+                                             DecodePixelWidth="250" />
         </ResourceDictionary>
     </Window.Resources>
     <Grid MouseWheel="Grid_MouseWheel">
-        
-        <local:FullScreenImageControl Visibility="Hidden" x:Name="userCtrlFullScreenImg" 
+
+        <local:FullScreenImageControl Visibility="Hidden"
+                                      x:Name="userCtrlFullScreenImg"
                                       ImageSourcePath="{Binding ImgName, UpdateSourceTrigger=PropertyChanged}"
-                                      DisplayedName="{Binding DisplayedName, UpdateSourceTrigger=PropertyChanged}"
-                                      />
+                                      DisplayedName="{Binding DisplayedName, UpdateSourceTrigger=PropertyChanged}" />
 
-        
-        
-        <StackPanel
-            x:Name="btnsMinimizeQuit"
-            Margin="0,0,25,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="5"
-            Orientation="Horizontal">
+        <StackPanel x:Name="btnsMinimizeQuit"
+                    Margin="0,0,25,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="5"
+                    Orientation="Horizontal">
 
-            <ComboBox
-                Name="cbMaintTag"
-                Width="110"
-                Margin="0 0 20 0"
-                Height="30"
-                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
-                ItemsSource="{Binding TagsMain}"
-                SelectedIndex="0"
-                SelectionChanged="cbMaintTag_SelectionChanged"
-                Style="{StaticResource ComboBoxStyle1}">
+            <ComboBox Name="cbMaintTag"
+                      Width="110"
+                      Margin="0 0 20 0"
+                      Height="30"
+                      ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                      ItemsSource="{Binding TagsMain}"
+                      SelectedIndex="0"
+                      SelectionChanged="cbMaintTag_SelectionChanged"
+                      Style="{StaticResource ComboBoxStyle1}">
 
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Border
-                                Margin="0 1 0 0"
-                                Width="110"
-                                Padding="4"
-                                HorizontalAlignment="Stretch"
-                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
-                                CornerRadius="5">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Foreground="#FF242323"
-                                    Text="{Binding Name}" />
+                            <Border Margin="0 1 0 0"
+                                    Width="110"
+                                    Padding="4"
+                                    HorizontalAlignment="Stretch"
+                                    Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                    CornerRadius="5">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF242323"
+                                           Text="{Binding Name}" />
                             </Border>
                         </Grid>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Button
-                x:Name="btnMinimize"
-                VerticalContentAlignment="Center"
-                Click="btnMinimize_Click"
-                Content="&#xf2d1;"
-                Height="50"
-                Width="50"
-                FontFamily="{StaticResource FontAwesomeLight}"
-                FontSize="20"
-                FontWeight="Bold"
-                Style="{StaticResource buttonBordoStyle}" />
+            <Button x:Name="btnMinimize"
+                    VerticalContentAlignment="Center"
+                    Click="btnMinimize_Click"
+                    Content="&#xf2d1;"
+                    Height="50"
+                    Width="50"
+                    FontFamily="{StaticResource FontAwesomeLight}"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{StaticResource buttonBordoStyle}" />
 
-            <Button
-                x:Name="btnQuit"
-                Height="50"
-                Width="50"
-                VerticalContentAlignment="Center"
-                Panel.ZIndex="5"
-                Padding="0 20 0 0"
-                Click="btnQuit_Click"
-                Content="&#xf057;"
-                FontFamily="{StaticResource FontAwesomeLight}"
-                FontSize="35"
-                FontWeight="Bold"
-                Style="{StaticResource buttonBordoStyle}" />
-        </StackPanel> 
-        
-        <StackPanel
-            x:Name="stFilterFrom"
-            Margin="0,180,25,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="5"
-            Orientation="Horizontal">
-
-            <TextBlock
-                Text="Filter From:"
-                FontSize="16"
-                Foreground="#FFF1F1F1"
-                VerticalAlignment="Center"
-                />
-
-            <ComboBox
-                Name="cbFilterFromDate"
-                Width="110"
-                Margin="5 0 5 0"
-                Height="30"
-                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
-                ItemsSource="{Binding ShowFromDates}"
-                SelectedIndex="0"
-                SelectionChanged="cbFilterFromDate_SelectionChanged"
-                VerticalContentAlignment="Center"
-                VerticalAlignment="Center"
-                Style="{StaticResource ComboBoxStyle1}">
-
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Border
-                                Margin="0 1 0 0"
-                                Width="110"
-                                Padding="4"
-                                HorizontalAlignment="Stretch"
-                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
-                                CornerRadius="5">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Foreground="#FF242323"
-                                    Text="{Binding Name}" />
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button
-                x:Name="btnRefresh"
-                Height="50"
-                Width="50"
-                VerticalContentAlignment="Center"
-                Panel.ZIndex="5"
-                Padding="0 20 0 0"
-                Click="btnRefresh_Click"
-                Content="&#xf021;"
-                FontFamily="{StaticResource FontAwesomeLight}"
-                FontSize="35"
-                FontWeight="Bold"
-                Style="{StaticResource buttonBordoStyle}" />
-        </StackPanel>
-        
-        <StackPanel
-            x:Name="stMultipleFilter"
-            Margin="0,340,25,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="5"
-            Orientation="Horizontal">
-
-            <TextBlock
-                Text="Set Multiple:"
-                FontSize="16"
-                Foreground="#FFF1F1F1"
-                VerticalAlignment="Center"
-                />
-
-            <ComboBox
-                Name="cbSetFilterMultiple"
-                Width="110"
-                Margin="5 0 0 0"
-                Height="30"
-                ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
-                ItemsSource="{Binding MultipleFilterTags}"
-                SelectedIndex="0"
-                SelectionChanged="cbSetFilterMultiple_SelectionChanged"
-                VerticalContentAlignment="Center"
-                VerticalAlignment="Center"
-                Style="{StaticResource ComboBoxStyle1}">
-
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Border
-                                Margin="0 1 0 0"
-                                Width="110"
-                                Padding="4"
-                                HorizontalAlignment="Stretch"
-                                Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
-                                CornerRadius="5">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Foreground="#FF242323"
-                                    Text="{Binding Name}" />
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel> 
-        
-        <StackPanel
-            x:Name="stMultipleRemove"
-            Margin="0,440,25,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="5"
-            Orientation="Horizontal">
-
-            <TextBlock
-                Text="Remove Many:"
-                FontSize="16"
-                Foreground="#FFF1F1F1"
-                VerticalAlignment="Center"
-                />
-
-            <Button
-                x:Name="btnRemoveMany"
-                Height="50"
-                Width="50"
-                VerticalContentAlignment="Center"
-                Panel.ZIndex="5"
-                Padding="0 20 0 0"
-                Click="btnRemoveMany_Click"
-                Content="&#xf2ed;"
-                FontFamily="{StaticResource FontAwesomeLight}"
-                FontSize="35"
-                FontWeight="Bold"
-                Style="{StaticResource buttonBordoStyle}" />
+            <Button x:Name="btnQuit"
+                    Height="50"
+                    Width="50"
+                    VerticalContentAlignment="Center"
+                    Panel.ZIndex="5"
+                    Padding="0 20 0 0"
+                    Click="btnQuit_Click"
+                    Content="&#xf057;"
+                    FontFamily="{StaticResource FontAwesomeLight}"
+                    FontSize="35"
+                    FontWeight="Bold"
+                    Style="{StaticResource buttonBordoStyle}" />
         </StackPanel>
 
-        <StackPanel
-            x:Name="stMultipleRename"
-            Margin="0,540,25,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="5"
-            Orientation="Horizontal">
+        <StackPanel x:Name="stFilterFrom"
+                    Margin="0,180,25,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="5"
+                    Orientation="Horizontal">
 
-            <TextBlock
-                Text="Rename Many:"
-                FontSize="16"
-                Foreground="#FFF1F1F1"
-                VerticalAlignment="Center"
-                />
+            <TextBlock Text="Filter From:"
+                       FontSize="16"
+                       Foreground="#FFF1F1F1"
+                       VerticalAlignment="Center" />
 
-            <Button
-                x:Name="btnRenameMany"
-                Height="50"
-                Width="50"
-                VerticalContentAlignment="Center"
-                Panel.ZIndex="5"
-                Padding="0 20 0 0"
-                Click="btnRenameMany_Click"
-                Content="&#xf044;"
-                FontFamily="{StaticResource FontAwesomeLight}"
-                FontSize="35"
-                FontWeight="Bold"
-                Style="{StaticResource buttonBordoStyle}" />
+            <ComboBox Name="cbFilterFromDate"
+                      Width="110"
+                      Margin="5 0 5 0"
+                      Height="30"
+                      ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                      ItemsSource="{Binding ShowFromDates}"
+                      SelectedIndex="0"
+                      SelectionChanged="cbFilterFromDate_SelectionChanged"
+                      VerticalContentAlignment="Center"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource ComboBoxStyle1}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border Margin="0 1 0 0"
+                                    Width="110"
+                                    Padding="4"
+                                    HorizontalAlignment="Stretch"
+                                    Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                    CornerRadius="5">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF242323"
+                                           Text="{Binding Name}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button x:Name="btnRefresh"
+                    Height="50"
+                    Width="50"
+                    VerticalContentAlignment="Center"
+                    Panel.ZIndex="5"
+                    Padding="0 20 0 0"
+                    Click="btnRefresh_Click"
+                    Content="&#xf021;"
+                    FontFamily="{StaticResource FontAwesomeLight}"
+                    FontSize="35"
+                    FontWeight="Bold"
+                    Style="{StaticResource buttonBordoStyle}" />
+        </StackPanel>
+
+        <StackPanel x:Name="stMultipleFilter"
+                    Margin="0,340,25,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="5"
+                    Orientation="Horizontal">
+
+            <TextBlock Text="Set Multiple:"
+                       FontSize="16"
+                       Foreground="#FFF1F1F1"
+                       VerticalAlignment="Center" />
+
+            <ComboBox Name="cbSetFilterMultiple"
+                      Width="110"
+                      Margin="5 0 0 0"
+                      Height="30"
+                      ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                      ItemsSource="{Binding MultipleFilterTags}"
+                      SelectedIndex="0"
+                      SelectionChanged="cbSetFilterMultiple_SelectionChanged"
+                      VerticalContentAlignment="Center"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource ComboBoxStyle1}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border Margin="0 1 0 0"
+                                    Width="110"
+                                    Padding="4"
+                                    HorizontalAlignment="Stretch"
+                                    Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                    CornerRadius="5">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF242323"
+                                           Text="{Binding Name}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel x:Name="stMultipleRemove"
+                    Margin="0,440,25,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="5"
+                    Orientation="Horizontal">
+
+            <TextBlock Text="Remove Many:"
+                       FontSize="16"
+                       Foreground="#FFF1F1F1"
+                       VerticalAlignment="Center" />
+
+            <Button x:Name="btnRemoveMany"
+                    Height="50"
+                    Width="50"
+                    VerticalContentAlignment="Center"
+                    Panel.ZIndex="5"
+                    Padding="0 20 0 0"
+                    Click="btnRemoveMany_Click"
+                    Content="&#xf2ed;"
+                    FontFamily="{StaticResource FontAwesomeLight}"
+                    FontSize="35"
+                    FontWeight="Bold"
+                    Style="{StaticResource buttonBordoStyle}" />
+        </StackPanel>
+
+        <StackPanel x:Name="stMultipleRename"
+                    Margin="0,540,25,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="5"
+                    Orientation="Horizontal">
+
+            <TextBlock Text="Rename Many:"
+                       FontSize="16"
+                       Foreground="#FFF1F1F1"
+                       VerticalAlignment="Center" />
+
+            <Button x:Name="btnRenameMany"
+                    Height="50"
+                    Width="50"
+                    VerticalContentAlignment="Center"
+                    Panel.ZIndex="5"
+                    Padding="0 20 0 0"
+                    Click="btnRenameMany_Click"
+                    Content="&#xf044;"
+                    FontFamily="{StaticResource FontAwesomeLight}"
+                    FontSize="35"
+                    FontWeight="Bold"
+                    Style="{StaticResource buttonBordoStyle}" />
         </StackPanel>
 
         <!--<Image x:Name="myImg" Source="5 - 17_19_03.png" />-->
 
-        <!--<local:RectangleColorControl Panel.ZIndex="5"/>-->
+        <!--<local:RectangleColorControl Panel.ZIndex="5" />-->
 
-
-        <ScrollViewer
-            Name="mySv"
-            MouseDown="ScrollViewer_MouseDown"
-            MouseMove="ScrollViewer_MouseMove"
-            MouseUp="ScrollViewer_MouseUp"
-            MouseWheel="mySv_MouseWheel"
-            PreviewMouseWheel="mySv_PreviewMouseWheel">
+        <ScrollViewer Name="mySv"
+                      MouseDown="ScrollViewer_MouseDown"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      MouseMove="ScrollViewer_MouseMove"
+                      MouseUp="ScrollViewer_MouseUp"
+                      MouseWheel="mySv_MouseWheel"
+                      PreviewMouseWheel="mySv_PreviewMouseWheel">
 
             <!--  ItemsSource="{Binding ScreenRowModels}"  -->
 
-            <ListBox
-                x:Name="mainListbox"
-                Margin="10,0,0,0"
-                Background="Transparent"
-                SelectionMode="Extended"
-                BorderBrush="Transparent"
-                ItemContainerStyle="{StaticResource ContainerStyle}"
-                SelectionChanged="mainListbox_SelectionChanged"
-                ScrollViewer.CanContentScroll="False"
-                ScrollViewer.PanningMode="VerticalOnly">
+            <ListBox x:Name="mainListbox"
+                     Margin="10,0,0,0"
+                     Background="Transparent"
+                     SelectionMode="Extended"
+                     BorderBrush="Transparent"
+                     ItemContainerStyle="{StaticResource ContainerStyle}"
+                     SelectionChanged="mainListbox_SelectionChanged"
+                     ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.PanningMode="VerticalOnly">
                 <ListBox.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
@@ -321,16 +294,14 @@
                                         <ControlTemplate>
                                             <StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock
-                                                        FontSize="30"
-                                                        FontWeight="Bold"
-                                                        Foreground="#FFF1F1F1"
-                                                        Text="{Binding Name}" />
-                                                    <TextBlock
-                                                        Margin="5,0,0,0"
-                                                        FontSize="30"
-                                                        Foreground="#FFF1F1F1"
-                                                        Text="{Binding ItemCount, StringFormat='({0})'}" />
+                                                    <TextBlock FontSize="30"
+                                                               FontWeight="Bold"
+                                                               Foreground="#FFF1F1F1"
+                                                               Text="{Binding Name}" />
+                                                    <TextBlock Margin="5,0,0,0"
+                                                               FontSize="30"
+                                                               Foreground="#FFF1F1F1"
+                                                               Text="{Binding ItemCount, StringFormat='({0})'}" />
                                                 </StackPanel>
                                                 <ContentPresenter />
                                                 <ItemsPresenter Margin="5,0,0,0" />
@@ -349,17 +320,17 @@
                 </ListBox.GroupStyle>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Width="1600" Orientation="Horizontal" />
+                        <WrapPanel Width="1600"
+                                   Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="10">
-                            <Image
-                                Width="{Binding WidthImg}"
-                                Height="{Binding HeightImg}"
-                                Cursor="Hand"
-                                Source="{Binding ButtonImage, UpdateSourceTrigger=PropertyChanged}">
+                            <Image Width="{Binding WidthImg}"
+                                   Height="{Binding HeightImg}"
+                                   Cursor="Hand"
+                                   Source="{Binding ButtonImageUri, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BitmapConverter}}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseEnter">
                                         <i:InvokeCommandAction Command="{Binding Path=OnMouseEnter}" />
@@ -387,28 +358,28 @@
                                 <Image.Style>
                                     <Style>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RunStoryboard}" Value="True">
+                                            <DataTrigger Binding="{Binding RunStoryboard}"
+                                                         Value="True">
                                                 <DataTrigger.EnterActions>
                                                     <BeginStoryboard>
                                                         <Storyboard x:Name="isStory">
 
-                                                            <DoubleAnimation
-                                                                AutoReverse="True"
-                                                                Storyboard.TargetProperty="Opacity"
-                                                                To="0.7"
-                                                                Duration="0:0:0.5" />
+                                                            <DoubleAnimation AutoReverse="True"
+                                                                             Storyboard.TargetProperty="Opacity"
+                                                                             To="0.7"
+                                                                             Duration="0:0:0.5" />
 
                                                             <!--<DoubleAnimation
                                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
                                                                                 Duration="0:0:0.3"
                                                                                 To="0.95"
-                                                                                AutoReverse="True"/>
+                                                                                AutoReverse="True" />
 
                                                                             <DoubleAnimation
                                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
                                                                                 Duration="0:0:0.3"
                                                                                 To="0.95"
-                                                                                AutoReverse="True"/>-->
+                                                                                AutoReverse="True" />-->
 
                                                             <!--<ThicknessAnimation
                                                                                 AccelerationRatio="1"
@@ -432,54 +403,48 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Left"
-                                    FontSize="16"
-                                    FontWeight="Normal"
-                                    Foreground="{StaticResource AlmostWhite}"
-                                    Text="{Binding DisplayedName}" 
-                                    />
-                                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Button
-                                        Content="&#xf044;"
-                                        Command="{Binding RenameImage}"
-                                        FontFamily="{StaticResource FontAwesomeLight}"
-                                        FontSize="20"
-                                        Style="{StaticResource buttonBordoStyle}" />
-                                    <Button
-                                        Margin="5,0,0,0"
-                                        Command="{Binding RemoveImage}"
-                                        Content="&#xf2ed;"
-                                        FontFamily="{StaticResource FontAwesomeLight}"
-                                        FontSize="20"
-                                        Style="{StaticResource buttonBordoStyle}" />
+                                <TextBlock Margin="10,0,0,0"
+                                           VerticalAlignment="Center"
+                                           DockPanel.Dock="Left"
+                                           FontSize="16"
+                                           FontWeight="Normal"
+                                           Foreground="{StaticResource AlmostWhite}"
+                                           Text="{Binding DisplayedName}" />
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal">
+                                    <Button Content="&#xf044;"
+                                            Command="{Binding RenameImage}"
+                                            FontFamily="{StaticResource FontAwesomeLight}"
+                                            FontSize="20"
+                                            Style="{StaticResource buttonBordoStyle}" />
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RemoveImage}"
+                                            Content="&#xf2ed;"
+                                            FontFamily="{StaticResource FontAwesomeLight}"
+                                            FontSize="20"
+                                            Style="{StaticResource buttonBordoStyle}" />
 
-                                    <ComboBox
-                                        Width="110"
-                                        Height="30"
-                                        Visibility="Visible"
-                                        ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
-                                        ItemsSource="{Binding Tags}"
-                                        SelectedItem="{Binding SelectedTag, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                        Style="{StaticResource ComboBoxStyle1}">
+                                    <ComboBox Width="110"
+                                              Height="30"
+                                              Visibility="Visible"
+                                              ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                                              ItemsSource="{Binding Tags}"
+                                              SelectedItem="{Binding SelectedTag, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                              Style="{StaticResource ComboBoxStyle1}">
 
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>
-                                                    <Border
-                                                        Width="110"
-                                                        Padding="4"
-                                                        HorizontalAlignment="Stretch"
-                                                        Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
-                                                        CornerRadius="5">
-                                                        <TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontWeight="Bold"
-                                                            Foreground="#FF242323"
-                                                            Text="{Binding Name}" />
+                                                    <Border Width="110"
+                                                            Padding="4"
+                                                            HorizontalAlignment="Stretch"
+                                                            Background="{Binding BackgroundBrush, UpdateSourceTrigger=PropertyChanged}"
+                                                            CornerRadius="5">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#FF242323"
+                                                                   Text="{Binding Name}" />
                                                     </Border>
                                                 </Grid>
                                             </DataTemplate>
