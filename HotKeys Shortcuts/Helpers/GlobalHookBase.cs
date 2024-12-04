@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Gma.System.MouseKeyHook;
+using Kombajn_Shortcut.Models;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
-using Kombajn_Shortcut.Models;
 
 namespace Kombajn
 {
@@ -58,11 +58,6 @@ namespace Kombajn
                         else if (item.SelectedModificator == ModificatorNumeration.Alt && e.Modifiers == Keys.Alt)
                         {
                             item.actionOnClick?.Invoke();
-                            e.Handled = true;
-                        }
-                        else if (item.AlternateSelectedModificator.ToString() == e.Modifiers.ToString())
-                        {
-                            item.alternateActionOnClick?.Invoke();
                             e.Handled = true;
                         }
                     }
