@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Common/AppsPath.cs
+/Common/KombajnCommon.cs
