@@ -3,43 +3,47 @@
     "GroupName": "MOJE",
     "Apps": [
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Podrecznik\\Podrecznik\\bin\\Release\\net8.0-windows7.0\\Podrecznik.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Podrecznik\\Podrecznik\\bin\\Release\\net8.0-windows7.0\\Podrecznik.exe",
         "DisplayName": "Podręcznik"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject 2.0\\GuitarUberProject 2.0\\bin\\Release\\net8.0-windows\\GuitarUberProject 2.0.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject 2.0\\GuitarUberProject 2.0\\bin\\Release\\net8.0-windows\\GuitarUberProject 2.0.exe",
         "DisplayName": "Guitar Uber"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
         "DisplayName": "Video Player"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\CzasowyWylacznik 2.0\\CzasowyWylacznik 2.0\\bin\\Release\\net8.0-windows\\CzasowyWylacznik 2.0.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Process Killer\\Process Killer\\bin\\Release\\Process Killer.exe",
+        "DisplayName": "Process Killer"
+      },
+      {
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\CzasowyWylacznik 2.0\\CzasowyWylacznik 2.0\\bin\\Release\\net8.0-windows\\CzasowyWylacznik 2.0.exe",
         "DisplayName": "Czasowy Wyłącznik"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\DisplayScreens\\bin\\Release\\net8.0-windows7.0\\DisplayScreens.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\DisplayScreens\\bin\\Release\\net8.0-windows7.0\\DisplayScreens.exe",
         "DisplayName": "Display Screens"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\HotKeys Shortcuts\\bin\\Release\\net8.0-windows7.0\\HotKeys Shortcuts.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\HotKeys Shortcuts\\bin\\Release\\net8.0-windows7.0\\HotKeys Shortcuts.exe",
         "DisplayName": "Hotkeys"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net8.0-windows\\FindWordsCrossRepos.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net8.0-windows\\FindWordsCrossRepos.exe",
         "DisplayName": "Find Words"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Linijka\\MojaLinijka\\bin\\Release\\Linijka.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Linijka\\MojaLinijka\\bin\\Release\\Linijka.exe",
         "DisplayName": "Linijka"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Desktop\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_DekstopSendPhrase.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Desktop\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_DekstopSendPhrase.exe",
         "DisplayName": "Languages Teacher - Send Phrase"
       },
       {
-        "Path": "C:\\Users\\dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Viewer\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_Viewer.exe",
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Viewer\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_Viewer.exe",
         "DisplayName": "Languages Teacher - Viewer"
       }
     ]
@@ -48,8 +52,8 @@
     "GroupName": "PROGRAMOWANIE",
     "Apps": [
       {
-        "Path": "C:\\Program Files\\Sublime Text 3\\sublime_text.exe",
-        "DisplayName": "Sublime Text 3"
+        "Path": "C:\\Program Files\\Sublime Text\\sublime_text.exe",
+        "DisplayName": "Sublime Text "
       },
       {
         "Path": "C:\\Program Files\\Unity Hub\\Unity Hub.exe",
@@ -66,12 +70,8 @@
     "Apps": [
 
       {
-        "Path": "C:\\Program Files\\WindowsApps\\Adobe.XD_57.1.12.2_x64__pc75e8sa7ep4e\\XD.exe",
-        "DisplayName": "Adobe XD"
-      },
-      {
-        "Path": "C:\\Program Files\\Adobe\\Adobe Photoshop 2024\\Photoshop.exe",
-        "DisplayName": "Adobe Photoshop 2024"
+        "Path": "C:\\Users\\Jarek\\AppData\\Local\\Figma\\app-125.0.7\\Figma.exe",
+        "DisplayName": "Figma"
       },
       {
         "Path": "C:\\Program Files\\Adobe\\Adobe Photoshop (Beta)\\Photoshop.exe",
@@ -83,7 +83,7 @@
     "GroupName": "MUZYKA",
     "Apps": [
       {
-        "Path": "C:\\Program Files\\Image-Line\\FL Studio 21\\FL64.exe",
+        "Path": "C:\\Program Files\\Image-Line\\FL Studio 2024\\FL64.exe",
         "DisplayName": "FL Studio 21"
       },
       {
