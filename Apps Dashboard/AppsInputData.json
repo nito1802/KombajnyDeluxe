@@ -11,6 +11,14 @@
         "DisplayName": "Guitar Uber"
       },
       {
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MySmartHomeApp\\MySmartHomeApp\\bin\\Release\\net9.0-windows10.0.19041.0\\win10-x64\\MySmartHomeApp.exe",
+        "DisplayName": "My Smart Home"
+      },
+      {
+        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyActivitiesApp\\MyActivitiesApp\\bin\\Release\\net9.0-windows10.0.19041.0\\win10-x64\\MyActivitiesApp.exe",
+        "DisplayName": "My Activities"
+      },
+      {
         "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
         "DisplayName": "Video Player"
       },
@@ -25,10 +33,6 @@
       {
         "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\DisplayScreens\\bin\\Release\\net8.0-windows7.0\\DisplayScreens.exe",
         "DisplayName": "Display Screens"
-      },
-      {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\HotKeys Shortcuts\\bin\\Release\\net8.0-windows7.0\\HotKeys Shortcuts.exe",
-        "DisplayName": "Hotkeys"
       },
       {
         "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net8.0-windows\\FindWordsCrossRepos.exe",
