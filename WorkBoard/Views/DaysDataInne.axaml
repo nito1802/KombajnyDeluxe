@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="KombajnDoPracy.Views.DaysDataInne"
+        Width="800"
+        Height="600"
+        Title="Days data"
+        WindowStartupLocation="CenterScreen">
+  <Grid RowDefinitions="Auto,*">
+    <TextBlock Text="Historia Inne" Margin="10" FontSize="20" FontWeight="Bold" />
+    <ListBox Grid.Row="1" Name="DataList" Margin="10">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Margin="0,0,0,10" Padding="8" Background="#262626">
+            <StackPanel>
+              <TextBlock Text="{Binding Date}" FontWeight="Bold" />
+              <TextBlock Text="{Binding DayPath}" TextWrapping="Wrap" />
+              <TextBlock Text="{Binding FilesAndFoldersCount, StringFormat=Items: {0}}" />
+              <Button Content="Open" Command="{Binding EnterLocation}" Margin="0,5,0,0" />
+              <ItemsControl ItemsSource="{Binding Items}" Margin="0,5,0,0">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Grid>
+</Window>
