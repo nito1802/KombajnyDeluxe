@@ -1,17 +1,13 @@
-﻿using KombajnDoPracy;
+using KombajnDoPracy;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Serialization;
-using System.Windows;
 using System.Windows.Input;
 
 namespace WorkBoard.Models.SpecialButtons
 {
-    /// <summary>
-    /// Model dla przycisków "Moje Dane" i "Moje Screeny"
-    /// </summary>
     public class SpecialDataButton : NormalButton
     {
         public string MojeDanePath { get; set; }
@@ -63,7 +59,7 @@ namespace WorkBoard.Models.SpecialButtons
 
             if (!Directory.Exists(MojeDanePath))
             {
-                MessageBox.Show("Folder nie istineje!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Debug.WriteLine("Folder nie istnieje!");
             }
 
             if (!Directory.Exists(Path))
