@@ -67,15 +67,21 @@ namespace KombajnDoPracy
             panel.Children.Add(overlay);
             var handle = new Button
             {
-                Content = "⋮",
-                Width = 22,
-                Height = 25,
+                Content = new StackPanel
+                {
+                    Children = {
+                    new System.Windows.Shapes.Ellipse { Width = 3, Height = 3, Fill = Brushes.White, Margin = new Thickness(0, 2, 0, 1) },
+                    new System.Windows.Shapes.Ellipse { Width = 3, Height = 3, Fill = Brushes.White, Margin = new Thickness(0, 1, 0, 1) },
+                    new System.Windows.Shapes.Ellipse { Width = 3, Height = 3, Fill = Brushes.White, Margin = new Thickness(0, 1, 0, 2) } }
+                },
+                Width = 24,
+                Height = 26,
                 FontSize = 21,
-                HorizontalAlignment = HorizontalAlignment.Left,
+                HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(6, 2, 0, 0),
+                Margin = new Thickness(0, 4, 5, 0),
                 Opacity = 0,
-                Style = (Style)FindResource("DarkOptionsButton"),
+                Style = (Style)FindResource("TileActionButton"),
                 ToolTip = "Akcje • przytrzymaj i przeciągnij"
             };
             overlay.Children.Add(handle);
@@ -92,7 +98,7 @@ namespace KombajnDoPracy
                     Math.Abs(pos.Y - start.Y) < SystemParameters.MinimumVerticalDragDistance) return;
                 dragged = true;
                 handle.ReleaseMouseCapture();
-                DragDrop.DoDragDrop(handle, new DataObject(typeof(NormalButton), item), DragDropEffects.Move);
+                BeginTileDrag(handle, overlay, item);
                 args.Handled = true;
             };
             handle.Click += (_, _) => { if (!dragged) ShowTileMenu(handle, item); };
@@ -100,19 +106,20 @@ namespace KombajnDoPracy
             overlay.DragOver += (_, args) =>
             {
                 var source = args.Data.GetData(typeof(NormalButton)) as NormalButton;
-                args.Effects = source != null && Group(item).Contains(source) ? DragDropEffects.Move : DragDropEffects.None;
+                bool valid = source != null && Group(item).Contains(source);
+                args.Effects = valid ? DragDropEffects.Move : DragDropEffects.None;
+                if (valid && source != item) PreviewTilePosition(source!, item, args.GetPosition(overlay).X >= overlay.ActualWidth / 2);
                 args.Handled = true;
             };
             overlay.Drop += (_, args) =>
             {
-                if (args.Data.GetData(typeof(NormalButton)) is not NormalButton source || source == item) return;
-                var group = Group(item);
-                if (!group.Contains(source)) return;
-                string old = LinkState();
-                int target = group.IndexOf(item);
-                group.Remove(source); group.Insert(target, source);
-                Persist(old); args.Handled = true;
+                if (args.Data.GetData(typeof(NormalButton)) is NormalButton source && Group(item).Contains(source))
+                {
+                    args.Effects = DragDropEffects.Move;
+                    args.Handled = true;
+                }
             };
+            if (draggedItem == item) overlay.Opacity = 0.25;
         }
 
         private static MenuItem ActionItem(string title, Action action)
@@ -139,8 +146,9 @@ namespace KombajnDoPracy
                         {
                             Content = type.ToString(),
                             GroupName = "LinkType",
+                            Style = (Style)FindResource("LinkTypeToggle"),
                             IsChecked = item.LinkType == type,
-                            Margin = new Thickness(8),
+                            Margin = new Thickness(0, 0, 8, 0),
                             Padding = new Thickness(6)
                         };
                         toggle.Checked += (_, _) => { var old = LinkState(); item.LinkType = type; popup.IsOpen = false; Persist(old); };
@@ -182,19 +190,22 @@ namespace KombajnDoPracy
             Placement = PlacementMode.Bottom,
             StaysOpen = false,
             AllowsTransparency = true,
+            PopupAnimation = PopupAnimation.Fade,
             Child = new Border
             {
-                Background = new SolidColorBrush(Color.FromRgb(38, 38, 38)),
-                BorderBrush = Brushes.Gray,
+                Background = new LinearGradientBrush(Color.FromRgb(36, 39, 46), Color.FromRgb(25, 27, 33), 90),
+                BorderBrush = new SolidColorBrush(Color.FromRgb(75, 88, 110)),
+                CornerRadius = new CornerRadius(10),
                 BorderThickness = new Thickness(1),
-                Padding = new Thickness(12),
+                Padding = new Thickness(20),
                 Child = content
             }
         };
 
         private void EditTile(Button handle, NormalButton item)
         {
-            var fields = new StackPanel { Width = 330 };
+            var fields = new StackPanel { Width = 370 };
+            fields.Children.Add(new TextBlock { Text = "Edytuj kafel", FontSize = 18, FontWeight = FontWeights.SemiBold, Foreground = Brushes.White, Margin = new Thickness(0, 0, 0, 12) });
             var popup = MakePopup(handle, fields);
             TextBox Field(string label, string value, bool multiline = false)
             {
@@ -204,7 +215,15 @@ namespace KombajnDoPracy
                     Text = value ?? "",
                     AcceptsReturn = multiline,
                     TextWrapping = TextWrapping.Wrap,
-                    MinHeight = multiline ? 60 : 26
+                    Background = new SolidColorBrush(Color.FromRgb(22, 25, 31)),
+                    Foreground = Brushes.White,
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(65, 76, 94)),
+                    CaretBrush = Brushes.White,
+                    Padding = new Thickness(10, 8, 10, 8),
+                    FontSize = 13,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    MaxHeight = 150,
+                    MinHeight = multiline ? 70 : 36
                 };
                 fields.Children.Add(box); return box;
             }
@@ -212,14 +231,14 @@ namespace KombajnDoPracy
             var path = Field(ButtonsViewModel.LinkButtons.Contains(item) ? "Link / treść" : "Ścieżka", item.Path, true);
             var description = Field("Opis", item.Description, true);
             var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
-            var save = new Button { Content = "Zapisz", Padding = new Thickness(10, 4, 10, 4) };
+            var save = new Button { Style = (Style)FindResource("PopupButton"), Content = "Zapisz", Padding = new Thickness(10, 4, 10, 4) };
             save.Click += (_, _) =>
             {
                 if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(path.Text)) return;
                 string old = LinkState(); item.Name = name.Text.Trim(); item.Path = path.Text.Trim();
                 item.Description = description.Text; popup.IsOpen = false; Persist(old);
             };
-            var cancel = new Button { Content = "Anuluj", Margin = new Thickness(8, 0, 0, 0), Padding = new Thickness(10, 4, 10, 4) };
+            var cancel = new Button { Style = (Style)FindResource("PopupButton"), Content = "Anuluj", Margin = new Thickness(8, 0, 0, 0), Padding = new Thickness(10, 4, 10, 4) };
             cancel.Click += (_, _) => popup.IsOpen = false;
             row.Children.Add(save); row.Children.Add(cancel); fields.Children.Add(row);
             popup.IsOpen = true; name.Focus(); name.SelectAll();

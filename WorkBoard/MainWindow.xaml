@@ -42,7 +42,7 @@
         <StackPanel>
             <Grid Margin="10,40,10,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="32" />
                     <RowDefinition Height="*" />
 
                 </Grid.RowDefinitions>
@@ -288,7 +288,7 @@
                     <DataTemplate>
                         <Grid Loaded="Tile_Loaded">
                             <Button
-                                Width="250"
+                                Width="250" Height="Auto" MinHeight="78"
                                 Margin="5,0,0,5"
                                 Padding="5"
                                 Command="{Binding Path=OpenUrlCommand}"
@@ -303,12 +303,12 @@
                                 <StackPanel Width="230">
                                     <TextBlock
                                         HorizontalAlignment="Center"
-                                        FontSize="15"
+                                        FontSize="13"
                                         FontWeight="Bold"
                                         Foreground="#FFCBCBCB"
-                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" TextAlignment="Center" Width="202" Margin="0,0,20,3" ToolTip="{Binding Name}" />
                                     <TextBlock
-                                        Height="50"
+                                        Height="32"
                                         FontSize="10"
                                         Foreground="#FFC29C0F"
                                         Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
