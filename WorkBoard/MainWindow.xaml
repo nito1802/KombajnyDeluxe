@@ -287,35 +287,20 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Loaded="Tile_Loaded">
-                            <Button
-                                Width="250" Height="Auto" MinHeight="78"
-                                Margin="5,0,0,5"
-                                Padding="5"
-                                Command="{Binding Path=OpenUrlCommand}"
-                                Style="{StaticResource LinkButton}">
+                            <Button Width="250" MinHeight="78" Margin="5,0,0,5"
+                                    Command="{Binding OpenUrlCommand}" Style="{StaticResource LinkTileAction}">
                                 <Button.InputBindings>
-                                    <MouseBinding Gesture="RightClick" 
-                                                  Command="{Binding CopyPath}" />
-                                    <MouseBinding Gesture="Ctrl+RightClick"
-                                                  Command="{Binding CopyNameWithPath}" />
+                                    <MouseBinding Gesture="RightClick" Command="{Binding CopyPath}" />
+                                    <MouseBinding Gesture="Ctrl+RightClick" Command="{Binding CopyNameWithPath}" />
                                 </Button.InputBindings>
-                                
-                                <StackPanel Width="230">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        FontSize="13"
-                                        FontWeight="Bold"
-                                        Foreground="#FFCBCBCB"
-                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" TextAlignment="Center" Width="202" Margin="0,0,20,3" ToolTip="{Binding Name}" />
-                                    <TextBlock
-                                        Height="32"
-                                        FontSize="10"
-                                        Foreground="#FFC29C0F"
-                                        Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
-                                        TextDecorations="Underline"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="WrapWithOverflow"
-                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                                <StackPanel>
+                                    <TextBlock FontSize="13" FontWeight="Bold" Foreground="#FFCBCBCB"
+                                               Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center"
+                                               Width="178" Margin="26,0,26,5" />
+                                    <TextBlock Height="32" FontSize="10" Foreground="#FFC29C0F"
+                                               Margin="0,0,24,0" Text="{Binding Path}" TextDecorations="Underline"
+                                               TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow"
+                                               ToolTip="{Binding Path}" />
                                 </StackPanel>
                             </Button>
                         </Grid>

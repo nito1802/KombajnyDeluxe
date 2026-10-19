@@ -26,6 +26,14 @@ namespace KombajnDoPracy.ViewModels
         public string MiddleGroupName { get; set; }
         public string RightGroupName { get; set; }
         public long WholeClickCount { get; set; }
+        public long LastCreatedId { get; set; }
+
+        public void EnsureIds()
+        {
+            var all = LeftButtons.Concat(MiddleButtons).Concat(RightButtons).Concat(LinkButtons).Concat(LinkHistory).ToList();
+            LastCreatedId = Math.Max(LastCreatedId, all.Select(b => b.LinkId).DefaultIfEmpty(0).Max());
+            foreach (var item in all.Where(b => b.LinkId <= 0)) item.LinkId = checked(++LastCreatedId);
+        }
         public List<NormalButton> LinkHistory { get; set; } = new List<NormalButton>();
 
         static SerializableButtonItemViewModel()
@@ -65,7 +73,7 @@ namespace KombajnDoPracy.ViewModels
             var btnToInsert = AlwaysThereButtons[alwaysThereIdx];
             btnToInsert.ClickCounter = clickCount;
 
-            if (previous != null) { btnToInsert.Name = previous.Name; btnToInsert.Description = previous.Description; btnToInsert.Idx = previous.Idx; }
+            if (previous != null) { btnToInsert.Name = previous.Name; btnToInsert.Description = previous.Description; btnToInsert.Idx = previous.Idx; btnToInsert.LinkId = previous.LinkId; btnToInsert.AddedAt = previous.AddedAt; btnToInsert.ModifiedAt = previous.ModifiedAt; }
             buttons.Insert(Math.Min(position, buttons.Count), btnToInsert);
         }
 
@@ -148,6 +156,7 @@ namespace KombajnDoPracy.ViewModels
 
         public static void Save(SerializableButtonItemViewModel state)
         {
+            state.EnsureIds();
             string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var appDataPath = Path.Combine(myDocumentPath, Consts.DataDirectoryName);
 
@@ -169,7 +178,9 @@ namespace KombajnDoPracy.ViewModels
             if (!File.Exists(serializedStatePath)) return null;
 
             var serializedContent = File.ReadAllText(serializedStatePath);
-            var res = JsonConvert.DeserializeObject<SerializableButtonItemViewModel>(serializedContent);
+            var document = Newtonsoft.Json.Linq.JObject.Parse(serializedContent);
+            WorkBoard.Helpers.TileIdMigration.Upgrade(document);
+            var res = document.ToObject<SerializableButtonItemViewModel>();
 
             return res;
         }

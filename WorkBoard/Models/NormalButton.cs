@@ -14,8 +14,9 @@ namespace WorkBoard.Models
     /// </summary>
     public class NormalButton
     {
-        public string LinkId { get; set; } = Guid.NewGuid().ToString("N");
+        public long LinkId { get; set; }
         public DateTime AddedAt { get; set; } = DateTime.Now;
+        public DateTime? ModifiedAt { get; set; }
         public WorkBoard.Enums.LinkType LinkType { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
@@ -103,7 +104,7 @@ namespace WorkBoard.Models
                         {
                             Clipboard.SetText(Path);
                             ClickCounter++;
-                            CloseApplication();
+                            Copied?.Invoke();
                         },
                         null
                     );
@@ -126,7 +127,7 @@ namespace WorkBoard.Models
                         {
                             Clipboard.SetText($"{Name} --> {Path}");
                             ClickCounter++;
-                            CloseApplication();
+                            Copied?.Invoke();
                         },
                         null
                     );
@@ -135,6 +136,7 @@ namespace WorkBoard.Models
             }
         }
 
+        public static Action? Copied;
         public static Action CloseApplication = null;
     }
 }

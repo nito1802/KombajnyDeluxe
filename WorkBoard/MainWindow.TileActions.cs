@@ -25,6 +25,7 @@ namespace KombajnDoPracy
 
         private void Persist(string old)
         {
+            ButtonsViewModel.EnsureIds();
             foreach (var group in new[] { ButtonsViewModel.LeftButtons, ButtonsViewModel.MiddleButtons,
                 ButtonsViewModel.RightButtons, ButtonsViewModel.LinkButtons })
                 for (int i = 0; i < group.Count; i++) group[i].Idx = i + 1;
@@ -57,10 +58,10 @@ namespace KombajnDoPracy
             if (panel.Tag != null || panel.DataContext is not NormalButton item) return;
             panel.Tag = true;
             // Overlay actions without changing the existing tile's command or copy gestures.
-            var tile = panel.Children.OfType<Button>().FirstOrDefault();
+            var tile = panel.Children.OfType<FrameworkElement>().FirstOrDefault();
             if (tile == null) return;
             bool link = ButtonsViewModel.LinkButtons.Contains(item);
-            if (link) tile.BorderBrush = TypeBrush(item);
+            if (link && tile is Button linkTile) linkTile.BorderBrush = TypeBrush(item);
             panel.Children.Remove(tile);
             var overlay = new Grid();
             overlay.Children.Add(tile);
@@ -85,6 +86,11 @@ namespace KombajnDoPracy
                 ToolTip = "Akcje • przytrzymaj i przeciągnij"
             };
             overlay.Children.Add(handle);
+            if (link)
+            {
+                AddCopyButton(overlay, item);
+                AddDetailsButton(overlay, item);
+            }
             overlay.MouseEnter += (_, _) => handle.Opacity = 1;
             overlay.MouseLeave += (_, _) => { if (!handle.IsMouseCaptured) handle.Opacity = 0; };
             Point start = default;
@@ -122,6 +128,42 @@ namespace KombajnDoPracy
             if (draggedItem == item) overlay.Opacity = 0.25;
         }
 
+        private void AddDetailsButton(Grid overlay, NormalButton item)
+        {
+            var arrow = new Button
+            {
+                Content = new System.Windows.Shapes.Path
+                {
+                    Data = Geometry.Parse("M 5,2 L 11,7 L 5,12"),
+                    Stroke = Brushes.White,
+                    StrokeThickness = 1.5,
+                    StrokeLineJoin = PenLineJoin.Round,
+                    StrokeStartLineCap = PenLineCap.Round,
+                    StrokeEndLineCap = PenLineCap.Round,
+                    Width = 16,
+                    Height = 14,
+                    IsHitTestVisible = false
+                },
+                Width = 24,
+                Height = 24,
+                Opacity = 0,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(0, 0, 5, 8),
+                Style = (Style)FindResource("TileActionButton"),
+                ToolTip = "Szczegóły kafla"
+            };
+            arrow.Click += (_, args) =>
+            {
+                ShowTileDetails(arrow, item);
+                args.Handled = true;
+            };
+            overlay.Children.Add(arrow);
+            overlay.MouseEnter += (_, _) => arrow.Opacity = 1;
+            overlay.MouseLeave += (_, _) => { if (!arrow.IsMouseCaptured) arrow.Opacity = 0; };
+            arrow.LostMouseCapture += (_, _) => { if (!overlay.IsMouseOver) arrow.Opacity = 0; };
+        }
+
         private static MenuItem ActionItem(string title, Action action)
         {
             var menu = new MenuItem { Header = title };
@@ -151,7 +193,7 @@ namespace KombajnDoPracy
                             Margin = new Thickness(0, 0, 8, 0),
                             Padding = new Thickness(6)
                         };
-                        toggle.Checked += (_, _) => { var old = LinkState(); item.LinkType = type; popup.IsOpen = false; Persist(old); };
+                        toggle.Checked += (_, _) => { var old = LinkState(); item.LinkType = type; item.ModifiedAt = DateTime.Now; popup.IsOpen = false; Persist(old); };
                         row.Children.Add(toggle);
                     }
                     popup.IsOpen = true;
@@ -235,7 +277,10 @@ namespace KombajnDoPracy
             save.Click += (_, _) =>
             {
                 if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(path.Text)) return;
-                string old = LinkState(); item.Name = name.Text.Trim(); item.Path = path.Text.Trim();
+                string old = LinkState();
+                if (item.Name != name.Text.Trim() || item.Path != path.Text.Trim() || item.Description != description.Text)
+                    item.ModifiedAt = DateTime.Now;
+                item.Name = name.Text.Trim(); item.Path = path.Text.Trim();
                 item.Description = description.Text; popup.IsOpen = false; Persist(old);
             };
             var cancel = new Button { Style = (Style)FindResource("PopupButton"), Content = "Anuluj", Margin = new Thickness(8, 0, 0, 0), Padding = new Thickness(10, 4, 10, 4) };

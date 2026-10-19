@@ -93,7 +93,11 @@ namespace KombajnDoPracy
                 previewTarget = null;
                 Mouse.SetCursor(null);
                 if (!committed) { group.Clear(); group.AddRange(original); }
-                if (committed) Persist(old);
+                if (committed)
+                {
+                    if (original.IndexOf(item) != group.IndexOf(item)) item.ModifiedAt = DateTime.Now;
+                    Persist(old);
+                }
                 else RefreshGroup(group);
             }
         }

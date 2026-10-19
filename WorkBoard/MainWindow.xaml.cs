@@ -77,6 +77,13 @@ namespace KombajnDoPracy
             mainGrid.DataContext = ButtonsViewModel;
             Persist(LinkState());
 
+            NormalButton.Copied = () =>
+            {
+                ButtonsViewModel.WholeClickCount++;
+                SerializableButtonItemViewModel.Save(ButtonsViewModel);
+                ShowCopiedSnack();
+            };
+
             NormalButton.CloseApplication = () =>
             {
                 ButtonsViewModel.WholeClickCount++;
