@@ -46,7 +46,7 @@ namespace KombajnDoPracy
             double maxHeight = Math.Max(120, Math.Min(620, SystemParameters.WorkArea.Height * 0.70) - 42);
             var layout = new Grid { Width = 414, MaxHeight = maxHeight };
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            layout.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             var header = new Grid { Margin = new Thickness(0, 0, 0, 14) };
             header.Children.Add(new TextBlock {
                 Text = "Szczegóły kafla", FontSize = 18, FontWeight = FontWeights.SemiBold,
@@ -61,7 +61,7 @@ namespace KombajnDoPracy
             header.Children.Add(close);
             layout.Children.Add(header);
             var content = new ScrollViewer {
-                Content = fields, CanContentScroll = false,
+                Content = fields, CanContentScroll = false, MaxHeight = Math.Max(1, maxHeight - 44),
                 Style = (Style)FindResource("DetailsScrollViewer")
             };
             // Read-only TextBoxes otherwise consume the wheel even when their own scrolling is disabled.
