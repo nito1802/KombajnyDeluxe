@@ -1,4 +1,4 @@
-using KombajnDoPracy;
+using Avalonia;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,9 +9,6 @@ using WorkBoard.Enums;
 
 namespace WorkBoard.Models
 {
-    /// <summary>
-    /// Model dla normalnych przycisków folderowych i linkowych 
-    /// </summary>
     public class NormalButton
     {
         public long LinkId { get; set; }
@@ -24,12 +21,13 @@ namespace WorkBoard.Models
         public int Idx { get; set; }
         public ButtonGroup GroupId { get; set; }
         public bool CanDelete { get; set; } = true;
-        public bool IsEnabled { get; set; } = true; //jesli sciezka nie istnieje, wylaczam button
+        public bool IsEnabled { get; set; } = true;
         public long ClickCounter { get; set; }
         public string TagName { get; set; }
 
         public NormalButton()
-        { }
+        {
+        }
 
         public NormalButton(string path, string name, string description, ButtonGroup groupId, bool canDelete, long clickCounter, string tagName)
         {
@@ -102,7 +100,8 @@ namespace WorkBoard.Models
                     copyPath = new RelayCommand(
                         param =>
                         {
-                            Clipboard.SetText(Path);
+                            var clipboard = Avalonia.Application.Current?.Clipboard;
+                            clipboard?.SetTextAsync(Path).GetAwaiter().GetResult();
                             ClickCounter++;
                             Copied?.Invoke();
                         },
@@ -125,7 +124,8 @@ namespace WorkBoard.Models
                     copyNameWithPath = new RelayCommand(
                         param =>
                         {
-                            Clipboard.SetText($"{Name} --> {Path}");
+                            var clipboard = Avalonia.Application.Current?.Clipboard;
+                            clipboard?.SetTextAsync($"{Name} --> {Path}").GetAwaiter().GetResult();
                             ClickCounter++;
                             Copied?.Invoke();
                         },

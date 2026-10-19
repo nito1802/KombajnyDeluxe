@@ -1,4 +1,5 @@
-﻿using Common;
+using Avalonia;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -58,7 +59,7 @@ namespace KombajnDoPracy
                             if (!Directory.Exists(DayPath)) return;
                             var processStartInfo = new ProcessStartInfo() { FileName = DayPath, UseShellExecute = true };
                             Process.Start(processStartInfo);
-                            App.Current.Shutdown();
+                            Application.Current?.TryShutdown();
                         },
                         null
                     );
@@ -98,9 +99,6 @@ namespace KombajnDoPracy
 
                             List<DayDataModel> filesFromDays = new List<DayDataModel>();
 
-                            Stopwatch sw = new Stopwatch();
-                            sw.Start();
-
                             for (int i = 0; i < argDays; i++)
                             {
                                 string currentYear = DateTime.Now.AddDays(-i).Year.ToString();
@@ -121,22 +119,16 @@ namespace KombajnDoPracy
 
                                 List<MyModel> processedFiles = new List<MyModel>();
 
-                                string currentItem = null;
-
                                 try
                                 {
-                                    for (int idx = 0; idx < entries.Length; idx++)
+                                    foreach (var entry in entries)
                                     {
-                                        currentItem = entries[idx];
-
-                                        var processedEntriesItem = new MyModel(currentItem, File.GetLastWriteTime(currentItem));
-
+                                        var processedEntriesItem = new MyModel(entry, File.GetLastWriteTime(entry));
                                         processedFiles.Add(processedEntriesItem);
                                     }
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
-
                                 }
 
                                 var superProcessedItems = processedFiles
@@ -151,14 +143,8 @@ namespace KombajnDoPracy
                                 filesFromDays.Add(res);
                             }
 
-                            sw.Stop();
-
-                            DaysDataInne daysWindow = new DaysDataInne(filesFromDays);
+                            Views.DaysDataInne daysWindow = new Views.DaysDataInne(filesFromDays);
                             daysWindow.Show();
-
-                            int aaa = 2;
-                            //Process.Start(Path);
-                            //CloseApplication();
                         },
                         null
                     );
@@ -166,21 +152,6 @@ namespace KombajnDoPracy
                 return openOrRestoreWindowCommand;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private ICommand historyOfScreensCommand;
 
@@ -194,49 +165,20 @@ namespace KombajnDoPracy
                         param =>
                         {
                             string searchScreenFrom = KombajnCommon.MojeDanePath;
-                            int dateRange = int.Parse(param.ToString()); ;
+                            int dateRange = int.Parse(param.ToString());
 
                             Process process = new Process();
                             process.StartInfo.FileName = AppsPath.DisplayScreensPath;
                             process.StartInfo.Arguments = $"{dateRange} \"{searchScreenFrom}\"";
                             process.StartInfo.UseShellExecute = true;
                             process.Start();
-                            IntPtr handle = process.Handle;
-                            WinApiHelper.SetForegroundWindow(handle);
-                            App.Current.Shutdown();
+                            Application.Current?.TryShutdown();
                         },
                         null
                     );
                 }
                 return historyOfScreensCommand;
             }
-        }
-
-
-
-
-
-
-
-        static long GetDirectorySize(string p)
-        {
-            // 1.
-            // Get array of all file names.
-            string[] a = Directory.GetFiles(p, "*.*");
-
-            // 2.
-            // Calculate total bytes of all files in a loop.
-            long b = 0;
-            foreach (string name in a)
-            {
-                // 3.
-                // Use FileInfo to get length of each file.
-                FileInfo info = new FileInfo(name);
-                b += info.Length;
-            }
-            // 4.
-            // Return total size
-            return b;
         }
     }
 }
