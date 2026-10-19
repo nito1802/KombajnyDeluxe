@@ -1,8 +1,8 @@
-﻿using KombajnDoPracy;
+using KombajnDoPracy;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using System.Windows;
 using System.Windows.Input;
 using WorkBoard.Enums;
@@ -14,6 +14,9 @@ namespace WorkBoard.Models
     /// </summary>
     public class NormalButton
     {
+        public string LinkId { get; set; } = Guid.NewGuid().ToString("N");
+        public DateTime AddedAt { get; set; } = DateTime.Now;
+        public WorkBoard.Enums.LinkType LinkType { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

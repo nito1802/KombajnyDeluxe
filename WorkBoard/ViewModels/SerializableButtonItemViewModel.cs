@@ -1,4 +1,4 @@
-﻿using KombajnDoPracy.Helpers;
+using KombajnDoPracy.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,7 @@ namespace KombajnDoPracy.ViewModels
         public string MiddleGroupName { get; set; }
         public string RightGroupName { get; set; }
         public long WholeClickCount { get; set; }
+        public List<NormalButton> LinkHistory { get; set; } = new List<NormalButton>();
 
         static SerializableButtonItemViewModel()
         {
@@ -52,6 +53,8 @@ namespace KombajnDoPracy.ViewModels
             var tagButtons = buttons.Where(a => a.TagName == tagName).ToList();
 
             long clickCount = 0;
+            var previous = tagButtons.FirstOrDefault();
+            int position = previous == null ? alwaysThereIdx : buttons.IndexOf(previous);
 
             if(tagButtons.Any())
             {
@@ -62,7 +65,8 @@ namespace KombajnDoPracy.ViewModels
             var btnToInsert = AlwaysThereButtons[alwaysThereIdx];
             btnToInsert.ClickCounter = clickCount;
 
-            buttons.Add(btnToInsert);
+            if (previous != null) { btnToInsert.Name = previous.Name; btnToInsert.Description = previous.Description; btnToInsert.Idx = previous.Idx; }
+            buttons.Insert(Math.Min(position, buttons.Count), btnToInsert);
         }
 
         private static List<NormalButton> ValidateGroupedButtonList(List<NormalButton> buttons, int groupIdx)
@@ -78,10 +82,10 @@ namespace KombajnDoPracy.ViewModels
                 ValidateSpecialButton(buttons, Consts.ScreenyTag, 2);
                 ValidateSpecialButton(buttons, Consts.NotatkiTag, 3);
 
-                HandleSpecialButton(buttons, Consts.MojeDaneTag, 0);
-                HandleSpecialButton(buttons, Consts.AllDaneTag, 1);
-                HandleSpecialButton(buttons, Consts.ScreenyTag, 2);
-                HandleSpecialButton(buttons, Consts.NotatkiTag, 3);
+
+
+
+
             }
 
             int startIdx = 1;

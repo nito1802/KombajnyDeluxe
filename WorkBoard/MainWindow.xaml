@@ -1,4 +1,4 @@
-﻿<Window
+<Window
     x:Class="KombajnDoPracy.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -25,34 +25,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Window.ContextMenu>
-        <ContextMenu>
-            <MenuItem Command="{Binding HistoryOfScreensCommand}"
-                      CommandParameter="24"
-                      Header="Screeny z dzisiaj" />
-            <MenuItem
-                Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="1"
-                Header="Screeny z ostatniego tygodnia" />
-            <MenuItem
-                Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="2"
-                Header="Screeny z ostatnich 2 tygodni" />
-            <MenuItem
-                Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="3"
-                Header="Screeny z ostatniego miesiąca" />
-            <MenuItem
-                Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="12"
-                Header="Screeny z ostatniego roku" />
-            <MenuItem
-                Command="{Binding HistoryOfScreensCommand}"
-                CommandParameter="-1"
-                Header="Wszystkie screeny" />
-
-        </ContextMenu>
-    </Window.ContextMenu>
     <Grid x:Name="mainGrid">
 
         <Button
@@ -159,7 +131,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Loaded="Tile_Loaded">
                                 <Button
                                     Margin="5"
                                     Padding="10"
@@ -215,7 +187,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Loaded="Tile_Loaded">
                                 <Button
                                     Margin="5"
                                     Padding="10"
@@ -267,7 +239,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Loaded="Tile_Loaded">
                                 <Button
                                     Margin="5"
                                     Padding="10"
@@ -314,7 +286,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Loaded="Tile_Loaded">
                             <Button
                                 Width="250"
                                 Margin="5,0,0,5"

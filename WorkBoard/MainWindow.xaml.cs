@@ -1,4 +1,4 @@
-﻿using Common;
+using Common;
 using KombajnDoPracy.ViewModels;
 using System;
 using System.ComponentModel;
@@ -75,6 +75,7 @@ namespace KombajnDoPracy
 
             ButtonsViewModel = SerializableButtonItemViewModel.Load();
             mainGrid.DataContext = ButtonsViewModel;
+            Persist(LinkState());
 
             NormalButton.CloseApplication = () =>
             {
@@ -167,7 +168,7 @@ namespace KombajnDoPracy
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && e.OriginalSource == this)
             {
                 this.DragMove();
             }
@@ -179,15 +180,7 @@ namespace KombajnDoPracy
 
         private void BtnOptions_Click(object sender, RoutedEventArgs e)
         {
-            EditButtons editButtonsWindow = new EditButtons(ButtonsViewModel);
-            editButtonsWindow.ShowDialog();
-
-            if(editButtonsWindow.DialogResult == true)
-            {
-                ButtonsViewModel = SerializableButtonItemViewModel.GetFromEditButtonViewModel(editButtonsWindow.EditButtonViewModel);
-                SerializableButtonItemViewModel.Save(ButtonsViewModel);
-                mainGrid.DataContext = ButtonsViewModel;
-            }
+            ShowOptionsMenu();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
