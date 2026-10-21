@@ -1,0 +1,44 @@
+Cały flow archiwizuje stare dane tabela po tabeli, dzień po dniu. Kopiuje dzień do tabeli tymczasowej, zapisuje go w CSV z limitem rekordów, tworzy i sprawdza ZIP. Dopiero po poprawnym ZIP usuwa ze źródła wyeksportowane rekordy.
+Błąd CSV lub ZIP pozostawia dane dnia w bazie. Zadanie dostaje status Error, a pakiet przechodzi do kolejnej tabeli.
+Przygotowanie zadań
+Bloczek	Co robi
+Prepare job queries	Przygotowuje zapytania do tabeli wskazanej parametrem ArchiveJobsTable.
+Load archive jobs	Pobiera listę zadań archiwizacji.
+For each archive job	Wykonuje przepływ dla każdego zadania / tabeli.
+Mark job as started	Zapisuje rozpoczęcie zadania i czyści poprzedni błąd.
+Initialize job variables	Resetuje stan zadania i ustawia katalog archiwum.
+Prepare metadata and date queries	Sprawdza parametry i przygotowuje zapytania dotyczące tabeli oraz dat.
+Read column definitions	Pobiera strukturę kolumn i ich typy CLR, bez rekordów.
+Read SQL types and keys	Pobiera typy SQL i informacje o kluczu unikalnym.
+Prepare export schema and header	Przygotowuje opis kolumn, listę kluczy i nagłówek CSV.
+Calculate retention cutoff	Wyznacza granicę retencji — nowsze dane zostają w bazie.
+Find first archive day	Znajduje najstarszy dzień kwalifikujący się do eksportu.
+
+
+Przetwarzanie dnia
+Bloczek	Co robi
+For each archive day	Przetwarza kolejne dni do granicy retencji.
+Initialize daily archive	Ustawia ścieżki, granice dnia, liczniki i zapytania. Sprawdza kolizję istniejących plików.
+Stage archive day	Kopiuje dane całego dnia do #ArchiveDay i liczy rekordy.
+Process daily batches	Dzieli kopię dnia na partie do osobnych CSV.
+Prepare batch select query	Przygotowuje odczyt następnej partii z tabeli tymczasowej, w stałej kolejności po kluczu.
+Read archive batch	Pobiera tę partię do pamięci.
+Write batch to CSV	Zapisuje osobny CSV z nagłówkiem, zamyka plik i zwiększa licznik zapisanych rekordów.
+Verify exported day	Porównuje liczbę rekordów zapisanych do CSV z liczbą w kopii dnia.
+Create daily ZIP	Uruchamia 7-Zip i pakuje CSV dnia.
+Verify ZIP integrity	Uruchamia test integralności ZIP.
+Delete archived day	Po udanym ZIP usuwa ze źródła rekordy dopasowane kluczami do #ArchiveDay.
+Verify deleted row count	Sprawdza, czy liczba usuniętych rekordów zgadza się z kopią dnia.
+Drop staged day	Usuwa tabelę tymczasową, również po błędzie.
+Delete temporary CSV files	Po sukcesie usuwa luźne CSV i folder roboczy. CSV wewnątrz ZIP pozostają.
+
+
+Zakończenie i błędy
+Bloczek	Co robi
+Save job result	Zapisuje w tabeli konfiguracji sukces albo błąd zadania oraz daty przetwarzania.
+Log job result	Wypisuje wynik do logów SSIS i zlicza nieudane zadania.
+Check overall archive result	Po wszystkich tabelach kończy pakiet sukcesem albo błędem, jeśli jakieś zadanie się nie udało.
+Capture … error	Handlery OnError: zapamiętują komunikat i ustawiają flagę blokującą dalsze operacje bieżącego zadania.
+
+
+Wszystkie operacje bazodanowe wykonują Execute SQL Tasks. C# przygotowuje zapytania, przetwarza wyniki i zapisuje CSV; pakowanie wykonują Execute Process Tasks.
