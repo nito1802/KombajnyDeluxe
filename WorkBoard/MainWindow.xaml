@@ -26,6 +26,20 @@
     </Window.Resources>
     <Grid x:Name="mainGrid">
 
+        <Button Name="btnAddTile"
+                Margin="0,5,42,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Click="BtnAddTile_Click"
+                Panel.ZIndex="55"
+                ToolTip="Dodaj kafel"
+                Style="{StaticResource DarkOptionsButton}">
+            <Grid Width="25" Height="25" IsHitTestVisible="False">
+                <Path Data="M 5,12.5 L 20,12.5 M 12.5,5 L 12.5,20"
+                      Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                      StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Grid>
+        </Button>
         <Button Name="btnOptions"
                 Margin="0,5,5,0"
                 HorizontalAlignment="Right"
@@ -295,7 +309,7 @@
                                     <TextBlock Height="32"
                                                FontSize="10"
                                                Foreground="#FFC29C0F"
-                                               Margin="0,0,24,0"
+                                               Margin="24,0,24,0"
                                                Text="{Binding Path}"
                                                TextDecorations="Underline"
                                                TextTrimming="CharacterEllipsis"

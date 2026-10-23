@@ -11,7 +11,14 @@ namespace KombajnDoPracy
 {
     public partial class MainWindow
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "GetWindowLongW")]
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowLongW")]
+        private static extern int SetWindowLong(IntPtr hwnd, int index, int value);
+
         private Border? copiedSnack;
+        private Window? copiedSnackWindow;
+        private TextBlock? copiedSnackText;
         private readonly DispatcherTimer snackTimer = new DispatcherTimer();
         private int snackVersion;
 
@@ -52,51 +59,72 @@ namespace KombajnDoPracy
             copy.LostMouseCapture += (_, _) => { if (!overlay.IsMouseOver) copy.Opacity = 0; };
         }
 
-        private void ShowCopiedSnack()
+        private async void ShowCopiedSnack(string title)
         {
             if (copiedSnack == null)
             {
                 var row = new StackPanel { Orientation = Orientation.Horizontal };
                 row.Children.Add(new TextBlock { Text = "✓", Foreground = new SolidColorBrush(Color.FromRgb(118, 231, 176)),
                     FontSize = 20, FontWeight = FontWeights.Bold, Margin = new Thickness(0, 0, 10, 0) });
-                row.Children.Add(new TextBlock { Text = "Skopiowano", Foreground = Brushes.White, FontSize = 14,
-                    VerticalAlignment = VerticalAlignment.Center });
+                copiedSnackText = new TextBlock { Foreground = Brushes.White, FontSize = 14,
+                    TextWrapping = TextWrapping.Wrap, MaxWidth = 560, VerticalAlignment = VerticalAlignment.Center };
+                row.Children.Add(copiedSnackText);
                 copiedSnack = new Border {
                     Background = new SolidColorBrush(Color.FromRgb(33, 44, 43)),
                     BorderBrush = new SolidColorBrush(Color.FromRgb(79, 137, 113)), BorderThickness = new Thickness(1),
                     CornerRadius = new CornerRadius(12), Padding = new Thickness(20, 12, 20, 12),
-                    HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Bottom,
-                    Margin = new Thickness(0, 0, 0, 20), IsHitTestVisible = false,
+                    HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0), IsHitTestVisible = false,
                     RenderTransform = new TranslateTransform(), Child = row
                 };
                 Panel.SetZIndex(copiedSnack, 1000);
-                mainGrid.Children.Add(copiedSnack);
+                copiedSnackWindow = new Window
+                {
+                    WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize,
+                    AllowsTransparency = true, Background = Brushes.Transparent,
+                    ShowInTaskbar = false, ShowActivated = false, Topmost = true,
+                    SizeToContent = SizeToContent.Manual, Content = copiedSnack, Opacity = 0,
+                    IsHitTestVisible = false, Focusable = false
+                };
+                copiedSnackWindow.SourceInitialized += (_, _) =>
+                {
+                    var hwnd = new System.Windows.Interop.WindowInteropHelper(copiedSnackWindow).Handle;
+                    SetWindowLong(hwnd, -20, GetWindowLong(hwnd, -20) | 0x08000000 | 0x00000020 | 0x00000080);
+                };
+                Closed += (_, _) => { snackTimer.Stop(); copiedSnackWindow.Close(); };
                 snackTimer.Tick += (_, _) => HideCopiedSnack();
             }
-            snackVersion++;
+            int version = ++snackVersion;
             snackTimer.Stop();
-            copiedSnack.Visibility = Visibility.Visible;
-            copiedSnack.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
-            copiedSnack.RenderTransform.BeginAnimation(TranslateTransform.YProperty,
-                new DoubleAnimation(14, 0, TimeSpan.FromMilliseconds(260)) {
-                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-                });
+            var toast = copiedSnackWindow!;
+            // Keep the native window transparent until text, layout and position are ready.
+            toast.BeginAnimation(OpacityProperty, null);
+            toast.Opacity = 0;
+            copiedSnackText!.Text = $"Skopiowano treść {title}";
+            var area = SystemParameters.WorkArea;
+            copiedSnackText.MaxWidth = Math.Max(80, Math.Min(560, area.Width - 120));
+            copiedSnack!.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            toast.Width = Math.Ceiling(copiedSnack.DesiredSize.Width);
+            toast.Height = Math.Ceiling(copiedSnack.DesiredSize.Height);
+            toast.Left = area.Left + (area.Width - toast.Width) / 2;
+            toast.Top = area.Bottom - toast.Height - 24;
+            toast.Show();
+            await Dispatcher.InvokeAsync(() => toast.UpdateLayout(), DispatcherPriority.Loaded);
+            if (version != snackVersion || !toast.IsVisible) return;
+            toast.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
             snackTimer.Interval = TimeSpan.FromSeconds(2);
             snackTimer.Start();
         }
-
         private void HideCopiedSnack()
         {
             snackTimer.Stop();
-            if (copiedSnack == null) return;
+            if (copiedSnackWindow == null) return;
             int version = snackVersion;
             var fade = new DoubleAnimation(0, TimeSpan.FromMilliseconds(220));
             fade.Completed += (_, _) => {
-                if (version == snackVersion) copiedSnack.Visibility = Visibility.Collapsed;
+                if (version == snackVersion) copiedSnackWindow.Hide();
             };
-            copiedSnack.BeginAnimation(OpacityProperty, fade);
-            copiedSnack.RenderTransform.BeginAnimation(TranslateTransform.YProperty,
-                new DoubleAnimation(8, TimeSpan.FromMilliseconds(220)));
+            copiedSnackWindow.BeginAnimation(OpacityProperty, fade);
         }
     }
 }

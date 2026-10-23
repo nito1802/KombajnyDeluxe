@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
+using System.Runtime.InteropServices;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,28 @@ namespace KombajnDoPracy
 {
     public partial class MainWindow
     {
+        [StructLayout(LayoutKind.Sequential)]
+        private struct DragCursorPoint { public int X; public int Y; }
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out DragCursorPoint point);
+
+        private sealed class TileDragAdorner : Adorner
+        {
+            private readonly ImageSource snapshot;
+            private readonly Size size;
+            public Point Position { get; set; }
+            public TileDragAdorner(UIElement owner, ImageSource snapshot, Size size) : base(owner)
+            {
+                this.snapshot = snapshot; this.size = size;
+                IsHitTestVisible = false; Opacity = .72;
+            }
+            protected override void OnRender(DrawingContext context)
+            {
+                context.DrawImage(snapshot, new Rect(Position, size));
+            }
+        }
+
+        private ObservableCollection<NormalButton>? dragItems;
         private NormalButton? draggedItem;
         private NormalButton? previewTarget;
         private bool previewAfter;
@@ -36,10 +61,11 @@ namespace KombajnDoPracy
             if (current == index) return;
             group.Remove(source);
             group.Insert(index, source);
-            RefreshGroup(group);
+            if (dragItems != null) dragItems.Move(current, index);
+            else RefreshGroup(group);
         }
 
-        private void BeginTileDrag(Button handle, Grid tile, NormalButton item)
+        private void BeginTileDrag(Button handle, Grid tile, NormalButton item, Point grabPoint)
         {
             var group = Group(item);
             var original = group.ToList();
@@ -50,21 +76,17 @@ namespace KombajnDoPracy
                 Math.Max(1, (int)Math.Ceiling(tile.ActualHeight * dpi.DpiScaleY)),
                 96 * dpi.DpiScaleX, 96 * dpi.DpiScaleY, PixelFormats.Pbgra32);
             bitmap.Render(tile);
-            var ghost = new Popup {
-                PlacementTarget = this, Placement = PlacementMode.Relative,
-                AllowsTransparency = true, IsHitTestVisible = false,
-                Child = new Border {
-                    Opacity = 0.72, CornerRadius = new CornerRadius(7),
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(120,167,234)),
-                    BorderThickness = new Thickness(1),
-                    Child = new Image { Source = bitmap, Width = tile.ActualWidth, Height = tile.ActualHeight }
-                }
-            };
-            DragEventHandler follow = (_, args) => {
-                var point = args.GetPosition(this);
-                ghost.HorizontalOffset = point.X + 18;
-                ghost.VerticalOffset = point.Y + 18;
-            };
+            bitmap.Freeze();
+            var layer = AdornerLayer.GetAdornerLayer(mainGrid);
+            if (layer == null) return;
+            var ghost = new TileDragAdorner(mainGrid, bitmap, new Size(tile.ActualWidth, tile.ActualHeight));
+            void FollowCursor(object? sender, EventArgs args)
+            {
+                if (!GetCursorPos(out var cursor)) return;
+                var point = mainGrid.PointFromScreen(new Point(cursor.X, cursor.Y));
+                ghost.Position = new Point(point.X - grabPoint.X, point.Y - grabPoint.Y);
+                ghost.InvalidateVisual();
+            }
             GiveFeedbackEventHandler feedback = (_, args) => {
                 args.UseDefaultCursors = false;
                 Mouse.SetCursor(args.Effects == DragDropEffects.None ? Cursors.No : Cursors.SizeAll);
@@ -73,22 +95,28 @@ namespace KombajnDoPracy
             draggedItem = item;
             previewTarget = null;
             tile.Opacity = 0.25;
-            var initial = Mouse.GetPosition(this);
-            ghost.HorizontalOffset = initial.X + 18;
-            ghost.VerticalOffset = initial.Y + 18;
-            AddHandler(DragDrop.PreviewDragOverEvent, follow, true);
-            handle.GiveFeedback += feedback;
-            ghost.IsOpen = true;
+            var control = new[] { LeftGroup, MiddleGroup, RightGroup, LinkGroup }
+                .First(c => ReferenceEquals(c.ItemsSource, group));
+            dragItems = new ObservableCollection<NormalButton>(group);
+            control.SetCurrentValue(ItemsControl.ItemsSourceProperty, dragItems);
+            FollowCursor(null, EventArgs.Empty);
+            layer.Add(ghost);
+            CompositionTarget.Rendering += FollowCursor;
+            GiveFeedback += feedback;
             bool committed = false;
             try
             {
-                committed = DragDrop.DoDragDrop(handle, new DataObject(typeof(NormalButton), item), DragDropEffects.Move) == DragDropEffects.Move;
+                committed = DragDrop.DoDragDrop(this, new DataObject(typeof(NormalButton), item), DragDropEffects.Move) == DragDropEffects.Move;
             }
             finally
             {
-                ghost.IsOpen = false;
-                RemoveHandler(DragDrop.PreviewDragOverEvent, follow);
-                handle.GiveFeedback -= feedback;
+                CompositionTarget.Rendering -= FollowCursor;
+                layer.Remove(ghost);
+                GiveFeedback -= feedback;
+                dragItems = null;
+                control.SetCurrentValue(ItemsControl.ItemsSourceProperty, group);
+
+
                 draggedItem = null;
                 previewTarget = null;
                 Mouse.SetCursor(null);

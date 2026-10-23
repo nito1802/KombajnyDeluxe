@@ -88,14 +88,16 @@ namespace KombajnDoPracy
             overlay.Children.Add(handle);
             if (link)
             {
+                AddEditButton(overlay, item);
                 AddCopyButton(overlay, item);
                 AddDetailsButton(overlay, item);
             }
             overlay.MouseEnter += (_, _) => handle.Opacity = 1;
             overlay.MouseLeave += (_, _) => { if (!handle.IsMouseCaptured) handle.Opacity = 0; };
             Point start = default;
+            Point grabPoint = default;
             bool dragged = false;
-            handle.PreviewMouseLeftButtonDown += (_, args) => { start = args.GetPosition(handle); dragged = false; };
+            handle.PreviewMouseLeftButtonDown += (_, args) => { start = args.GetPosition(handle); grabPoint = args.GetPosition(overlay); dragged = false; };
             handle.PreviewMouseMove += (_, args) =>
             {
                 if (args.LeftButton != MouseButtonState.Pressed || dragged) return;
@@ -104,7 +106,7 @@ namespace KombajnDoPracy
                     Math.Abs(pos.Y - start.Y) < SystemParameters.MinimumVerticalDragDistance) return;
                 dragged = true;
                 handle.ReleaseMouseCapture();
-                BeginTileDrag(handle, overlay, item);
+                BeginTileDrag(handle, overlay, item, grabPoint);
                 args.Handled = true;
             };
             handle.Click += (_, _) => { if (!dragged) ShowTileMenu(handle, item); };
@@ -128,6 +130,29 @@ namespace KombajnDoPracy
             if (draggedItem == item) overlay.Opacity = 0.25;
         }
 
+        private void AddEditButton(Grid overlay, NormalButton item)
+        {
+            var edit = new Button
+            {
+                Content = new System.Windows.Shapes.Path
+                {
+                    Data = Geometry.Parse("M 3,11 L 11,3 L 14,6 L 6,14 L 2,15 Z M 9,5 L 12,8"),
+                    Stroke = Brushes.White, StrokeThickness = 1.4,
+                    StrokeLineJoin = PenLineJoin.Round,
+                    Width = 17, Height = 17, IsHitTestVisible = false
+                },
+                Width = 24, Height = 24, Opacity = 0,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(8, 0, 0, 8),
+                Style = (Style)FindResource("TileActionButton"), ToolTip = "Edytuj kafel"
+            };
+            edit.Click += (_, args) => { EditTile(edit, item); args.Handled = true; };
+            overlay.Children.Add(edit);
+            overlay.MouseEnter += (_, _) => edit.Opacity = 1;
+            overlay.MouseLeave += (_, _) => { if (!edit.IsMouseCaptured) edit.Opacity = 0; };
+            edit.LostMouseCapture += (_, _) => { if (!overlay.IsMouseOver) edit.Opacity = 0; };
+        }
         private void AddDetailsButton(Grid overlay, NormalButton item)
         {
             var arrow = new Button
@@ -177,27 +202,6 @@ namespace KombajnDoPracy
             menu.Items.Add(ActionItem("Dodaj", () => Insert(item, false)));
             menu.Items.Add(ActionItem("Duplikuj", () => Insert(item, true)));
             menu.Items.Add(ActionItem("Edytuj", () => EditTile(handle, item)));
-            if (ButtonsViewModel.LinkButtons.Contains(item))
-                menu.Items.Add(ActionItem("Edytuj typ", () =>
-                {
-                    var row = new StackPanel { Orientation = Orientation.Horizontal };
-                    var popup = MakePopup(handle, row);
-                    foreach (LinkType type in Enum.GetValues(typeof(LinkType)))
-                    {
-                        var toggle = new RadioButton
-                        {
-                            Content = type.ToString(),
-                            GroupName = "LinkType",
-                            Style = (Style)FindResource("LinkTypeToggle"),
-                            IsChecked = item.LinkType == type,
-                            Margin = new Thickness(0, 0, 8, 0),
-                            Padding = new Thickness(6)
-                        };
-                        toggle.Checked += (_, _) => { var old = LinkState(); item.LinkType = type; item.ModifiedAt = DateTime.Now; popup.IsOpen = false; Persist(old); };
-                        row.Children.Add(toggle);
-                    }
-                    popup.IsOpen = true;
-                }));
             menu.Items.Add(new Separator());
             var delete = ActionItem("Usuń", () =>
             {
@@ -272,16 +276,34 @@ namespace KombajnDoPracy
             var name = Field("Tytuł", item.Name);
             var path = Field(ButtonsViewModel.LinkButtons.Contains(item) ? "Link / treść" : "Ścieżka", item.Path, true);
             var description = Field("Opis", item.Description, true);
-            var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
+            var selectedType = item.LinkType;
+            if (ButtonsViewModel.LinkButtons.Contains(item))
+            {
+                fields.Children.Add(new TextBlock { Text = "Typ", Foreground = Brushes.White, Margin = new Thickness(0, 10, 0, 6) });
+                var types = new StackPanel { Orientation = Orientation.Horizontal };
+                foreach (LinkType type in Enum.GetValues(typeof(LinkType)))
+                {
+                    var toggle = new RadioButton
+                    {
+                        Content = type.ToString(), GroupName = "EditLinkType",
+                        Style = (Style)FindResource("LinkTypeToggle"),
+                        IsChecked = selectedType == type, Margin = new Thickness(0, 0, 8, 0), Padding = new Thickness(6)
+                    };
+                    toggle.Checked += (_, _) => selectedType = type;
+                    types.Children.Add(toggle);
+                }
+                fields.Children.Add(types);
+            }
+            var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 0, 0) };
             var save = new Button { Style = (Style)FindResource("PopupButton"), Content = "Zapisz", Padding = new Thickness(10, 4, 10, 4) };
             save.Click += (_, _) =>
             {
                 if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(path.Text)) return;
                 string old = LinkState();
-                if (item.Name != name.Text.Trim() || item.Path != path.Text.Trim() || item.Description != description.Text)
+                if (item.Name != name.Text.Trim() || item.Path != path.Text.Trim() || item.Description != description.Text || item.LinkType != selectedType)
                     item.ModifiedAt = DateTime.Now;
                 item.Name = name.Text.Trim(); item.Path = path.Text.Trim();
-                item.Description = description.Text; popup.IsOpen = false; Persist(old);
+                item.Description = description.Text; item.LinkType = selectedType; popup.IsOpen = false; Persist(old);
             };
             var cancel = new Button { Style = (Style)FindResource("PopupButton"), Content = "Anuluj", Margin = new Thickness(8, 0, 0, 0), Padding = new Thickness(10, 4, 10, 4) };
             cancel.Click += (_, _) => popup.IsOpen = false;
@@ -302,18 +324,22 @@ namespace KombajnDoPracy
                 tasks.Items.Add(ActionItem(label, () => ShowTasks(range)));
             }
             menu.Items.Add(screens); menu.Items.Add(tasks);
-            var add = new MenuItem { Header = "Dodaj kafel" };
+            menu.IsOpen = true;
+        }
+
+        private void BtnAddTile_Click(object sender, RoutedEventArgs e)
+        {
+            var menu = new ContextMenu { PlacementTarget = btnAddTile, Placement = PlacementMode.Bottom };
             foreach (var entry in new[] { ("Lewa grupa", ButtonsViewModel.LeftButtons, ButtonGroup.LeftButtons),
                 ("Środkowa grupa", ButtonsViewModel.MiddleButtons, ButtonGroup.MiddleButtons),
                 ("Prawa grupa", ButtonsViewModel.RightButtons, ButtonGroup.RightButtons),
                 ("Linki", ButtonsViewModel.LinkButtons, ButtonGroup.UrlButtons) })
-                add.Items.Add(ActionItem(entry.Item1, () =>
+                menu.Items.Add(ActionItem(entry.Item1, () =>
                 {
                     var old = LinkState();
                     entry.Item2.Add(new NormalButton { Name = "Nowy kafel", Path = "", GroupId = entry.Item3 });
                     Persist(old);
                 }));
-            menu.Items.Add(add);
             menu.IsOpen = true;
         }
 

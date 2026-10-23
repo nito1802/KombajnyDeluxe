@@ -104,7 +104,7 @@ namespace WorkBoard.Models
                         {
                             Clipboard.SetText(Path);
                             ClickCounter++;
-                            Copied?.Invoke();
+                            Copied?.Invoke(Name);
                         },
                         null
                     );
@@ -127,7 +127,7 @@ namespace WorkBoard.Models
                         {
                             Clipboard.SetText($"{Name} --> {Path}");
                             ClickCounter++;
-                            Copied?.Invoke();
+                            Copied?.Invoke(Name);
                         },
                         null
                     );
@@ -136,7 +136,7 @@ namespace WorkBoard.Models
             }
         }
 
-        public static Action? Copied;
+        public static Action<string>? Copied;
         public static Action CloseApplication = null;
     }
 }
