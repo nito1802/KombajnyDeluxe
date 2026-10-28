@@ -341,3 +341,4 @@ healthchecksdb
 /Common/AppsPath.cs
 /Common/KombajnCommon.cs
 /WorkBoard/.artifacts/snack-build
+/WorkBoard/.artifacts/header-build
