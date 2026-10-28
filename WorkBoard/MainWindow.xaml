@@ -66,21 +66,21 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Margin="5,0,5,0"
-                        Padding="5"
+                        Padding="5,0"
                         BorderBrush="#FF023D15"
                         BorderThickness="1">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="1,1"
                                              EndPoint="0,0">
                             <GradientStop Offset="0"
-                                          Color="#CC054F1D" />
+                                          Color="#CC0D391E" />
                             <GradientStop Offset="1"
-                                          Color="#CC033212" />
+                                          Color="#CC092616" />
                         </LinearGradientBrush>
                     </Border.Background>
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="25"
+                               FontSize="22"
                                FontWeight="Bold"
                                Foreground="#FFCBCBCB"
                                Text="{Binding LeftGroupName, UpdateSourceTrigger=PropertyChanged}" />
@@ -88,21 +88,21 @@
 
                 <Border Grid.Column="2"
                         Margin="5,0,5,0"
-                        Padding="5"
+                        Padding="5,0"
                         BorderBrush="#FF053375"
                         BorderThickness="1">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="1,1"
                                              EndPoint="0,0">
                             <GradientStop Offset="0"
-                                          Color="#CC0F499C" />
+                                          Color="#CC133767" />
                             <GradientStop Offset="1"
-                                          Color="#CC042049" />
+                                          Color="#CC0B1D35" />
                         </LinearGradientBrush>
                     </Border.Background>
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="25"
+                               FontSize="22"
                                FontWeight="Bold"
                                Foreground="#FFCBCBCB"
                                Text="{Binding MiddleGroupName, UpdateSourceTrigger=PropertyChanged}" />
@@ -110,22 +110,22 @@
 
                 <Border Grid.Column="4"
                         Margin="5,0,5,0"
-                        Padding="5"
+                        Padding="5,0"
                         BorderBrush="#FF323232"
                         BorderThickness="1">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="1,1"
                                              EndPoint="0,0">
                             <GradientStop Offset="0"
-                                          Color="#FF151414" />
+                                          Color="#FF17181B" />
                             <GradientStop Offset="1"
-                                          Color="#FF1D1C1C" />
+                                          Color="#FF1C1D20" />
                         </LinearGradientBrush>
                     </Border.Background>
                     <TextBlock Grid.Column="4"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="25"
+                               FontSize="22"
                                FontWeight="Bold"
                                Foreground="#FFCBCBCB"
                                Text="{Binding RightGroupName, UpdateSourceTrigger=PropertyChanged}" />
