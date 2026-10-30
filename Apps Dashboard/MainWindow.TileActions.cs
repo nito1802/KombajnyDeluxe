@@ -130,42 +130,30 @@ namespace Apps_Dashboard
             var handle = dragHandle;
             handle.ReleaseMouseCapture();
             var tile = (Grid)handle.Parent;
-            tile.Opacity = 0.35;
-            try { DragDrop.DoDragDrop(handle, new DataObject(typeof(SingleAppModel), item), DragDropEffects.Move); }
-            finally { tile.Opacity = 1; dragHandle = null; }
+            try { BeginTileDrag(tile, item, e.GetPosition(tile)); }
+            finally { dragHandle = null; }
             e.Handled = true;
         }
         private bool ValidDrop(DragEventArgs e, SingleAppModel target, out SingleAppModel? source)
         {
             source = e.Data.GetData(typeof(SingleAppModel)) as SingleAppModel;
-            return source != null && source != target && Group(target)?.Contains(source) == true;
+            return source != null && ReferenceEquals(source, draggedApp) && Group(target)?.Contains(source) == true;
         }
         private void Tile_DragOver(object sender, DragEventArgs e)
         {
             var tile = (Grid)sender;
-            var valid = tile.DataContext is SingleAppModel target && ValidDrop(e, target, out _);
+            bool valid = tile.DataContext is SingleAppModel target && ValidDrop(e, target, out _);
             e.Effects = valid ? DragDropEffects.Move : DragDropEffects.None;
-            var frame = (Border)tile.Children[0];
-            frame.BorderBrush = valid ? Brushes.Gold : Brushes.Transparent;
-            frame.BorderThickness = valid ? (e.GetPosition(tile).X < tile.ActualWidth / 2 ? new Thickness(3, 1, 1, 1) : new Thickness(1, 1, 3, 1)) : new Thickness(1);
+            if (valid && tile.DataContext is SingleAppModel item && item != draggedApp)
+                PreviewPosition(item, e.GetPosition(tile).X >= tile.ActualWidth / 2);
             e.Handled = true;
         }
-        private void Tile_DragLeave(object sender, DragEventArgs e) => ResetDrop((Grid)sender);
-        private static void ResetDrop(Grid tile)
-        {
-            var frame = (Border)tile.Children[0]; frame.ClearValue(Border.BorderBrushProperty); frame.BorderThickness = new Thickness(1);
-        }
+        private void Tile_DragLeave(object sender, DragEventArgs e) { }
         private void Tile_Drop(object sender, DragEventArgs e)
         {
-            var tile = (Grid)sender;
-            ResetDrop(tile);
-            e.Effects = DragDropEffects.None; e.Handled = true;
-            if (tile.DataContext is not SingleAppModel target || !ValidDrop(e, target, out var source)) return;
-            var group = Group(target)!;
-            int oldIndex = group.IndexOf(source!);
-            int index = group.IndexOf(target) + (e.GetPosition(tile).X >= tile.ActualWidth / 2 ? 1 : 0);
-            if (oldIndex < index) index--;
-            if (index == oldIndex || Commit(() => group.Move(oldIndex, index), () => group.Move(index, oldIndex))) e.Effects = DragDropEffects.Move;
+            e.Effects = ((Grid)sender).DataContext is SingleAppModel target && ValidDrop(e, target, out _)
+                ? DragDropEffects.Move : DragDropEffects.None;
+            e.Handled = true;
         }
     }
 }
