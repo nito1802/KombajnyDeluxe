@@ -40,5 +40,26 @@
         <Setter Property="Opacity" Value="0.8"/>
         <Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Opacity" Value="0.4"/></Trigger></Style.Triggers>
     </Style>
+    <Style x:Key="PrimaryPopupButton" TargetType="Button">
+        <Setter Property="Background" Value="#D99A42"/>
+        <Setter Property="Foreground" Value="#171B22"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="18,8"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template"><Setter.Value>
+            <ControlTemplate TargetType="Button">
+                <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#EFB45F"/></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="Background" Value="#EFB45F"/></Trigger>
+                    <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Background" Value="#BC7E2D"/></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value></Setter>
+    </Style>
     <Style x:Key="GroupHeaderStyle" TargetType="TextBlock"><Setter Property="Foreground" Value="#FFF1F1F1"/></Style>
 </ResourceDictionary>
+

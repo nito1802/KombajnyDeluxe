@@ -30,6 +30,8 @@ namespace Apps_Dashboard.Models
         private static BitmapSource? GetIconFromFile(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath)) return null;
+            if (filePath.StartsWith("shell:AppsFolder\\", StringComparison.OrdinalIgnoreCase))
+                return PackagedAppIcon.Load(filePath) ?? ShellAppIcon.Load(filePath);
             var info = new SHFILEINFO();
             Win32.SHGetFileInfo(filePath, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_LARGEICON);
             if (info.hIcon == IntPtr.Zero) return null;
@@ -38,3 +40,4 @@ namespace Apps_Dashboard.Models
         }
     }
 }
+

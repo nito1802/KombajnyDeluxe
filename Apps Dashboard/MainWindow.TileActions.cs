@@ -62,7 +62,7 @@ namespace Apps_Dashboard
             fields.Children.Add(error);
             var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 12, 0, 0) };
             var cancel = new Button { Content = "Anuluj", Padding = new Thickness(14, 7, 14, 7), Margin = new Thickness(0, 0, 8, 0) };
-            var save = new Button { Content = "Zapisz", Padding = new Thickness(14, 7, 14, 7) };
+            var save = new Button { Content = "Zapisz ↵", Style = (Style)FindResource("PrimaryPopupButton") };
             buttons.Children.Add(cancel); buttons.Children.Add(save); fields.Children.Add(buttons);
             var popup = new Popup
             {
@@ -86,7 +86,15 @@ namespace Apps_Dashboard
                 }
                 if (saved) popup.IsOpen = false;
             };
-            fields.PreviewKeyDown += (_, args) => { if (args.Key == Key.Escape) { popup.IsOpen = false; args.Handled = true; } };
+            fields.PreviewKeyDown += (_, args) =>
+            {
+                if (args.Key == Key.Escape) { popup.IsOpen = false; args.Handled = true; }
+                else if (args.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
+                {
+                    args.Handled = true;
+                    if (!args.IsRepeat) save.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                }
+            };
             popup.Opened += (_, _) => { name.Focus(); name.SelectAll(); };
             editor = popup; popup.IsOpen = true;
         }
