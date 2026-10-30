@@ -9,6 +9,27 @@ namespace Apps_Dashboard.Models
     {
         private string name = "Nowa grupa";
         private string color = "#C99045";
+        public double? LayoutX { get; set; }
+        public double? LayoutY { get; set; }
+        private string? backgroundPath;
+        public string? BackgroundPath { get => backgroundPath; set { backgroundPath = value; texture = null; Changed(nameof(BackgroundPath)); Changed(nameof(Texture)); } }
+        private System.Windows.Media.Imaging.BitmapImage? texture;
+        [JsonIgnore] public ImageSource? Texture
+        {
+            get
+            {
+                if (texture != null) return texture;
+                if (string.IsNullOrWhiteSpace(backgroundPath)) return null;
+                try
+                {
+                    var image = new System.Windows.Media.Imaging.BitmapImage(); image.BeginInit();
+                    image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    image.DecodePixelWidth = 1024; image.UriSource = new Uri(backgroundPath, UriKind.Absolute); image.EndInit(); image.Freeze(); texture = image;
+                }
+                catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or System.IO.FileFormatException) { }
+                return texture;
+            }
+        }
         public string GroupName { get => name; set { name = value; Changed(nameof(GroupName)); } }
         public string Color { get => color; set { color = value; Changed(nameof(Color)); Changed(nameof(Accent)); Changed(nameof(Outline)); Changed(nameof(Tint)); } }
         [JsonIgnore] public Brush Accent => MakeBrush(255);

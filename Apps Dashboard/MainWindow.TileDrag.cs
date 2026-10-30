@@ -127,13 +127,13 @@ namespace Apps_Dashboard
             if (valid)
             {
                 var point = e.GetPosition(panel!);
-                int column = (int)(point.X / SpatialAppPanel.CellWidth), row = (int)(point.Y / SpatialAppPanel.CellHeight);
+                int column = (int)(point.X / SpatialAppPanel.CellWidth), row = (int)(point.Y / panel!.RowHeight);
                 valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight && !panel.Occupied(column, row, draggedApp!);
                 if (valid)
                 {
                     dropCell = (column, row);
-                    var position = panel!.TranslatePoint(new Point(column * SpatialAppPanel.CellWidth, row * SpatialAppPanel.CellHeight), DashboardRoot);
-                    if (activeGhost != null) activeGhost.Target = new Rect(position, new Size(90, 108));
+                    var position = panel!.TranslatePoint(new Point(column * SpatialAppPanel.CellWidth, row * panel.RowHeight), DashboardRoot);
+                    if (activeGhost != null) activeGhost.Target = new Rect(position, new Size(90, panel.RowHeight - 6));
                 }
             }
             activeGhost?.InvalidateVisual();
