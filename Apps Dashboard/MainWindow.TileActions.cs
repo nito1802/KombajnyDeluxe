@@ -142,26 +142,6 @@ namespace Apps_Dashboard
             finally { dragHandle = null; }
             e.Handled = true;
         }
-        private bool ValidDrop(DragEventArgs e, SingleAppModel target, out SingleAppModel? source)
-        {
-            source = e.Data.GetData(typeof(SingleAppModel)) as SingleAppModel;
-            return source != null && ReferenceEquals(source, draggedApp) && Group(target)?.Contains(source) == true;
-        }
-        private void Tile_DragOver(object sender, DragEventArgs e)
-        {
-            var tile = (Grid)sender;
-            bool valid = tile.DataContext is SingleAppModel target && ValidDrop(e, target, out _);
-            e.Effects = valid ? DragDropEffects.Move : DragDropEffects.None;
-            if (valid && tile.DataContext is SingleAppModel item && item != draggedApp)
-                PreviewPosition(item, e.GetPosition(tile).X >= tile.ActualWidth / 2);
-            e.Handled = true;
-        }
-        private void Tile_DragLeave(object sender, DragEventArgs e) { }
-        private void Tile_Drop(object sender, DragEventArgs e)
-        {
-            e.Effects = ((Grid)sender).DataContext is SingleAppModel target && ValidDrop(e, target, out _)
-                ? DragDropEffects.Move : DragDropEffects.None;
-            e.Handled = true;
-        }
     }
 }
+

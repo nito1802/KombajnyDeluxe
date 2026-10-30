@@ -12,6 +12,8 @@ namespace Apps_Dashboard.Models
     {
         private string path = string.Empty;
         private string displayName = string.Empty;
+        public int? LayoutColumn { get; set; }
+        public int? LayoutRow { get; set; }
         public string Path
         {
             get => path;

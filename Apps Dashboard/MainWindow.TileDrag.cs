@@ -1,3 +1,4 @@
+using Apps_Dashboard.Helpers;
 using Apps_Dashboard.Models;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -17,35 +18,34 @@ namespace Apps_Dashboard
         [DllImport("user32.dll")]
         private static extern bool GetCursorPos(out CursorPoint point);
         private SingleAppModel? draggedApp;
-        private ObservableCollection<SingleAppModel>? previewApps;
-        private SingleAppModel? previewTarget;
-        private bool previewAfter;
+        private SpatialAppPanel? dragPanel;
+        private (int Column, int Row)? dropCell;
+        private AppDragAdorner? activeGhost;
+        
+        
 
         private sealed class AppDragAdorner : Adorner
         {
             private readonly ImageSource snapshot;
             private readonly Size size;
             public Point Position { get; set; }
+            public Rect? Target { get; set; }
             public AppDragAdorner(UIElement owner, ImageSource snapshot, Size size) : base(owner)
             {
                 this.snapshot = snapshot; this.size = size;
                 IsHitTestVisible = false; Opacity = 0.65;
             }
-            protected override void OnRender(DrawingContext context) => context.DrawImage(snapshot, new Rect(Position, size));
+                        protected override void OnRender(DrawingContext context)
+            {
+                if (Target is Rect target)
+                    context.DrawRoundedRectangle(new SolidColorBrush(Color.FromArgb(45, 217, 154, 66)), new Pen(Brushes.Goldenrod, 2), target, 8, 8);
+                context.DrawImage(snapshot, new Rect(Position, size));
+            }
         }
         private void Tile_Loaded(object sender, RoutedEventArgs e)
         {
             var tile = (Grid)sender;
             tile.Opacity = ReferenceEquals(tile.DataContext, draggedApp) ? 0.25 : 1;
-        }
-        private void PreviewPosition(SingleAppModel target, bool after)
-        {
-            if (previewApps == null || draggedApp == null || (previewTarget == target && previewAfter == after)) return;
-            previewTarget = target; previewAfter = after;
-            int oldIndex = previewApps.IndexOf(draggedApp);
-            int index = previewApps.IndexOf(target) + (after ? 1 : 0);
-            if (oldIndex < index) index--;
-            if (oldIndex != index) previewApps.Move(oldIndex, index);
         }
         private void BeginTileDrag(Grid tile, SingleAppModel item, Point grabPoint)
         {
@@ -73,34 +73,75 @@ namespace Apps_Dashboard
                 Mouse.SetCursor(args.Effects == DragDropEffects.None ? Cursors.No : Cursors.SizeAll);
                 args.Handled = true;
             };
-            draggedApp = item; previewTarget = null;
-            previewApps = new ObservableCollection<SingleAppModel>(group);
+            draggedApp = item; dropCell = null; activeGhost = ghost;
+            dragPanel = FindPanel(control);
+            if (dragPanel == null) { draggedApp = null; activeGhost = null; return; }
+            dragPanel.ExtraRow = true; dragPanel.InvalidateMeasure();
+
             tile.Opacity = 0.25;
-            control.SetCurrentValue(ItemsControl.ItemsSourceProperty, previewApps);
+
             FollowCursor(null, EventArgs.Empty);
             layer.Add(ghost);
             CompositionTarget.Rendering += FollowCursor;
             GiveFeedback += feedback;
             bool accepted = false;
-            int destination = group.IndexOf(item);
+            (int Column, int Row)? destination = null;
             try
             {
                 accepted = DragDrop.DoDragDrop(this, new DataObject(typeof(SingleAppModel), item), DragDropEffects.Move) == DragDropEffects.Move;
-                destination = previewApps.IndexOf(item);
+                destination = dropCell;
             }
             finally
             {
                 CompositionTarget.Rendering -= FollowCursor;
                 GiveFeedback -= feedback;
                 layer.Remove(ghost);
-                draggedApp = null; previewApps = null; previewTarget = null;
-                control.SetCurrentValue(ItemsControl.ItemsSourceProperty, group);
+                dragPanel.ExtraRow = false; dragPanel.InvalidateMeasure();
+                draggedApp = null; dragPanel = null; dropCell = null; activeGhost = null;
+
                 tile.Opacity = 1;
                 Mouse.SetCursor(null);
             }
-            int original = group.IndexOf(item);
-            if (accepted && original != destination)
-                Commit(() => group.Move(original, destination), () => group.Move(destination, original));
+            if (accepted && destination is var cell && cell.HasValue)
+            {
+                var oldColumn = item.LayoutColumn; var oldRow = item.LayoutRow;
+                Commit(() => { item.LayoutColumn = cell.Value.Column; item.LayoutRow = cell.Value.Row; },
+                    () => { item.LayoutColumn = oldColumn; item.LayoutRow = oldRow; });
+                FindPanel(control)?.InvalidateMeasure();
+            }
         }
+        private static SpatialAppPanel? FindPanel(DependencyObject root)
+        {
+            if (root is SpatialAppPanel panel) return panel;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+                if (FindPanel(VisualTreeHelper.GetChild(root, i)) is SpatialAppPanel found) return found;
+            return null;
+        }
+        private bool UpdateDrop(ItemsControl control, DragEventArgs e)
+        {
+            var panel = FindPanel(control);
+            bool valid = panel != null && panel == dragPanel && draggedApp != null &&
+                ReferenceEquals(e.Data.GetData(typeof(SingleAppModel)), draggedApp);
+            dropCell = null;
+            if (activeGhost != null) activeGhost.Target = null;
+            if (valid)
+            {
+                var point = e.GetPosition(panel!);
+                int column = (int)(point.X / SpatialAppPanel.CellWidth), row = (int)(point.Y / SpatialAppPanel.CellHeight);
+                valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight && !panel.Occupied(column, row, draggedApp!);
+                if (valid)
+                {
+                    dropCell = (column, row);
+                    var position = panel!.TranslatePoint(new Point(column * SpatialAppPanel.CellWidth, row * SpatialAppPanel.CellHeight), DashboardRoot);
+                    if (activeGhost != null) activeGhost.Target = new Rect(position, new Size(90, 108));
+                }
+            }
+            activeGhost?.InvalidateVisual();
+            e.Effects = valid ? DragDropEffects.Move : DragDropEffects.None;
+            e.Handled = true;
+            return valid;
+        }
+        private void Apps_DragOver(object sender, DragEventArgs e) => UpdateDrop((ItemsControl)sender, e);
+        private void Apps_Drop(object sender, DragEventArgs e) => UpdateDrop((ItemsControl)sender, e);
     }
 }
