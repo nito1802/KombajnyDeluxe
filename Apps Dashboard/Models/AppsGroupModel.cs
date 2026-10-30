@@ -9,6 +9,20 @@ namespace Apps_Dashboard.Models
     {
         private string name = "Nowa grupa";
         private string color = "#C99045";
+        private int maxColumns;
+        public int MaxColumns { get => maxColumns; set { maxColumns = Math.Max(0, value); Changed(nameof(MaxColumns)); } }
+        public void NormalizeColumns()
+        {
+            if (MaxColumns == 0) return;
+            var used = new HashSet<(int, int)>();
+            foreach (var app in Apps.OrderBy(a => a.LayoutRow ?? 0).ThenBy(a => a.LayoutColumn ?? 0))
+            {
+                int column = Math.Max(0, app.LayoutColumn ?? 0), row = Math.Max(0, app.LayoutRow ?? 0);
+                row += column / MaxColumns; column %= MaxColumns;
+                while (!used.Add((column, row))) { column++; if (column == MaxColumns) { column = 0; row++; } }
+                app.LayoutColumn = column; app.LayoutRow = row;
+            }
+        }
         public double? LayoutX { get; set; }
         public double? LayoutY { get; set; }
         private string? backgroundPath;
@@ -60,6 +74,7 @@ namespace Apps_Dashboard.Models
                     following.LayoutColumn++;
             app.LayoutColumn = column; app.LayoutRow = row;
             destination.Apps.Add(app);
+            destination.NormalizeColumns();
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         private void Changed(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
