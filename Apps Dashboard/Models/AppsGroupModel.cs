@@ -43,6 +43,14 @@ namespace Apps_Dashboard.Models
             parsed.A = alpha; var brush = new SolidColorBrush(parsed); brush.Freeze(); return brush;
         }
         public ObservableCollection<SingleAppModel> Apps { get; set; } = [];
+        public void RemoveAppAndCloseGap(SingleAppModel app)
+        {
+            if (!Apps.Contains(app)) return;
+            if (app.LayoutColumn is int column)
+                foreach (var following in Apps.Where(a => a != app && (a.LayoutRow ?? 0) == (app.LayoutRow ?? 0) && a.LayoutColumn > column))
+                    following.LayoutColumn--;
+            Apps.Remove(app);
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
         private void Changed(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }

@@ -121,7 +121,13 @@ namespace Apps_Dashboard
             {
                 if (MessageBox.Show(this, $"Usunąć „{item.DisplayName}”?", "Usuń aplikację", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
                 var index = group.IndexOf(item);
-                Commit(() => group.Remove(item), () => group.Insert(index, item));
+                var owner = ViewModel.AppsGroups.First(g => ReferenceEquals(g.Apps, group));
+                var positions = group.Select(app => (App: app, Column: app.LayoutColumn, Row: app.LayoutRow)).ToList();
+                Commit(() => owner.RemoveAppAndCloseGap(item), () =>
+                {
+                    foreach (var position in positions) { position.App.LayoutColumn = position.Column; position.App.LayoutRow = position.Row; }
+                    group.Insert(index, item);
+                });
             });
             handle.ContextMenu = menu; menu.IsOpen = true;
         }

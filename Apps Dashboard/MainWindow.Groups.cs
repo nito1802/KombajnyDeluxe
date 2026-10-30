@@ -85,8 +85,9 @@ namespace Apps_Dashboard
             if (sender != groupHandle || e.LeftButton != MouseButtonState.Pressed || movingGroup != null) return;
             var point = e.GetPosition(this);
             if (Math.Abs(point.X - groupStart.X) < SystemParameters.MinimumHorizontalDragDistance && Math.Abs(point.Y - groupStart.Y) < SystemParameters.MinimumVerticalDragDistance) return;
-            groupHandle.ReleaseMouseCapture();
-            var header = groupHandle!; var card = (Border)((Grid)((StackPanel)header.Parent).Parent).Parent;
+            var header = groupHandle;
+            header.ReleaseMouseCapture();
+            var card = (Border)((Grid)((StackPanel)header.Parent).Parent).Parent;
             var group = (AppsGroupModel)header.DataContext;
             var layer = AdornerLayer.GetAdornerLayer(DashboardRoot); if (layer == null) return;
             var dpi = VisualTreeHelper.GetDpi(card);
@@ -95,8 +96,22 @@ namespace Apps_Dashboard
             var grab = TranslatePoint(groupStart, card); groupGrab = grab; groupSize = new Size(card.ActualWidth + 10, card.ActualHeight + 10); groupDestination = null;
             void Follow(object? o, EventArgs args) { if (GetCursorPos(out var cursor)) { var p = DashboardRoot.PointFromScreen(new Point(cursor.X,cursor.Y)); ghost.Position = new Point(p.X-grab.X,p.Y-grab.Y); ghost.InvalidateVisual(); } }
             movingGroup = group; groupGhost = ghost; card.Opacity = .3; layer.Add(ghost); CompositionTarget.Rendering += Follow;
-            try { DragDrop.DoDragDrop(this,new DataObject(typeof(AppsGroupModel),group),DragDropEffects.Move); }
+            bool accepted = false;
+            Point? destination = null;
+            try
+            {
+                accepted = DragDrop.DoDragDrop(this,new DataObject(typeof(AppsGroupModel),group),DragDropEffects.Move) == DragDropEffects.Move;
+                destination = groupDestination;
+            }
             finally { CompositionTarget.Rendering -= Follow; layer.Remove(ghost); card.Opacity=1; movingGroup=null; groupHandle=null; groupGhost=null; }
+            // Persist and relayout only after the native drag loop has released its source visual.
+            if (accepted && destination is Point position)
+            {
+                var x = group.LayoutX; var y = group.LayoutY;
+                Commit(() => { group.LayoutX = position.X; group.LayoutY = position.Y; },
+                    () => { group.LayoutX = x; group.LayoutY = y; });
+                BoardPanel()?.InvalidateMeasure();
+            }
             e.Handled=true;
         }
         private Point groupGrab;
@@ -131,12 +146,6 @@ namespace Apps_Dashboard
         {
             if(movingGroup==null)return;
             Board_DragOver(sender,e);
-            if(groupDestination is Point p)
-            {
-                var group=movingGroup;var x=group.LayoutX;var y=group.LayoutY;
-                if(!Commit(()=>{group.LayoutX=p.X;group.LayoutY=p.Y;},()=>{group.LayoutX=x;group.LayoutY=y;}))e.Effects=DragDropEffects.None;
-                BoardPanel()?.InvalidateMeasure();
-            }
         }
     }
 }
