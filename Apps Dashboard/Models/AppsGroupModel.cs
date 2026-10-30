@@ -26,7 +26,7 @@ namespace Apps_Dashboard.Models
         public double? LayoutX { get; set; }
         public double? LayoutY { get; set; }
         private string? backgroundPath;
-        public string? BackgroundPath { get => backgroundPath; set { backgroundPath = value; texture = null; Changed(nameof(BackgroundPath)); Changed(nameof(Texture)); } }
+        public string? BackgroundPath { get => backgroundPath; set { backgroundPath = value?.Trim().Trim('"').Trim(); texture = null; Changed(nameof(BackgroundPath)); Changed(nameof(Texture)); } }
         private System.Windows.Media.Imaging.BitmapImage? texture;
         [JsonIgnore] public ImageSource? Texture
         {
@@ -36,9 +36,10 @@ namespace Apps_Dashboard.Models
                 if (string.IsNullOrWhiteSpace(backgroundPath)) return null;
                 try
                 {
+                    using var stream = System.IO.File.OpenRead(backgroundPath);
                     var image = new System.Windows.Media.Imaging.BitmapImage(); image.BeginInit();
                     image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                    image.DecodePixelWidth = 1024; image.UriSource = new Uri(backgroundPath, UriKind.Absolute); image.EndInit(); image.Freeze(); texture = image;
+                    image.DecodePixelWidth = 1024; image.StreamSource = stream; image.EndInit(); image.Freeze(); texture = image;
                 }
                 catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or System.IO.FileFormatException) { }
                 return texture;

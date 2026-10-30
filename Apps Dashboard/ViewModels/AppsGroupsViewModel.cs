@@ -11,22 +11,31 @@ namespace Apps_Dashboard.ViewModels
 {
     public class AppsGroupsViewModel
     {
-        private static readonly string UserConfig = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Apps Dashboard", "AppsInputData.json");
+        private readonly string configPath = ResolveConfigPath(AppContext.BaseDirectory);
+        public static string ResolveConfigPath(string baseDirectory)
+        {
+            // Debug/Release builds share the editable JSON in the project directory.
+            for (var directory = new DirectoryInfo(baseDirectory); directory != null; directory = directory.Parent)
+            {
+                if (File.Exists(Path.Combine(directory.FullName, "Apps Dashboard.csproj")))
+                    return Path.Combine(directory.FullName, "AppsInputData.json");
+            }
+            // A standalone copy uses its adjacent JSON, never a separate AppData file.
+            return Path.Combine(baseDirectory, "AppsInputData.json");
+        }
         public ObservableCollection<AppsGroupModel> AppsGroups { get; set; }
         public ICommand LaunchAppCommand { get; }
         public static Action? MinimizeApplication { get; set; }
         public AppsGroupsViewModel()
         {
-            var config = File.Exists(UserConfig) ? UserConfig : Path.Combine(AppContext.BaseDirectory, "AppsInputData.json");
-            AppsGroups = JsonConvert.DeserializeObject<ObservableCollection<AppsGroupModel>>(File.ReadAllText(config)) ?? [];
+            AppsGroups = JsonConvert.DeserializeObject<ObservableCollection<AppsGroupModel>>(File.ReadAllText(configPath)) ?? [];
             LaunchAppCommand = new RelayCommand(LaunchApp);
         }
         public void Save()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(UserConfig)!);
-            var temporary = UserConfig + ".tmp";
+            var temporary = configPath + ".tmp";
             File.WriteAllText(temporary, JsonConvert.SerializeObject(AppsGroups, Formatting.Indented));
-            File.Move(temporary, UserConfig, true);
+            File.Move(temporary, configPath, true);
         }
         private void LaunchApp(object path)
         {

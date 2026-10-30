@@ -52,7 +52,16 @@ namespace Apps_Dashboard
             choose.Click += (_, _) =>
             {
                 var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "Grafiki|*.png;*.jpg;*.jpeg;*.bmp;*.webp;*.tif;*.tiff" };
-                if (dialog.ShowDialog(this) != true) return;
+                // A native file dialog takes focus away from the dismissible editor popup.
+                var currentEditor = editor;
+                if (currentEditor != null) currentEditor.StaysOpen = true;
+                bool? selected;
+                try { selected = dialog.ShowDialog(this); }
+                finally
+                {
+                    if (currentEditor != null) { currentEditor.IsOpen = true; currentEditor.StaysOpen = false; }
+                }
+                if (selected != true) return;
                 var candidate = new AppsGroupModel { BackgroundPath = dialog.FileName };
                 if (candidate.Texture == null) { MessageBox.Show(this, "Nie można wczytać tej grafiki.", "Tło grupy"); return; }
                 texturePath = dialog.FileName; textureLabel.Text = System.IO.Path.GetFileName(texturePath);

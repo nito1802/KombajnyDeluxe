@@ -1,86 +1,417 @@
-﻿[
+[
   {
+    "MaxColumns": 0,
+    "LayoutX": 0.0,
+    "LayoutY": 0.0,
+    "BackgroundPath": null,
     "GroupName": "MOJE",
+    "Color": "#C99045",
     "Apps": [
       {
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject-2.0\\GuitarUberProject 2.0\\bin\\Debug\\net8.0-windows\\GuitarUberProject 2.0.exe",
-        "DisplayName": "Guitar Uber"
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyDataApp\\MyDataApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MyDataApp.exe",
+        "DisplayName": "My Data",
+        "Clicks": []
       },
       {
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MySmartHomeApp\\MySmartHomeApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MySmartHomeApp.exe",
-        "DisplayName": "My Smart Home"
-      },
-      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyActivitiesApp\\MyActivitiesApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MyActivitiesApp.exe",
-        "DisplayName": "My Activities"
+        "DisplayName": "My Activities",
+        "Clicks": []
       },
       {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyPlannerApp\\MyPlannerApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MyPlannerApp.exe",
+        "DisplayName": "My Planner",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 3,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MySmartHomeApp\\MySmartHomeApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MySmartHomeApp.exe",
+        "DisplayName": "My Smart Home",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 4,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\HotKeys Shortcuts\\bin\\Debug\\net9.0-windows7.0\\HotKeys Shortcuts.exe",
+        "DisplayName": "Kombajn",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 5,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyPublisherWPF\\MyPublisherWPF\\bin\\Debug\\net9.0-windows\\MyPublisherWPF.exe",
+        "DisplayName": "My Publisher",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 6,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject-2.0\\GuitarUberProject 2.0\\bin\\Debug\\net8.0-windows\\GuitarUberProject 2.0.exe",
+        "DisplayName": "Guitar Uber",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 7,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
-        "DisplayName": "Video Player"
+        "DisplayName": "Video Player",
+        "Clicks": []
       },
       {
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\process-killer\\Process Killer\\bin\\Debug\\Process Killer.exe",
-        "DisplayName": "Process Killer"
-      },
-      {
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\CzasowyWylacznik 2.0\\CzasowyWylacznik 2.0\\bin\\Release\\net8.0-windows\\CzasowyWylacznik 2.0.exe",
-        "DisplayName": "Czasowy Wyłącznik"
-      },
-      {
+        "LayoutColumn": 8,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net10.0-windows\\FindWordsCrossRepos.exe",
-        "DisplayName": "Find Words"
+        "DisplayName": "Find Words",
+        "Clicks": []
       },
       {
+        "LayoutColumn": 9,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyLinijka\\MyLinijka\\bin\\Debug\\net10.0-windows\\MyLinijka.exe",
-        "DisplayName": "Linijka"
+        "DisplayName": "Linijka",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 10,
+        "LayoutRow": 0,
+        "Path": "\"C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\getcolor\\GetColor\\bin\\Debug\\GetColor.exe\"",
+        "DisplayName": "Get Color",
+        "Clicks": []
       }
     ]
   },
   {
+    "MaxColumns": 0,
+    "LayoutX": 0.0,
+    "LayoutY": 168.0,
+    "BackgroundPath": null,
     "GroupName": "PROGRAMOWANIE",
+    "Color": "#7CC98A",
     "Apps": [
       {
-        "Path": "C:\\Program Files\\Sublime Text\\sublime_text.exe",
-        "DisplayName": "Sublime Text "
-      },
-      {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
         "Path": "C:\\Program Files\\Unity Hub\\Unity Hub.exe",
-        "DisplayName": "Unity Hub"
+        "DisplayName": "Unity Hub",
+        "Clicks": []
       },
       {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
         "Path": "C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe",
-        "DisplayName": "Android Studio"
+        "DisplayName": "Android Studio",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders\\Common7\\IDE\\devenv.exe",
+        "DisplayName": "Visual Studio 2026",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 3,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Microsoft SQL Server Management Studio 22\\Release\\Common7\\IDE\\SSMS.exe",
+        "DisplayName": "SSMS 2022",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 4,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+        "DisplayName": "Visual Studio Code",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 5,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Fiddler\\Fiddler.exe",
+        "DisplayName": "Fiddler Classic",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 6,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe",
+        "DisplayName": "Docker Desktop",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 7,
+        "LayoutRow": 0,
+        "Path": "\"C:\\Users\\Dante\\AppData\\Local\\Programs\\Redis Insight\\Redis Insight.exe\"",
+        "DisplayName": "Redis Insight",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 8,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Unity Hub\\Unity Hub.exe",
+        "DisplayName": "Unity Hub",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 9,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\DBeaver\\dbeaver.exe",
+        "DisplayName": "DBeaver",
+        "Clicks": []
       }
     ]
   },
   {
+    "MaxColumns": 0,
+    "LayoutX": 1128.0,
+    "LayoutY": 0.0,
+    "BackgroundPath": null,
     "GroupName": "ART",
+    "Color": "#748EE8",
     "Apps": [
-
       {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\Figma\\Figma.exe",
-        "DisplayName": "Figma"
+        "DisplayName": "Figma",
+        "Clicks": []
       },
       {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
         "Path": "C:\\Program Files\\Adobe\\Adobe Photoshop (Beta)\\Photoshop.exe",
-        "DisplayName": "Adobe Photoshop Beta"
+        "DisplayName": "Adobe Photoshop Beta",
+        "Clicks": []
       }
     ]
   },
   {
+    "MaxColumns": 0,
+    "LayoutX": 0.0,
+    "LayoutY": 504.0,
+    "BackgroundPath": null,
     "GroupName": "MUZYKA",
+    "Color": "#C99045",
     "Apps": [
       {
-        "Path": "C:\\Program Files\\Image-Line\\FL Studio 2024\\FL64.exe",
-        "DisplayName": "FL Studio 21"
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Audacity\\Audacity.exe",
+        "DisplayName": "Audacity",
+        "Clicks": []
       },
       {
-        "Path": "C:\\Program Files (x86)\\Synthesia\\Synthesia.exe",
-        "DisplayName": "Synthesia"
-      },
-      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
         "Path": "C:\\Program Files\\MuseScore 4\\bin\\MuseScore4.exe",
-        "DisplayName": "MuseScore 4"
+        "DisplayName": "MuseScore 4",
+        "Clicks": []
+      }
+    ]
+  },
+  {
+    "MaxColumns": 3,
+    "LayoutX": 1008.0,
+    "LayoutY": 216.0,
+    "BackgroundPath": null,
+    "GroupName": "Gry",
+    "Color": "#C99045",
+    "Apps": [
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 2,
+        "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
+        "DisplayName": "The Witness",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": null,
+        "LayoutRow": null,
+        "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
+        "DisplayName": "The Witness",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Slay the Spire.url",
+        "DisplayName": "Slay the Spire",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 1,
+        "Path": "C:\\Users\\Dante\\Desktop\\The Darkness II.url",
+        "DisplayName": "The Darkness II",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 1,
+        "Path": "C:\\Users\\Dante\\Desktop\\The Binding of Isaac Rebirth.url",
+        "DisplayName": "The Binding of Isaac Raa",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\Desktop\\Prodeus.url",
+        "DisplayName": "Prodeus",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Public\\Desktop\\Diablo II Resurrected.lnk",
+        "DisplayName": "Diablo II Resurrected",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 1,
+        "Path": "C:\\Users\\Dante\\Desktop\\The Hong Kong Massacre.url",
+        "DisplayName": "The Hong Kong Massacre",
+        "Clicks": []
+      }
+    ]
+  },
+  {
+    "MaxColumns": 0,
+    "LayoutX": 528.0,
+    "LayoutY": 504.0,
+    "BackgroundPath": null,
+    "GroupName": "Launchery",
+    "Color": "#C99045",
+    "Apps": [
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\Battle.net\\Battle.net Launcher.exe",
+        "DisplayName": "Battle.net",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "shell:AppsFolder\\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App",
+        "DisplayName": "Xbox",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\Steam\\steam.exe",
+        "DisplayName": "Steam",
+        "Clicks": []
+      }
+    ]
+  },
+  {
+    "MaxColumns": 0,
+    "LayoutX": 0.0,
+    "LayoutY": 336.0,
+    "BackgroundPath": null,
+    "GroupName": "Inne",
+    "Color": "#C99045",
+    "Apps": [
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\WinDirStat\\WinDirStat.exe",
+        "DisplayName": "WinDirStat",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 4,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Bitwarden\\Bitwarden.exe",
+        "DisplayName": "Bitwarden",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\TickTick\\TickTick.exe",
+        "DisplayName": "TickTick",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Filen\\Filen.exe",
+        "DisplayName": "Filen",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 3,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\ScreenToGif\\ScreenToGif.exe",
+        "DisplayName": "ScreenToGif",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 5,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Mozilla Thunderbird\\thunderbird.exe",
+        "DisplayName": "Mozilla Thunderbird",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 6,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\WinSCP\\WinSCP.exe",
+        "DisplayName": "WinSCP",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 8,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\OpenOffice 4\\program\\swriter.exe",
+        "DisplayName": "OpenOffice 4",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 7,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Discord\\Discord.exe",
+        "DisplayName": "Discord",
+        "Clicks": []
+      }
+    ]
+  },
+  {
+    "MaxColumns": 0,
+    "LayoutX": 216.0,
+    "LayoutY": 504.0,
+    "BackgroundPath": null,
+    "GroupName": "Przeglądarki",
+    "Color": "#C99045",
+    "Apps": [
+      {
+        "LayoutColumn": 0,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "DisplayName": "Chrome",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+        "DisplayName": "Edge",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+        "DisplayName": "Firefox",
+        "Clicks": []
       }
     ]
   }

@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <Content Include="AppsInputData.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="dashboard_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
