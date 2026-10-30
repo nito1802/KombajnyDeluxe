@@ -19,28 +19,28 @@
                         <ItemsControl ItemsSource="{Binding Apps}">
                             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate><DataTemplate>
-                                <Grid x:Name="Tile" Width="116" Height="116" Margin="0,5,8,5" Background="Transparent" AllowDrop="True" DragOver="Tile_DragOver" DragLeave="Tile_DragLeave" Drop="Tile_Drop">
+                                <Grid x:Name="Tile" Width="90" VerticalAlignment="Top" Margin="0,3,4,3" Background="Transparent" AllowDrop="True" DragOver="Tile_DragOver" DragLeave="Tile_DragLeave" Drop="Tile_Drop">
                                     <Border x:Name="Frame" BorderThickness="1" CornerRadius="8" BorderBrush="Transparent" Background="Transparent"/>
-                                    <Button Margin="3,18,3,3" Style="{StaticResource AppIconButton}" Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Path}">
-                                        <StackPanel Width="104">
-                                            <Grid Width="38" Height="38" Margin="0,0,0,5">
+                                    <Button Margin="3,25,3,3" Style="{StaticResource AppIconButton}" Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Path}">
+                                        <StackPanel Width="84">
+                                            <Grid Width="38" Height="38" Margin="0,0,0,3">
                                                 <TextBlock Text="▧" FontSize="28" Foreground="#AEB9C8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 <Image x:Name="AppImage" Source="{Binding Icon}" Width="32" Height="32" RenderTransformOrigin="0.5,0.5"><Image.RenderTransform><ScaleTransform/></Image.RenderTransform></Image>
                                             </Grid>
-                                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource GroupHeaderStyle}" TextAlignment="Center" TextWrapping="Wrap" Height="44" FontSize="12"/>
+                                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource GroupHeaderStyle}" TextAlignment="Center" TextWrapping="Wrap" FontSize="12"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="Edit" Style="{StaticResource TileActionButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,-5,0,0" Visibility="Hidden" Click="EditTile_Click" ToolTip="Edytuj nazwę i ścieżkę">
+                                    <Button x:Name="Edit" Style="{StaticResource TileActionButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0" Visibility="Hidden" Click="EditTile_Click" ToolTip="Edytuj nazwę i ścieżkę">
                                         <Path Data="M 3,11 L 11,3 L 14,6 L 6,14 L 2,15 Z M 9,5 L 12,8" Stroke="White" StrokeThickness="1.4" Width="17" Height="17"/>
                                     </Button>
-                                    <Button x:Name="Actions" Content="⋮" FontSize="19" Style="{StaticResource TileActionButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,7,0" Visibility="Hidden" Click="TileActions_Click" PreviewMouseLeftButtonDown="Handle_MouseDown" PreviewMouseMove="Handle_MouseMove" ToolTip="Akcje • przeciągnij, aby zmienić kolejność"/>
+                                    <Button x:Name="Actions" Content="⋮" FontSize="19" Style="{StaticResource TileActionButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0" Visibility="Hidden" Click="TileActions_Click" PreviewMouseLeftButtonDown="Handle_MouseDown" PreviewMouseMove="Handle_MouseMove" ToolTip="Akcje • przeciągnij, aby zmienić kolejność"/>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Frame" Property="BorderBrush" Value="#C99045"/><Setter TargetName="Frame" Property="Background" Value="#3024272E"/>
                                         <Setter TargetName="Edit" Property="Visibility" Value="Visible"/><Setter TargetName="Actions" Property="Visibility" Value="Visible"/>
                                     </Trigger>
-                                    <Trigger SourceName="AppImage" Property="IsMouseOver" Value="True">
+                                    <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
                                         <Trigger.EnterActions><BeginStoryboard><Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="AppImage" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" To="1.12" Duration="0:0:0.15"/>
                                             <DoubleAnimation Storyboard.TargetName="AppImage" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" To="1.12" Duration="0:0:0.15"/>
