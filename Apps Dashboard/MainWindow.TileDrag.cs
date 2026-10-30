@@ -141,7 +141,7 @@ namespace Apps_Dashboard
             e.Handled = true;
             return valid;
         }
-        private void Apps_DragOver(object sender, DragEventArgs e) => UpdateDrop((ItemsControl)sender, e);
-        private void Apps_Drop(object sender, DragEventArgs e) => UpdateDrop((ItemsControl)sender, e);
+        private void Apps_DragOver(object sender, DragEventArgs e) { if (movingGroup == null) UpdateDrop((ItemsControl)sender, e); }
+        private void Apps_Drop(object sender, DragEventArgs e) { if (movingGroup == null) UpdateDrop((ItemsControl)sender, e); }
     }
 }

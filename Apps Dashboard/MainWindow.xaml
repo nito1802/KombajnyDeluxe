@@ -11,11 +11,23 @@
         <Button Name="btnOptions" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnOptions_Click" Panel.ZIndex="55" Style="{StaticResource DarkOptionsButton}">
             <Image Width="30" Source="Options.png"/>
         </Button>
+        <Button Content="+" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,46,0,0" Style="{StaticResource TileActionButton}" Click="NewGroup_Click" ToolTip="Nowa grupa"/>
         <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" Margin="0,0,42,0">
-            <ItemsControl ItemsSource="{Binding AppsGroups}">
+            <ItemsControl x:Name="GroupsControl" ItemsSource="{Binding AppsGroups}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate><DataTemplate>
-                    <StackPanel Margin="10">
-                        <TextBlock Text="{Binding GroupName}" FontWeight="Bold" FontSize="16" Foreground="#FFF1F1F1" Margin="0,0,0,10"/>
+                                        <Border x:Name="GroupCard" Margin="5" Padding="7,4,7,5" CornerRadius="9" BorderThickness="1" BorderBrush="{Binding Outline}" Background="{Binding Tint}" AllowDrop="True" DragOver="Group_DragOver" Drop="Group_Drop">
+                    <StackPanel>
+                        <Grid x:Name="GroupHeader" Background="Transparent" Margin="2,0,2,2" PreviewMouseLeftButtonDown="Group_MouseDown" PreviewMouseMove="Group_MouseMove">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding GroupName}" FontWeight="SemiBold" FontSize="13" Foreground="{Binding Accent}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <StackPanel x:Name="GroupActions" Grid.Column="1" Orientation="Horizontal" Opacity="0">
+                                <Button Content="✎" Style="{StaticResource TileActionButton}" Click="EditGroup_Click" ToolTip="Edytuj grupę"/>
+                                <Button Content="+" Style="{StaticResource TileActionButton}" Click="AddGroupApp_Click" ToolTip="Dodaj aplikację"/>
+                                <TextBlock Text="⠿" Foreground="{Binding Accent}" Width="20" VerticalAlignment="Center" TextAlignment="Center" Cursor="SizeAll" ToolTip="Przeciągnij grupę"/>
+                            </StackPanel>
+                        </Grid>
+
                         <ItemsControl ItemsSource="{Binding Apps}" AllowDrop="True" DragOver="Apps_DragOver" Drop="Apps_Drop">
                             <ItemsControl.ItemsPanel><ItemsPanelTemplate><helpers:SpatialAppPanel Background="Transparent"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate><DataTemplate>
@@ -48,7 +60,7 @@
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Frame" Property="BorderBrush" Value="#C99045"/><Setter TargetName="Frame" Property="Background" Value="#3024272E"/>
+                                        <Setter TargetName="Frame" Property="BorderBrush" Value="{Binding DataContext.Accent, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/><Setter TargetName="Frame" Property="Background" Value="#3024272E"/>
                                         <Setter TargetName="Edit" Property="Visibility" Value="Visible"/><Setter TargetName="Actions" Property="Visibility" Value="Visible"/>
                                     </Trigger>
                                     <Trigger SourceName="Tile" Property="IsMouseOver" Value="True">
@@ -64,11 +76,17 @@
                                 </DataTemplate.Triggers>
                             </DataTemplate></ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
+                    </StackPanel></Border>
+                    <DataTemplate.Triggers>
+                        <Trigger SourceName="GroupHeader" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="GroupActions" Property="Opacity" Value="1"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate></ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
     </Grid>
 </Window>
+
 
 

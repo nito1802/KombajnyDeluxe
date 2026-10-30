@@ -10,42 +10,30 @@ namespace Apps_Dashboard.Helpers
         public const double CellHeight = 114;
         public bool ExtraRow { get; set; }
         public int Columns { get; private set; } = 1;
+        private double height;
         private static SingleAppModel? Item(UIElement child) => (child as FrameworkElement)?.DataContext as SingleAppModel;
         protected override Size MeasureOverride(Size available)
         {
-            Columns = Math.Max(1, (int)(double.IsInfinity(available.Width) ? 13 : available.Width / CellWidth));
-            var used = new HashSet<(int, int)>();
+            var used = new HashSet<int>(); int next = 0; height = 0;
+            // Flatten old multi-row layouts and resolve collisions without removing deliberate gaps.
             foreach (UIElement child in InternalChildren)
             {
-                var app = Item(child);
-                if (app?.LayoutColumn is int c && app.LayoutRow is int r) used.Add((c, r));
+                var app = Item(child); if (app == null) continue;
+                int column = Math.Max(0, app.LayoutColumn ?? next);
+                while (used.Contains(column)) column++;
+                app.LayoutColumn = column; app.LayoutRow = 0; used.Add(column); next = column + 1;
+                child.Measure(new Size(CellWidth, double.PositiveInfinity));
+                height = Math.Max(height, child.DesiredSize.Height);
             }
-            int next = 0, rows = 1;
-            foreach (UIElement child in InternalChildren)
-            {
-                var app = Item(child);
-                if (app == null) continue;
-                if (app.LayoutColumn == null || app.LayoutRow == null)
-                {
-                    while (used.Contains((next % Columns, next / Columns))) next++;
-                    app.LayoutColumn = next % Columns; app.LayoutRow = next / Columns;
-                    used.Add((app.LayoutColumn.Value, app.LayoutRow.Value));
-                }
-                rows = Math.Max(rows, app.LayoutRow.Value + 1);
-                child.Measure(new Size(CellWidth, CellHeight));
-            }
-            return new Size(double.IsInfinity(available.Width) ? Columns * CellWidth : available.Width, (rows + (ExtraRow ? 1 : 0)) * CellHeight);
+            Columns = Math.Max(1, used.Count == 0 ? 1 : used.Max() + 1) + (ExtraRow ? 1 : 0);
+            return new Size(Columns * CellWidth, Math.Max(40, height));
         }
         protected override Size ArrangeOverride(Size finalSize)
         {
             foreach (UIElement child in InternalChildren)
-            {
-                var app = Item(child);
-                if (app == null) continue;
-                child.Arrange(new Rect((app.LayoutColumn ?? 0) * CellWidth, (app.LayoutRow ?? 0) * CellHeight, CellWidth, CellHeight));
-            }
+                if (Item(child) is SingleAppModel app) child.Arrange(new Rect((app.LayoutColumn ?? 0) * CellWidth, 0, CellWidth, height));
             return finalSize;
         }
-        public bool Occupied(int column, int row, SingleAppModel source) => InternalChildren.Cast<UIElement>().Select(Item).Any(a => a != null && a != source && a.LayoutColumn == column && a.LayoutRow == row);
+        public bool Occupied(int column, int row, SingleAppModel source) => row != 0 || InternalChildren.Cast<UIElement>().Select(Item).Any(a => a != null && a != source && a.LayoutColumn == column);
     }
 }

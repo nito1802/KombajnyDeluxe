@@ -35,10 +35,10 @@ namespace Apps_Dashboard
             if (sender is Button button && button.DataContext is SingleAppModel item) EditTile(button, item, false);
             e.Handled = true;
         }
-        private void EditTile(Button anchor, SingleAppModel item, bool create)
+        private void EditTile(Button anchor, SingleAppModel item, bool create, AppsGroupModel? owner = null)
         {
             editor?.SetCurrentValue(Popup.IsOpenProperty, false);
-            var group = Group(item);
+            var group = owner?.Apps ?? Group(item);
             if (group == null) return;
             var fields = new StackPanel { Width = 370 };
             fields.Children.Add(new TextBlock { Text = create ? "Dodaj aplikację" : "Edytuj aplikację", Foreground = Brushes.White, FontSize = 18, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12) });
@@ -144,4 +144,5 @@ namespace Apps_Dashboard
         }
     }
 }
+
 
