@@ -51,6 +51,16 @@ namespace Apps_Dashboard.Models
                     following.LayoutColumn--;
             Apps.Remove(app);
         }
+        public void TransferAppTo(AppsGroupModel destination, SingleAppModel app, int column, int row)
+        {
+            if (destination == this || !Apps.Contains(app)) return;
+            RemoveAppAndCloseGap(app);
+            if (destination.Apps.Any(a => (a.LayoutRow ?? 0) == row && a.LayoutColumn == column))
+                foreach (var following in destination.Apps.Where(a => (a.LayoutRow ?? 0) == row && a.LayoutColumn >= column))
+                    following.LayoutColumn++;
+            app.LayoutColumn = column; app.LayoutRow = row;
+            destination.Apps.Add(app);
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
         private void Changed(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }

@@ -5,7 +5,7 @@ namespace Apps_Dashboard.Helpers
 {
     public class SpatialAppPanel : Panel
     {
-        public const double CellWidth=94,CellHeight=114;
+        public const double CellWidth=94,CellHeight=99;
         public bool ExtraRow{get;set;}
         public int Columns{get;private set;}=1;
         public double RowHeight{get;private set;}=CellHeight;

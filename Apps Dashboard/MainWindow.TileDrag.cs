@@ -21,6 +21,7 @@ namespace Apps_Dashboard
         private SpatialAppPanel? dragPanel;
         private (int Column, int Row)? dropCell;
         private AppDragAdorner? activeGhost;
+        private AppsGroupModel? dropGroup;
         
         
 
@@ -73,7 +74,7 @@ namespace Apps_Dashboard
                 Mouse.SetCursor(args.Effects == DragDropEffects.None ? Cursors.No : Cursors.SizeAll);
                 args.Handled = true;
             };
-            draggedApp = item; dropCell = null; activeGhost = ghost;
+            draggedApp = item; dropCell = null; dropGroup = null; activeGhost = ghost;
             dragPanel = FindPanel(control);
             if (dragPanel == null) { draggedApp = null; activeGhost = null; return; }
             dragPanel.ExtraRow = true; dragPanel.InvalidateMeasure();
@@ -86,10 +87,12 @@ namespace Apps_Dashboard
             GiveFeedback += feedback;
             bool accepted = false;
             (int Column, int Row)? destination = null;
+            AppsGroupModel? destinationGroup = null;
             try
             {
                 accepted = DragDrop.DoDragDrop(this, new DataObject(typeof(SingleAppModel), item), DragDropEffects.Move) == DragDropEffects.Move;
                 destination = dropCell;
+                destinationGroup = dropGroup;
             }
             finally
             {
@@ -97,17 +100,28 @@ namespace Apps_Dashboard
                 GiveFeedback -= feedback;
                 layer.Remove(ghost);
                 dragPanel.ExtraRow = false; dragPanel.InvalidateMeasure();
-                draggedApp = null; dragPanel = null; dropCell = null; activeGhost = null;
+                draggedApp = null; dragPanel = null; dropCell = null; dropGroup = null; activeGhost = null;
 
                 tile.Opacity = 1;
                 Mouse.SetCursor(null);
             }
-            if (accepted && destination is var cell && cell.HasValue)
+            if (accepted && destination is var cell && cell.HasValue && destinationGroup != null)
             {
-                var oldColumn = item.LayoutColumn; var oldRow = item.LayoutRow;
-                Commit(() => { item.LayoutColumn = cell.Value.Column; item.LayoutRow = cell.Value.Row; },
-                    () => { item.LayoutColumn = oldColumn; item.LayoutRow = oldRow; });
+                var sourceGroup = ViewModel.AppsGroups.First(g => ReferenceEquals(g.Apps, group));
+                var snapshots = new[] { sourceGroup, destinationGroup }.Distinct()
+                    .ToDictionary(g => g, g => g.Apps.Select(a => (App: a, Column: a.LayoutColumn, Row: a.LayoutRow)).ToList());
+                Commit(() =>
+                {
+                    if (destinationGroup == sourceGroup) { item.LayoutColumn = cell.Value.Column; item.LayoutRow = cell.Value.Row; }
+                    else sourceGroup.TransferAppTo(destinationGroup, item, cell.Value.Column, cell.Value.Row);
+                }, () =>
+                {
+                    foreach (var snapshot in snapshots) snapshot.Key.Apps.Clear();
+                    foreach (var snapshot in snapshots)
+                        foreach (var entry in snapshot.Value) { entry.App.LayoutColumn = entry.Column; entry.App.LayoutRow = entry.Row; snapshot.Key.Apps.Add(entry.App); }
+                });
                 FindPanel(control)?.InvalidateMeasure();
+                BoardPanel()?.InvalidateMeasure();
             }
         }
         private static SpatialAppPanel? FindPanel(DependencyObject root)
@@ -120,18 +134,21 @@ namespace Apps_Dashboard
         private bool UpdateDrop(ItemsControl control, DragEventArgs e)
         {
             var panel = FindPanel(control);
-            bool valid = panel != null && panel == dragPanel && draggedApp != null &&
+            bool valid = panel != null && control.DataContext is AppsGroupModel && draggedApp != null &&
                 ReferenceEquals(e.Data.GetData(typeof(SingleAppModel)), draggedApp);
-            dropCell = null;
+            dropCell = null; dropGroup = null;
             if (activeGhost != null) activeGhost.Target = null;
             if (valid)
             {
                 var point = e.GetPosition(panel!);
                 int column = (int)(point.X / SpatialAppPanel.CellWidth), row = (int)(point.Y / panel!.RowHeight);
-                valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight && !panel.Occupied(column, row, draggedApp!);
+                bool sameGroup = ReferenceEquals(((AppsGroupModel)control.DataContext).Apps, Group(draggedApp!));
+                valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight &&
+                    (!sameGroup || !panel.Occupied(column, row, draggedApp!));
                 if (valid)
                 {
                     dropCell = (column, row);
+                    dropGroup = (AppsGroupModel)control.DataContext;
                     var position = panel!.TranslatePoint(new Point(column * SpatialAppPanel.CellWidth, row * panel.RowHeight), DashboardRoot);
                     if (activeGhost != null) activeGhost.Target = new Rect(position, new Size(90, panel.RowHeight - 6));
                 }

@@ -72,17 +72,18 @@ namespace Apps_Dashboard
             cancel.Click += (_, _) => popup.IsOpen = false;
             save.Click += (_, _) =>
             {
-                if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(path.Text)) { error.Text = "Podaj nazwę i ścieżkę aplikacji."; return; }
+                var normalizedPath = path.Text.Trim().Trim('"').Trim();
+                if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(normalizedPath)) { error.Text = "Podaj nazwę i ścieżkę aplikacji."; return; }
                 bool saved;
                 if (create)
                 {
-                    var added = new SingleAppModel { DisplayName = name.Text.Trim(), Path = path.Text.Trim() };
+                    var added = new SingleAppModel { DisplayName = name.Text.Trim(), Path = normalizedPath };
                     saved = Commit(() => group.Insert(group.IndexOf(item) + 1, added), () => group.Remove(added));
                 }
                 else
                 {
                     var oldName = item.DisplayName; var oldPath = item.Path;
-                    saved = Commit(() => { item.DisplayName = name.Text.Trim(); item.Path = path.Text.Trim(); }, () => { item.DisplayName = oldName; item.Path = oldPath; });
+                    saved = Commit(() => { item.DisplayName = name.Text.Trim(); item.Path = normalizedPath; }, () => { item.DisplayName = oldName; item.Path = oldPath; });
                 }
                 if (saved) popup.IsOpen = false;
             };

@@ -25,7 +25,7 @@
                             <Border.Effect><BlurEffect Radius="14"/></Border.Effect>
                         </Border>
                     <StackPanel>
-                        <Grid x:Name="GroupHeader" Background="Transparent" Margin="2,0,2,2" PreviewMouseLeftButtonDown="Group_MouseDown" PreviewMouseLeftButtonUp="Group_MouseUp" PreviewMouseMove="Group_MouseMove">
+                        <Grid x:Name="GroupHeader" Background="Transparent" Margin="2,0,2,0" PreviewMouseLeftButtonDown="Group_MouseDown" PreviewMouseLeftButtonUp="Group_MouseUp" PreviewMouseMove="Group_MouseMove">
                             <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding GroupName}" FontWeight="SemiBold" FontSize="13" Foreground="{Binding Accent}" VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <StackPanel x:Name="GroupActions" Grid.Column="1" Orientation="Horizontal" Opacity="0">
@@ -44,7 +44,7 @@
                             <ItemsControl.ItemTemplate><DataTemplate>
                                 <Grid x:Name="Tile" Loaded="Tile_Loaded" Width="90" VerticalAlignment="Top" Margin="0,3,4,3" Background="Transparent">
                                     <Border x:Name="Frame" BorderThickness="1" CornerRadius="8" BorderBrush="Transparent" Background="Transparent"/>
-                                    <Button Margin="3,25,3,7" Style="{StaticResource AppIconButton}" Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Path}">
+                                    <Button Margin="3,10,3,7" Style="{StaticResource AppIconButton}" Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Path}">
                                         <StackPanel Width="84">
                                             <Grid Width="38" Height="38" Margin="0,0,0,3">
                                                 <TextBlock Text="▧" FontSize="28" Foreground="#AEB9C8" HorizontalAlignment="Center" VerticalAlignment="Center">
