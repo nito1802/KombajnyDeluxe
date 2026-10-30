@@ -54,12 +54,13 @@ namespace Apps_Dashboard
                 var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "Grafiki|*.png;*.jpg;*.jpeg;*.bmp;*.webp;*.tif;*.tiff" };
                 // A native file dialog takes focus away from the dismissible editor popup.
                 var currentEditor = editor;
+                bool staysOpen = currentEditor?.StaysOpen ?? true;
                 if (currentEditor != null) currentEditor.StaysOpen = true;
                 bool? selected;
                 try { selected = dialog.ShowDialog(this); }
                 finally
                 {
-                    if (currentEditor != null) { currentEditor.IsOpen = true; currentEditor.StaysOpen = false; }
+                    if (currentEditor != null) { currentEditor.IsOpen = true; currentEditor.StaysOpen = staysOpen; }
                 }
                 if (selected != true) return;
                 var candidate = new AppsGroupModel { BackgroundPath = dialog.FileName };
@@ -78,9 +79,9 @@ namespace Apps_Dashboard
             {
                 PlacementTarget = anchor,
                 Placement = PlacementMode.Bottom,
-                StaysOpen = false,
+                StaysOpen = true,
                 AllowsTransparency = true,
-                Child = new Border { Child = content, Background = new SolidColorBrush(Color.FromRgb(30, 33, 40)), BorderBrush = group.Accent, BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(9), Padding = new Thickness(18) }
+                Child = new Border { Child = new ScrollViewer { Content = content, MaxHeight = Math.Max(240, SystemParameters.WorkArea.Height - 100), VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled }, Background = new SolidColorBrush(Color.FromRgb(30, 33, 40)), BorderBrush = group.Accent, BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(9), Padding = new Thickness(18) }
             };
             cancel.Click += (_, _) => popup.IsOpen = false;
             if (!create)

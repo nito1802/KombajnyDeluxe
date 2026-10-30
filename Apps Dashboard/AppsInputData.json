@@ -90,7 +90,7 @@
     "MaxColumns": 0,
     "LayoutX": 0.0,
     "LayoutY": 168.0,
-    "BackgroundPath": null,
+    "BackgroundPath": "C:\\Users\\Dante\\Downloads\\wp14055810.jpg",
     "GroupName": "PROGRAMOWANIE",
     "Color": "#7CC98A",
     "Apps": [
@@ -218,7 +218,7 @@
     "MaxColumns": 3,
     "LayoutX": 1008.0,
     "LayoutY": 216.0,
-    "BackgroundPath": null,
+    "BackgroundPath": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\Apps Dashboard\\thumb-1920-1366758.jpeg",
     "GroupName": "Gry",
     "Color": "#C99045",
     "Apps": [
@@ -230,8 +230,8 @@
         "Clicks": []
       },
       {
-        "LayoutColumn": null,
-        "LayoutRow": null,
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
         "DisplayName": "The Witness",
         "Clicks": []
@@ -266,14 +266,14 @@
       },
       {
         "LayoutColumn": 1,
-        "LayoutRow": 0,
+        "LayoutRow": 1,
         "Path": "C:\\Users\\Public\\Desktop\\Diablo II Resurrected.lnk",
         "DisplayName": "Diablo II Resurrected",
         "Clicks": []
       },
       {
         "LayoutColumn": 1,
-        "LayoutRow": 1,
+        "LayoutRow": 2,
         "Path": "C:\\Users\\Dante\\Desktop\\The Hong Kong Massacre.url",
         "DisplayName": "The Hong Kong Massacre",
         "Clicks": []
