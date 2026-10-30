@@ -18,6 +18,10 @@ namespace Apps_Dashboard.Helpers
 
     public class Win32
     {
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyIcon(IntPtr hIcon);
+
         public const uint SHGFI_ICON = 0x000000100;
         public const uint SHGFI_LARGEICON = 0x000000000;
         public const uint SHGFI_SMALLICON = 0x000000001;

@@ -3,52 +3,36 @@
     "GroupName": "MOJE",
     "Apps": [
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Podrecznik\\Podrecznik\\bin\\Release\\net8.0-windows7.0\\Podrecznik.exe",
-        "DisplayName": "Podręcznik"
-      },
-      {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject 2.0\\GuitarUberProject 2.0\\bin\\Release\\net8.0-windows\\GuitarUberProject 2.0.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\GuitarUberProject-2.0\\GuitarUberProject 2.0\\bin\\Debug\\net8.0-windows\\GuitarUberProject 2.0.exe",
         "DisplayName": "Guitar Uber"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MySmartHomeApp\\MySmartHomeApp\\bin\\Release\\net9.0-windows10.0.19041.0\\win10-x64\\MySmartHomeApp.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MySmartHomeApp\\MySmartHomeApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MySmartHomeApp.exe",
         "DisplayName": "My Smart Home"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyActivitiesApp\\MyActivitiesApp\\bin\\Release\\net9.0-windows10.0.19041.0\\win10-x64\\MyActivitiesApp.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyActivitiesApp\\MyActivitiesApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MyActivitiesApp.exe",
         "DisplayName": "My Activities"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
         "DisplayName": "Video Player"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Process Killer\\Process Killer\\bin\\Release\\Process Killer.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\process-killer\\Process Killer\\bin\\Debug\\Process Killer.exe",
         "DisplayName": "Process Killer"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\CzasowyWylacznik 2.0\\CzasowyWylacznik 2.0\\bin\\Release\\net8.0-windows\\CzasowyWylacznik 2.0.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\CzasowyWylacznik 2.0\\CzasowyWylacznik 2.0\\bin\\Release\\net8.0-windows\\CzasowyWylacznik 2.0.exe",
         "DisplayName": "Czasowy Wyłącznik"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\KombajnyDeluxe\\DisplayScreens\\bin\\Release\\net8.0-windows7.0\\DisplayScreens.exe",
-        "DisplayName": "Display Screens"
-      },
-      {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net8.0-windows\\FindWordsCrossRepos.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net10.0-windows\\FindWordsCrossRepos.exe",
         "DisplayName": "Find Words"
       },
       {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\Linijka\\MojaLinijka\\bin\\Release\\Linijka.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyLinijka\\MyLinijka\\bin\\Debug\\net10.0-windows\\MyLinijka.exe",
         "DisplayName": "Linijka"
-      },
-      {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Desktop\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_DekstopSendPhrase.exe",
-        "DisplayName": "Languages Teacher - Send Phrase"
-      },
-      {
-        "Path": "C:\\Users\\Jarek\\Desktop\\Istotne\\source\\Visual Studio\\Main\\LanguagesTeacher_Desktop\\LanguagesTeacher_Viewer\\bin\\Debug\\net8.0-windows\\LanguagesTeacher_Viewer.exe",
-        "DisplayName": "Languages Teacher - Viewer"
       }
     ]
   },
@@ -74,7 +58,7 @@
     "Apps": [
 
       {
-        "Path": "C:\\Users\\Jarek\\AppData\\Local\\Figma\\app-125.0.7\\Figma.exe",
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Figma\\Figma.exe",
         "DisplayName": "Figma"
       },
       {

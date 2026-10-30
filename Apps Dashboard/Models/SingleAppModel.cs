@@ -1,4 +1,6 @@
-﻿using Apps_Dashboard.Helpers;
+using Apps_Dashboard.Helpers;
+using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -6,40 +8,33 @@ using System.Windows.Media.Imaging;
 
 namespace Apps_Dashboard.Models
 {
-    public class SingleAppModel
+    public class SingleAppModel : INotifyPropertyChanged
     {
-        private string path;
-
+        private string path = string.Empty;
+        private string displayName = string.Empty;
         public string Path
         {
-            get { return path; }
-            set
-            {
-                Icon = GetIconFromFile(value);
-
-                path = value;
-            }
+            get => path;
+            set { path = value; Icon = GetIconFromFile(value); Changed(nameof(Path)); Changed(nameof(Icon)); }
         }
-
-        public BitmapSource Icon { get; set; }
-
-        //public string Path { get; set; }
-        public string DisplayName { get; set; }
-
+        [JsonIgnore]
+        public BitmapSource? Icon { get; private set; }
+        public string DisplayName
+        {
+            get => displayName;
+            set { displayName = value; Changed(nameof(DisplayName)); }
+        }
         public List<DateTime> Clicks { get; set; } = [];
-
-        public SingleAppModel()
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void Changed(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        private static BitmapSource? GetIconFromFile(string filePath)
         {
-        }
-
-        private BitmapSource GetIconFromFile(string filePath)
-        {
-            var shinfo = new SHFILEINFO();
-            Win32.SHGetFileInfo(filePath, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_EXTRALARGEICON);
-            return Imaging.CreateBitmapSourceFromHIcon(
-                shinfo.hIcon,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
+            if (string.IsNullOrWhiteSpace(filePath)) return null;
+            var info = new SHFILEINFO();
+            Win32.SHGetFileInfo(filePath, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_LARGEICON);
+            if (info.hIcon == IntPtr.Zero) return null;
+            try { return Imaging.CreateBitmapSourceFromHIcon(info.hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions()); }
+            finally { Win32.DestroyIcon(info.hIcon); }
         }
     }
 }
