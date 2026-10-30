@@ -24,7 +24,18 @@
                                     <Button Margin="3,25,3,7" Style="{StaticResource AppIconButton}" Command="{Binding DataContext.LaunchAppCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Path}">
                                         <StackPanel Width="84">
                                             <Grid Width="38" Height="38" Margin="0,0,0,3">
-                                                <TextBlock Text="▧" FontSize="28" Foreground="#AEB9C8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Text="▧" FontSize="28" Foreground="#AEB9C8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                                 <Image x:Name="AppImage" Source="{Binding Icon}" Width="32" Height="32" RenderTransformOrigin="0.5,0.5"><Image.RenderTransform><ScaleTransform/></Image.RenderTransform></Image>
                                             </Grid>
                                             <TextBlock Text="{Binding DisplayName}" Style="{StaticResource GroupHeaderStyle}" TextAlignment="Center" TextWrapping="Wrap" FontSize="12"/>
