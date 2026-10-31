@@ -225,49 +225,49 @@
       {
         "LayoutColumn": 1,
         "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Witness.url",
         "DisplayName": "The Witness",
         "Clicks": []
       },
       {
         "LayoutColumn": 2,
         "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\Desktop\\Slay the Spire.url",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Slay the Spire.url",
         "DisplayName": "Slay the Spire",
         "Clicks": []
       },
       {
         "LayoutColumn": 0,
         "LayoutRow": 1,
-        "Path": "C:\\Users\\Dante\\Desktop\\The Darkness II.url",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Darkness II.url",
         "DisplayName": "The Darkness II",
         "Clicks": []
       },
       {
         "LayoutColumn": 2,
         "LayoutRow": 1,
-        "Path": "C:\\Users\\Dante\\Desktop\\The Binding of Isaac Rebirth.url",
-        "DisplayName": "The Binding of Isaac Raa",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Binding of Isaac Rebirth.url",
+        "DisplayName": "The Binding of Isaac: Repentance",
         "Clicks": []
       },
       {
         "LayoutColumn": 0,
         "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\Desktop\\Prodeus.url",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Prodeus.url",
         "DisplayName": "Prodeus",
         "Clicks": []
       },
       {
         "LayoutColumn": 1,
         "LayoutRow": 1,
-        "Path": "C:\\Users\\Public\\Desktop\\Diablo II Resurrected.lnk",
+        "Path": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Diablo II Resurrected\\Diablo II Resurrected.lnk",
         "DisplayName": "Diablo II Resurrected",
         "Clicks": []
       },
       {
         "LayoutColumn": 0,
         "LayoutRow": 2,
-        "Path": "C:\\Users\\Dante\\Desktop\\The Hong Kong Massacre.url",
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Hong Kong Massacre.url",
         "DisplayName": "The Hong Kong Massacre",
         "Clicks": []
       }
@@ -282,21 +282,21 @@
     "Color": "#C99045",
     "Apps": [
       {
-        "LayoutColumn": 0,
+        "LayoutColumn": 1,
         "LayoutRow": 0,
         "Path": "C:\\Program Files (x86)\\Battle.net\\Battle.net Launcher.exe",
         "DisplayName": "Battle.net",
         "Clicks": []
       },
       {
-        "LayoutColumn": 1,
+        "LayoutColumn": 2,
         "LayoutRow": 0,
         "Path": "shell:AppsFolder\\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App",
         "DisplayName": "Xbox",
         "Clicks": []
       },
       {
-        "LayoutColumn": 2,
+        "LayoutColumn": 0,
         "LayoutRow": 0,
         "Path": "C:\\Program Files (x86)\\Steam\\steam.exe",
         "DisplayName": "Steam",
@@ -313,52 +313,31 @@
     "Color": "#C6CC70",
     "Apps": [
       {
-        "LayoutColumn": 0,
+        "LayoutColumn": 2,
         "LayoutRow": 0,
         "Path": "C:\\Program Files\\WinDirStat\\WinDirStat.exe",
         "DisplayName": "WinDirStat",
         "Clicks": []
       },
       {
-        "LayoutColumn": 4,
-        "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Bitwarden\\Bitwarden.exe",
-        "DisplayName": "Bitwarden",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 1,
+        "LayoutColumn": 3,
         "LayoutRow": 0,
         "Path": "C:\\Program Files (x86)\\TickTick\\TickTick.exe",
         "DisplayName": "TickTick",
         "Clicks": []
       },
       {
-        "LayoutColumn": 2,
+        "LayoutColumn": 5,
         "LayoutRow": 0,
         "Path": "C:\\Program Files\\Filen\\Filen.exe",
         "DisplayName": "Filen",
         "Clicks": []
       },
       {
-        "LayoutColumn": 3,
-        "LayoutRow": 0,
-        "Path": "C:\\Program Files\\ScreenToGif\\ScreenToGif.exe",
-        "DisplayName": "ScreenToGif",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 5,
+        "LayoutColumn": 7,
         "LayoutRow": 0,
         "Path": "C:\\Program Files\\Mozilla Thunderbird\\thunderbird.exe",
         "DisplayName": "Mozilla Thunderbird",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 6,
-        "LayoutRow": 0,
-        "Path": "C:\\Program Files (x86)\\WinSCP\\WinSCP.exe",
-        "DisplayName": "WinSCP",
         "Clicks": []
       },
       {
@@ -369,7 +348,28 @@
         "Clicks": []
       },
       {
-        "LayoutColumn": 7,
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Bitwarden\\Bitwarden.exe",
+        "DisplayName": "Bitwarden",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 4,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\ScreenToGif\\ScreenToGif.exe",
+        "DisplayName": "ScreenToGif",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 6,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files (x86)\\WinSCP\\WinSCP.exe",
+        "DisplayName": "WinSCP",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 0,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\Discord\\Discord.exe",
         "DisplayName": "Discord",
