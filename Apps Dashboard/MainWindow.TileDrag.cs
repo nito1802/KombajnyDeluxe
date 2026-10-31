@@ -112,8 +112,7 @@ namespace Apps_Dashboard
                     .ToDictionary(g => g, g => g.Apps.Select(a => (App: a, Column: a.LayoutColumn, Row: a.LayoutRow)).ToList());
                 Commit(() =>
                 {
-                    if (destinationGroup == sourceGroup) { item.LayoutColumn = cell.Value.Column; item.LayoutRow = cell.Value.Row; }
-                    else sourceGroup.TransferAppTo(destinationGroup, item, cell.Value.Column, cell.Value.Row);
+                    sourceGroup.TransferAppTo(destinationGroup, item, cell.Value.Column, cell.Value.Row);
                 }, () =>
                 {
                     foreach (var snapshot in snapshots) snapshot.Key.Apps.Clear();
@@ -142,15 +141,15 @@ namespace Apps_Dashboard
             {
                 var point = e.GetPosition(panel!);
                 int column = (int)(point.X / SpatialAppPanel.CellWidth), row = (int)(point.Y / panel!.RowHeight);
-                bool sameGroup = ReferenceEquals(((AppsGroupModel)control.DataContext).Apps, Group(draggedApp!));
-                valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight &&
-                    (!sameGroup || !panel.Occupied(column, row, draggedApp!));
+                valid = point.X >= 0 && point.Y >= 0 && column < panel!.Columns && point.Y < panel.ActualHeight;
                 if (valid)
                 {
                     dropCell = (column, row);
                     dropGroup = (AppsGroupModel)control.DataContext;
                     var position = panel!.TranslatePoint(new Point(column * SpatialAppPanel.CellWidth, row * panel.RowHeight), DashboardRoot);
-                    if (activeGhost != null) activeGhost.Target = new Rect(position, new Size(90, panel.RowHeight - 6));
+                    if (activeGhost != null) activeGhost.Target = panel.Occupied(column, row, draggedApp!)
+                        ? new Rect(position, new Size(4, panel.RowHeight - 6))
+                        : new Rect(position, new Size(90, panel.RowHeight - 6));
                 }
             }
             activeGhost?.InvalidateVisual();

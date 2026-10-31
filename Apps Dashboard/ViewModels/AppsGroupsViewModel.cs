@@ -42,7 +42,12 @@ namespace Apps_Dashboard.ViewModels
             if (path is not string appPath) return;
             try
             {
-                Process.Start(new ProcessStartInfo(appPath) { UseShellExecute = true });
+                appPath = Environment.ExpandEnvironmentVariables(appPath.Trim().Trim('"').Trim());
+                var startInfo = new ProcessStartInfo(appPath) { UseShellExecute = true };
+                // Programs using relative data paths must start in their own directory.
+                if (Path.IsPathFullyQualified(appPath) && File.Exists(appPath))
+                    startInfo.WorkingDirectory = Path.GetDirectoryName(appPath)!;
+                Process.Start(startInfo);
                 MinimizeApplication?.Invoke();
             }
             catch (Exception ex)

@@ -68,11 +68,21 @@ namespace Apps_Dashboard.Models
         }
         public void TransferAppTo(AppsGroupModel destination, SingleAppModel app, int column, int row)
         {
-            if (destination == this || !Apps.Contains(app)) return;
+            if (!Apps.Contains(app)) return;
+            if (destination == this && app.LayoutColumn == column && (app.LayoutRow ?? 0) == row) return;
+            var target = destination.Apps.FirstOrDefault(a => a != app && a.LayoutColumn == column && (a.LayoutRow ?? 0) == row);
+            // Keep insertion anchored to the hovered tile when closing the source gap.
             RemoveAppAndCloseGap(app);
-            if (destination.Apps.Any(a => (a.LayoutRow ?? 0) == row && a.LayoutColumn == column))
-                foreach (var following in destination.Apps.Where(a => (a.LayoutRow ?? 0) == row && a.LayoutColumn >= column))
-                    following.LayoutColumn++;
+            if (target != null) { column = target.LayoutColumn ?? 0; row = target.LayoutRow ?? 0; }
+            var occupied = destination.Apps.ToDictionary(a => (a.LayoutColumn ?? 0, a.LayoutRow ?? 0));
+            int nextColumn = column, nextRow = row;
+            // Push only the occupied chain; wrap at the group's column limit.
+            while (occupied.TryGetValue((nextColumn, nextRow), out var following))
+            {
+                nextColumn++;
+                if (destination.MaxColumns > 0 && nextColumn >= destination.MaxColumns) { nextColumn = 0; nextRow++; }
+                following.LayoutColumn = nextColumn; following.LayoutRow = nextRow;
+            }
             app.LayoutColumn = column; app.LayoutRow = row;
             destination.Apps.Add(app);
             destination.NormalizeColumns();

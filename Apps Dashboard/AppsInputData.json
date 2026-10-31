@@ -118,13 +118,6 @@
       {
         "LayoutColumn": 3,
         "LayoutRow": 0,
-        "Path": "C:\\Program Files\\Microsoft SQL Server Management Studio 22\\Release\\Common7\\IDE\\SSMS.exe",
-        "DisplayName": "SSMS 2022",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 4,
-        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
         "DisplayName": "Visual Studio Code",
         "Clicks": []
@@ -162,6 +155,13 @@
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\DBeaver\\dbeaver.exe",
         "DisplayName": "DBeaver",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 4,
+        "LayoutRow": 0,
+        "Path": "C:\\Program Files\\Microsoft SQL Server Management Studio 22\\Release\\Common7\\IDE\\SSMS.exe",
+        "DisplayName": "SSMS 2022",
         "Clicks": []
       }
     ]
