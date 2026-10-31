@@ -5,7 +5,7 @@
     "LayoutY": 0.0,
     "BackgroundPath": null,
     "GroupName": "MOJE",
-    "Color": "#C99045",
+    "Color": "#7CC98A",
     "Apps": [
       {
         "LayoutColumn": 0,
@@ -92,7 +92,7 @@
     "LayoutY": 168.0,
     "BackgroundPath": "C:\\Users\\Dante\\Downloads\\wp14055810.jpg",
     "GroupName": "PROGRAMOWANIE",
-    "Color": "#7CC98A",
+    "Color": "#AF8AE8",
     "Apps": [
       {
         "LayoutColumn": 0,
@@ -223,13 +223,6 @@
     "Color": "#C99045",
     "Apps": [
       {
-        "LayoutColumn": 0,
-        "LayoutRow": 2,
-        "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
-        "DisplayName": "The Witness",
-        "Clicks": []
-      },
-      {
         "LayoutColumn": 1,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\The Witness.url",
@@ -272,7 +265,7 @@
         "Clicks": []
       },
       {
-        "LayoutColumn": 1,
+        "LayoutColumn": 0,
         "LayoutRow": 2,
         "Path": "C:\\Users\\Dante\\Desktop\\The Hong Kong Massacre.url",
         "DisplayName": "The Hong Kong Massacre",
@@ -317,7 +310,7 @@
     "LayoutY": 336.0,
     "BackgroundPath": null,
     "GroupName": "Inne",
-    "Color": "#C99045",
+    "Color": "#C6CC70",
     "Apps": [
       {
         "LayoutColumn": 0,
