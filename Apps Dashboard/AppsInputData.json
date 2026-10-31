@@ -160,7 +160,7 @@
       {
         "LayoutColumn": 4,
         "LayoutRow": 0,
-        "Path": "C:\\Program Files\\Microsoft SQL Server Management Studio 22\\Release\\Common7\\IDE\\SSMS.exe",
+        "Path": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Microsoft SQL Server Tools 22\\SQL Server Management Studio 22.lnk",
         "DisplayName": "SSMS 2022",
         "Clicks": []
       }

@@ -32,8 +32,29 @@ namespace Apps_Dashboard.Models
         private static BitmapSource? GetIconFromFile(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath)) return null;
+            filePath = Environment.ExpandEnvironmentVariables(filePath.Trim().Trim('"').Trim());
             if (filePath.StartsWith("shell:AppsFolder\\", StringComparison.OrdinalIgnoreCase))
                 return PackagedAppIcon.Load(filePath) ?? ShellAppIcon.Load(filePath);
+            // Read executable resources directly, bypassing stale Explorer icon cache entries.
+            if (System.IO.Path.GetExtension(filePath).Equals(".exe", StringComparison.OrdinalIgnoreCase) && System.IO.File.Exists(filePath))
+            {
+                Win32.ExtractIconEx(filePath, 0, out var large, out var small, 1);
+                try
+                {
+                    var handle = large != IntPtr.Zero ? large : small;
+                    if (handle != IntPtr.Zero)
+                    {
+                        var image = Imaging.CreateBitmapSourceFromHIcon(handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        image.Freeze();
+                        return image;
+                    }
+                }
+                finally
+                {
+                    if (large != IntPtr.Zero) Win32.DestroyIcon(large);
+                    if (small != IntPtr.Zero && small != large) Win32.DestroyIcon(small);
+                }
+            }
             var info = new SHFILEINFO();
             Win32.SHGetFileInfo(filePath, 0, ref info, (uint)Marshal.SizeOf(info), Win32.SHGFI_ICON | Win32.SHGFI_LARGEICON);
             if (info.hIcon == IntPtr.Zero) return null;

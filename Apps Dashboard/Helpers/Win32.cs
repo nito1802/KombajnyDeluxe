@@ -18,6 +18,9 @@ namespace Apps_Dashboard.Helpers
 
     public class Win32
     {
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        public static extern uint ExtractIconEx(string fileName, int iconIndex, out IntPtr largeIcon, out IntPtr smallIcon, uint iconCount);
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyIcon(IntPtr hIcon);
