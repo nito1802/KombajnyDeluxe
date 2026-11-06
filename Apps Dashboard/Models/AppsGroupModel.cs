@@ -61,9 +61,15 @@ namespace Apps_Dashboard.Models
         public void RemoveAppAndCloseGap(SingleAppModel app)
         {
             if (!Apps.Contains(app)) return;
-            if (app.LayoutColumn is int column)
-                foreach (var following in Apps.Where(a => a != app && (a.LayoutRow ?? 0) == (app.LayoutRow ?? 0) && a.LayoutColumn > column))
-                    following.LayoutColumn--;
+            // Preserve visual order and fill rows across the group's existing width.
+            int columns = MaxColumns > 0 ? MaxColumns : Math.Max(1, Apps.Max(a => (a.LayoutColumn ?? 0) + 1));
+            var remaining = Apps.Where(a => a != app)
+                .OrderBy(a => a.LayoutRow ?? 0).ThenBy(a => a.LayoutColumn ?? 0).ToList();
+            for (int index = 0; index < remaining.Count; index++)
+            {
+                remaining[index].LayoutColumn = index % columns;
+                remaining[index].LayoutRow = index / columns;
+            }
             Apps.Remove(app);
         }
         public void TransferAppTo(AppsGroupModel destination, SingleAppModel app, int column, int row)

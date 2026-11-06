@@ -10,7 +10,7 @@
       {
         "LayoutColumn": 0,
         "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyDataApp\\MyDataApp\\bin\\Debug\\net10.0-windows10.0.19041.0\\win-x64\\MyDataApp.exe",
+        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyDataApp\\MyDataApp\\bin\\Release\\windows-portable\\win-x64\\MyDataApp.exe",
         "DisplayName": "My Data",
         "Clicks": []
       },
@@ -59,26 +59,19 @@
       {
         "LayoutColumn": 7,
         "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\wireless-video-player\\VideoGamepadSupporter\\bin\\Release\\Wireless Video Player.exe",
-        "DisplayName": "Video Player",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 8,
-        "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\FindWordsCrossRepos\\FindWordsCrossRepos\\bin\\Debug\\net10.0-windows\\FindWordsCrossRepos.exe",
         "DisplayName": "Find Words",
         "Clicks": []
       },
       {
-        "LayoutColumn": 9,
+        "LayoutColumn": 8,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\MyLinijka\\MyLinijka\\bin\\Debug\\net10.0-windows\\MyLinijka.exe",
         "DisplayName": "Linijka",
         "Clicks": []
       },
       {
-        "LayoutColumn": 10,
+        "LayoutColumn": 9,
         "LayoutRow": 0,
         "Path": "\"C:\\Users\\Dante\\Desktop\\Istotne\\source\\Visual Studio\\Main\\getcolor\\GetColor\\bin\\Debug\\GetColor.exe\"",
         "DisplayName": "Get Color",
@@ -123,45 +116,38 @@
         "Clicks": []
       },
       {
-        "LayoutColumn": 5,
+        "LayoutColumn": 4,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\Programs\\Fiddler\\Fiddler.exe",
         "DisplayName": "Fiddler Classic",
         "Clicks": []
       },
       {
-        "LayoutColumn": 6,
+        "LayoutColumn": 5,
         "LayoutRow": 0,
         "Path": "C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe",
         "DisplayName": "Docker Desktop",
         "Clicks": []
       },
       {
-        "LayoutColumn": 7,
+        "LayoutColumn": 6,
         "LayoutRow": 0,
         "Path": "\"C:\\Users\\Dante\\AppData\\Local\\Programs\\Redis Insight\\Redis Insight.exe\"",
         "DisplayName": "Redis Insight",
         "Clicks": []
       },
       {
-        "LayoutColumn": 8,
+        "LayoutColumn": 7,
         "LayoutRow": 0,
         "Path": "C:\\Program Files\\Unity Hub\\Unity Hub.exe",
         "DisplayName": "Unity Hub",
         "Clicks": []
       },
       {
-        "LayoutColumn": 9,
+        "LayoutColumn": 8,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Local\\DBeaver\\dbeaver.exe",
         "DisplayName": "DBeaver",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 4,
-        "LayoutRow": 0,
-        "Path": "C:\\Program Files\\Microsoft SQL Server Management Studio 22\\Release\\Common7\\IDE\\SSMS.exe",
-        "DisplayName": "SSMS 2022",
         "Clicks": []
       }
     ]
@@ -223,34 +209,6 @@
     "Color": "#C99045",
     "Apps": [
       {
-        "LayoutColumn": 1,
-        "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Witness.url",
-        "DisplayName": "The Witness",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 2,
-        "LayoutRow": 0,
-        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Slay the Spire.url",
-        "DisplayName": "Slay the Spire",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 0,
-        "LayoutRow": 1,
-        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Darkness II.url",
-        "DisplayName": "The Darkness II",
-        "Clicks": []
-      },
-      {
-        "LayoutColumn": 2,
-        "LayoutRow": 1,
-        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Binding of Isaac Rebirth.url",
-        "DisplayName": "The Binding of Isaac: Repentance",
-        "Clicks": []
-      },
-      {
         "LayoutColumn": 0,
         "LayoutRow": 0,
         "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Prodeus.url",
@@ -258,17 +216,31 @@
         "Clicks": []
       },
       {
-        "LayoutColumn": 1,
+        "LayoutColumn": 0,
         "LayoutRow": 1,
         "Path": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Diablo II Resurrected\\Diablo II Resurrected.lnk",
         "DisplayName": "Diablo II Resurrected",
         "Clicks": []
       },
       {
-        "LayoutColumn": 0,
-        "LayoutRow": 2,
+        "LayoutColumn": 1,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Binding of Isaac Rebirth.url",
+        "DisplayName": "The Binding of Isaac: Repentance",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 1,
+        "LayoutRow": 1,
         "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Hong Kong Massacre.url",
         "DisplayName": "The Hong Kong Massacre",
+        "Clicks": []
+      },
+      {
+        "LayoutColumn": 2,
+        "LayoutRow": 0,
+        "Path": "C:\\Users\\Dante\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\The Darkness II.url",
+        "DisplayName": "The Darkness II",
         "Clicks": []
       }
     ]
