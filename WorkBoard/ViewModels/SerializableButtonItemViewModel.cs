@@ -157,22 +157,26 @@ namespace KombajnDoPracy.ViewModels
         public static void Save(SerializableButtonItemViewModel state)
         {
             state.EnsureIds();
-            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var appDataPath = Path.Combine(myDocumentPath, Consts.DataDirectoryName);
-
-            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
+            var appDataPath = WorkBoard.Helpers.BoardDataPaths.DirectoryPath;
+            Directory.CreateDirectory(appDataPath);
             string serializedStatePath = Path.Combine(appDataPath, Consts.SerializedButtonsStateFileName);
 
-            var serializedContent = JsonConvert.SerializeObject(state);
-            File.WriteAllText(serializedStatePath, serializedContent);
+            var serializedContent = JsonConvert.SerializeObject(state, Formatting.Indented);
+            var temporaryPath = Path.Combine(appDataPath, Path.GetRandomFileName() + ".tmp");
+            try
+            {
+                File.WriteAllText(temporaryPath, serializedContent);
+                File.Move(temporaryPath, serializedStatePath, overwrite: true);
+            }
+            finally
+            {
+                File.Delete(temporaryPath);
+            }
         }
 
         private static SerializableButtonItemViewModel GetSerializedState()
         {
-            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var appDataPath = Path.Combine(myDocumentPath, Consts.DataDirectoryName);
-
-            if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
+            var appDataPath = WorkBoard.Helpers.BoardDataPaths.DirectoryPath;
             string serializedStatePath = Path.Combine(appDataPath, Consts.SerializedButtonsStateFileName);
 
             if (!File.Exists(serializedStatePath)) return null;

@@ -66,8 +66,7 @@ namespace KombajnDoPracy
 
         private static string GetChangesLogFile()
         {
-            string myDocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var appDataPath = System.IO.Path.Combine(myDocumentPath, Consts.DataDirectoryName);
+            var appDataPath = WorkBoard.Helpers.BoardDataPaths.DirectoryPath;
 
             if (!Directory.Exists(appDataPath)) Directory.CreateDirectory(appDataPath);
             var changesLogPath = System.IO.Path.Combine(appDataPath, Consts.ChangesLogFileName);

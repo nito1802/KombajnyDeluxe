@@ -38,7 +38,7 @@ namespace KombajnDoPracy
             SerializableButtonItemViewModel.Save(ButtonsViewModel);
             if (old != LinkState())
             {
-                var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Consts.DataDirectoryName, Consts.ChangesLogFileName);
+                var path = System.IO.Path.Combine(WorkBoard.Helpers.BoardDataPaths.DirectoryPath, Consts.ChangesLogFileName);
                 File.AppendAllText(path, $"Stan linków na: {DateTime.Now:dd-MM-yyyy HH:mm}\nOLD>>>>\n{old}\n\n\n\n---------------------------\nNEW>>>>\n{LinkState()}\n\n\n\n---------------------------\n".Replace("\n", Environment.NewLine));
             }
             mainGrid.DataContext = null;
